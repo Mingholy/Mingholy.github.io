@@ -1,0 +1,594 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>SSH免密码部署:git-bash配置 | A Cup of Coffee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Mingholy">
+    
+
+    
+    <meta name="description" content="在使用hexo d部署这个博客的时候，经常会遇到拒绝public key的问题，要求确认访问repository的权限或者确定repository存在。而实际上按照github的说明我已经生成并添加了ssh key，并且使用1ssh -T git@github.com
+测试成功。但是由于ssh-agent是一个临时进程，它存储公钥的方式也是写入一个临时的session，因此每次重启git-bash">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSH免密码部署:git-bash配置">
+<meta property="og:url" content="http://ming-holy.space/2016/03/07/SSH免密码部署-git-bash配置/index.html">
+<meta property="og:site_name" content="A Cup of Coffee">
+<meta property="og:description" content="在使用hexo d部署这个博客的时候，经常会遇到拒绝public key的问题，要求确认访问repository的权限或者确定repository存在。而实际上按照github的说明我已经生成并添加了ssh key，并且使用1ssh -T git@github.com
+测试成功。但是由于ssh-agent是一个临时进程，它存储公钥的方式也是写入一个临时的session，因此每次重启git-bash">
+<meta property="og:updated_time" content="2017-02-13T15:32:03.206Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SSH免密码部署:git-bash配置">
+<meta name="twitter:description" content="在使用hexo d部署这个博客的时候，经常会遇到拒绝public key的问题，要求确认访问repository的权限或者确定repository存在。而实际上按照github的说明我已经生成并添加了ssh key，并且使用1ssh -T git@github.com
+测试成功。但是由于ssh-agent是一个临时进程，它存储公钥的方式也是写入一个临时的session，因此每次重启git-bash">
+
+    
+    <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="A Cup of Coffee" title="A Cup of Coffee"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A Cup of Coffee">A Cup of Coffee</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:ming-holy.space">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/07/SSH免密码部署-git-bash配置/" title="SSH免密码部署:git-bash配置" itemprop="url">SSH免密码部署:git-bash配置</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-07T11:10:29.000Z" itemprop="datePublished"> 发表于 2016-03-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>在使用<code>hexo d</code>部署这个博客的时候，经常会遇到拒绝public key的问题，要求确认访问repository的权限或者确定repository存在。<br>而实际上按照github的说明我已经生成并添加了ssh key，并且使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -T git@github.com</div></pre></td></tr></table></figure></p>
+<p>测试成功。<br>但是由于ssh-agent是一个临时进程，它存储公钥的方式也是写入一个临时的session，因此每次重启git-bash都会重置连接，于是每次都需要<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">eval &quot;$(ssh-agent -s)&quot;</div><div class="line">ssh-add ~/.ssh/id_rsa</div><div class="line">ssh-add -l</div></pre></td></tr></table></figure></p>
+<p>走一遍才能正确部署。<br><a id="more"></a><br>github提供了一个将开启ssh-agent、添加公钥与启动bash捆绑的脚本。这样在每次开启git-bash的时候，公钥就已经添加，因此可以直接部署，而不必重复添加操作。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Note: ~/.ssh/environment should not be used, as it</span></div><div class="line"><span class="comment">#       already has a different purpose in SSH.</span></div><div class="line"></div><div class="line">env=~/.ssh/agent.env</div><div class="line"></div><div class="line"><span class="comment"># Note: Don't bother checking SSH_AGENT_PID. It's not used</span></div><div class="line"><span class="comment">#       by SSH itself, and it might even be incorrect</span></div><div class="line"><span class="comment">#       (for example, when using agent-forwarding over SSH).</span></div><div class="line"></div><div class="line"><span class="function"><span class="title">agent_is_running</span></span>() &#123;</div><div class="line">    <span class="keyword">if</span> [ <span class="string">"<span class="variable">$SSH_AUTH_SOCK</span>"</span> ]; <span class="keyword">then</span></div><div class="line">        <span class="comment"># ssh-add returns:</span></div><div class="line">        <span class="comment">#   0 = agent running, has keys</span></div><div class="line">        <span class="comment">#   1 = agent running, no keys</span></div><div class="line">        <span class="comment">#   2 = agent not running</span></div><div class="line">        ssh-add <span class="_">-l</span> &gt;/dev/null 2&gt;&amp;1 || [ $? <span class="_">-eq</span> 1 ]</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="literal">false</span></div><div class="line">    <span class="keyword">fi</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="title">agent_has_keys</span></span>() &#123;</div><div class="line">    ssh-add <span class="_">-l</span> &gt;/dev/null 2&gt;&amp;1</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="title">agent_load_env</span></span>() &#123;</div><div class="line">    . <span class="string">"<span class="variable">$env</span>"</span> &gt;/dev/null</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="title">agent_start</span></span>() &#123;</div><div class="line">    (<span class="built_in">umask</span> 077; ssh-agent &gt;<span class="string">"<span class="variable">$env</span>"</span>)</div><div class="line">    . <span class="string">"<span class="variable">$env</span>"</span> &gt;/dev/null</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> ! agent_is_running; <span class="keyword">then</span></div><div class="line">    agent_load_env</div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line"><span class="comment"># if your keys are not stored in ~/.ssh/id_rsa or ~/.ssh/id_dsa, you'll need</span></div><div class="line"><span class="comment"># to paste the proper path after ssh-add</span></div><div class="line"><span class="keyword">if</span> ! agent_is_running; <span class="keyword">then</span></div><div class="line">    ssh-add</div><div class="line">    agent_start</div><div class="line">    <span class="comment">#指定你的多个keys，每个一行。如：ssh-add ~/.ssh/id_rsa_git</span></div><div class="line"><span class="keyword">elif</span> ! agent_has_keys; <span class="keyword">then</span></div><div class="line">    ssh-add</div><div class="line">    <span class="comment">#指定你的多个keys，每个一行。如：ssh-add ~/.ssh/id_rsa_git</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line"><span class="built_in">unset</span> env</div></pre></td></tr></table></figure><br>将该脚本添加到<code>.profile</code>中即可。<br>参考：<a href="https://help.github.com/articles/working-with-ssh-key-passphrases/" target="_blank" rel="external">Working with SSH key passphrases</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/SSH/">SSH</a>►<a class="article-category-link" href="/categories/SSH/Git/">Git</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://ming-holy.space/2016/03/07/SSH免密码部署-git-bash配置/" data-title="SSH免密码部署:git-bash配置 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/03/07/编写可维护的JavaScript-第二部分-I/" title="编写可维护的JavaScript:第二部分-I">
+  <strong>上一篇：</strong><br/>
+  <span>
+  编写可维护的JavaScript:第二部分-I</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/03/07/编写可维护的JavaScript-第一部分/"  title="编写可维护的JavaScript:第一部分">
+ <strong>下一篇：</strong><br/> 
+ <span>编写可维护的JavaScript:第一部分
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/03/07/SSH免密码部署-git-bash配置/" data-title="SSH免密码部署:git-bash配置" data-url="http://ming-holy.space/2016/03/07/SSH免密码部署-git-bash配置/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C++">C++<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/Git/" title="Git">Git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/人民南路四段九号/" title="人民南路四段九号">人民南路四段九号<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/" title="数学">数学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
+  </div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编辑器/" title="编辑器">编辑器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Be a live-wire artist, <br/>
+			Do something amazing.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/mingholy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:liminghao15@mails.ucas.ac.cn" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Mingholy">Mingholy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mingholy"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<script src="https://s4.cnzz.com/z_stat.php?id=1261294969&web_id=1261294969" language="JavaScript"></script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

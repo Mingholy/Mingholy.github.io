@@ -1,0 +1,611 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Python学习笔记(二) | A Cup of Coffee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Mingholy">
+    
+
+    
+    <meta name="description" content="切片(Slice)基本方法Python中对List和Tuple可以进行切片操作，很方便地取出列表或元组中位于特定位置的元素。
+基本使用方式是：1L[start_index:end_index]
+我猜其中start_index默认为0，即List的起始元素位置；end_index默认为-1，即List的最后元素位置。如果不标明两个参数，则按照默认值对待。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python学习笔记(二)">
+<meta property="og:url" content="http://ming-holy.space/2017/01/22/Python学习笔记(二)/index.html">
+<meta property="og:site_name" content="A Cup of Coffee">
+<meta property="og:description" content="切片(Slice)基本方法Python中对List和Tuple可以进行切片操作，很方便地取出列表或元组中位于特定位置的元素。
+基本使用方式是：1L[start_index:end_index]
+我猜其中start_index默认为0，即List的起始元素位置；end_index默认为-1，即List的最后元素位置。如果不标明两个参数，则按照默认值对待。">
+<meta property="og:updated_time" content="2017-02-13T15:21:41.047Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python学习笔记(二)">
+<meta name="twitter:description" content="切片(Slice)基本方法Python中对List和Tuple可以进行切片操作，很方便地取出列表或元组中位于特定位置的元素。
+基本使用方式是：1L[start_index:end_index]
+我猜其中start_index默认为0，即List的起始元素位置；end_index默认为-1，即List的最后元素位置。如果不标明两个参数，则按照默认值对待。">
+
+    
+    <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="A Cup of Coffee" title="A Cup of Coffee"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A Cup of Coffee">A Cup of Coffee</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:ming-holy.space">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/01/22/Python学习笔记(二)/" title="Python学习笔记(二)" itemprop="url">Python学习笔记(二)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-01-22T12:00:00.000Z" itemprop="datePublished"> 发表于 2017-01-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#切片-Slice"><span class="toc-number">1.</span> <span class="toc-text">切片(Slice)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本方法"><span class="toc-number">1.1.</span> <span class="toc-text">基本方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Extended-Slice"><span class="toc-number">1.2.</span> <span class="toc-text">Extended Slice</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代与迭代器"><span class="toc-number">2.</span> <span class="toc-text">迭代与迭代器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#迭代与可迭代对象"><span class="toc-number">2.1.</span> <span class="toc-text">迭代与可迭代对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#迭代器"><span class="toc-number">2.2.</span> <span class="toc-text">迭代器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成器"><span class="toc-number">3.</span> <span class="toc-text">生成器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#列表生成器"><span class="toc-number">3.1.</span> <span class="toc-text">列表生成器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数生成器"><span class="toc-number">3.2.</span> <span class="toc-text">函数生成器</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="切片-Slice"><a href="#切片-Slice" class="headerlink" title="切片(Slice)"></a>切片(Slice)</h2><h3 id="基本方法"><a href="#基本方法" class="headerlink" title="基本方法"></a>基本方法</h3><p>Python中对List和Tuple可以进行切片操作，很方便地取出列表或元组中位于特定位置的元素。</p>
+<p>基本使用方式是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">L[start_index:end_index]</div></pre></td></tr></table></figure></p>
+<p>我猜其中<code>start_index</code>默认为0，即List的起始元素位置；<code>end_index</code>默认为-1，即List的最后元素位置。<br>如果不标明两个参数，则按照默认值对待。<br><a id="more"></a></p>
+<h3 id="Extended-Slice"><a href="#Extended-Slice" class="headerlink" title="Extended Slice"></a>Extended Slice</h3><p>这种使用方法将带有第三个参数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">L[start_index:end_index:step]</div></pre></td></tr></table></figure></p>
+<p>其中step是取元素的步长。</p>
+<h2 id="迭代与迭代器"><a href="#迭代与迭代器" class="headerlink" title="迭代与迭代器"></a>迭代与迭代器</h2><h3 id="迭代与可迭代对象"><a href="#迭代与可迭代对象" class="headerlink" title="迭代与可迭代对象"></a>迭代与可迭代对象</h3><p><strong>迭代(<code>Iteration</code>)</strong>：是一种操作，最简单的是与<code>for</code>有关的，比如<code>for item in list:</code>这样的简单循环。<br><strong>可迭代对象(<code>Iterable</code>)</strong>：可以像上面那用使用<code>for</code>进行迭代的都叫做可迭代对象，比如<code>list</code>、<code>tuple</code>、<code>dict</code>、<code>set</code>、<code>str</code>。<br>可迭代对象的判断：可以用<code>isinstance(obj, Iterable)</code>来判断是否是<code>Iterable</code></p>
+<h3 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h3><p><strong>迭代器(<code>Iterator</code>)</strong>可以使用<code>next()</code>不断调用并返回下一个值。<br>迭代器的判断：</p>
+<ol>
+<li>可以被<code>next()</code>函数调用</li>
+<li>可以使用<code>isinstance(obj, Iterator)</code></li>
+</ol>
+<blockquote>
+<p><code>Iterable</code>包括：<code>list</code>、<code>dict</code>、<code>str</code>、<code>set</code>、<code>tuple</code><br>    <code>Iterator</code>包括各种生成器。</p>
+</blockquote>
+<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><h3 id="列表生成器"><a href="#列表生成器" class="headerlink" title="列表生成器"></a>列表生成器</h3><p>给定生成一个序列的方法，根据需要来计算后续元素。这种<strong>边循环边计算</strong>的机制，叫做<strong>生成器(<code>Generator</code>)</strong>。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">L = [x * x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>)]  <span class="comment">#list</span></div><div class="line">G = (x * x <span class="keyword">for</span> x <span class="keyword">in</span> range(<span class="number">10</span>))  <span class="comment">#generator</span></div></pre></td></tr></table></figure></p>
+<h3 id="函数生成器"><a href="#函数生成器" class="headerlink" title="函数生成器"></a>函数生成器</h3><p>当函数的返回值是一串可由特定方法计算的值时，可以使该函数成为生成器。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">fib</span><span class="params">(max)</span>:</span></div><div class="line">    n, a, b = <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span></div><div class="line">    <span class="keyword">while</span> n &lt; max:</div><div class="line">        <span class="keyword">yield</span> b</div><div class="line">        a, b = b, a + b</div><div class="line">        n = n + <span class="number">1</span></div><div class="line">    <span class="keyword">return</span> <span class="string">'done'</span></div></pre></td></tr></table></figure></p>
+<p>其中<code>yeild</code>关键字使得该函数成为一个生成器。<code>yield</code>关键字的作用是，执行到该句时，保存调用现场，然后返回后面的值<code>b</code>。在使用<code>next()</code>再次调用该函数时，从<code>yield</code><strong>之后</strong>继续执行。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python/">Python</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://ming-holy.space/2017/01/22/Python学习笔记(二)/" data-title="Python学习笔记(二) | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/01/24/JSDOM-chapter2/" title="JavaScript DOM 编程艺术 笔记-第二章">
+  <strong>上一篇：</strong><br/>
+  <span>
+  JavaScript DOM 编程艺术 笔记-第二章</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/01/19/Python学习笔记(一)/"  title="Python学习笔记(一)">
+ <strong>下一篇：</strong><br/> 
+ <span>Python学习笔记(一)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2017/01/22/Python学习笔记(二)/" data-title="Python学习笔记(二)" data-url="http://ming-holy.space/2017/01/22/Python学习笔记(二)/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#切片-Slice"><span class="toc-number">1.</span> <span class="toc-text">切片(Slice)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基本方法"><span class="toc-number">1.1.</span> <span class="toc-text">基本方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Extended-Slice"><span class="toc-number">1.2.</span> <span class="toc-text">Extended Slice</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代与迭代器"><span class="toc-number">2.</span> <span class="toc-text">迭代与迭代器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#迭代与可迭代对象"><span class="toc-number">2.1.</span> <span class="toc-text">迭代与可迭代对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#迭代器"><span class="toc-number">2.2.</span> <span class="toc-text">迭代器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生成器"><span class="toc-number">3.</span> <span class="toc-text">生成器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#列表生成器"><span class="toc-number">3.1.</span> <span class="toc-text">列表生成器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数生成器"><span class="toc-number">3.2.</span> <span class="toc-text">函数生成器</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C++">C++<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/Git/" title="Git">Git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/人民南路四段九号/" title="人民南路四段九号">人民南路四段九号<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/" title="数学">数学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
+  </div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编辑器/" title="编辑器">编辑器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Be a live-wire artist, <br/>
+			Do something amazing.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/mingholy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:liminghao15@mails.ucas.ac.cn" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Mingholy">Mingholy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mingholy"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<script src="https://s4.cnzz.com/z_stat.php?id=1261294969&web_id=1261294969" language="JavaScript"></script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

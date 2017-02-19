@@ -1,0 +1,653 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>在VPS上搭建Android/iOS双平台可用的梯子的解决方案 | A Cup of Coffee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Mingholy">
+    
+
+    
+    <meta name="description" content="搭建双平台可用的梯子由于众所周知的原因，本来是爬墙利器的Shadowsocks于iOS的AppStore中被下架。一直找不到什么好用的替代品，幸而Cisco Anyconnect这个很早以前就用过的VPN解决方案仍然可以使用，并且在Android和iOS上都可以使用，因此我准备以此为切入点，搭建自己的Anyconnect服务器。
+准备工作和踩坑预警我准备使用的是OpenConnect Server">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在VPS上搭建Android/iOS双平台可用的梯子的解决方案">
+<meta property="og:url" content="http://ming-holy.space/2016/10/14/搭建VPN服务器/index.html">
+<meta property="og:site_name" content="A Cup of Coffee">
+<meta property="og:description" content="搭建双平台可用的梯子由于众所周知的原因，本来是爬墙利器的Shadowsocks于iOS的AppStore中被下架。一直找不到什么好用的替代品，幸而Cisco Anyconnect这个很早以前就用过的VPN解决方案仍然可以使用，并且在Android和iOS上都可以使用，因此我准备以此为切入点，搭建自己的Anyconnect服务器。
+准备工作和踩坑预警我准备使用的是OpenConnect Server">
+<meta property="og:updated_time" content="2017-02-13T15:33:44.758Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在VPS上搭建Android/iOS双平台可用的梯子的解决方案">
+<meta name="twitter:description" content="搭建双平台可用的梯子由于众所周知的原因，本来是爬墙利器的Shadowsocks于iOS的AppStore中被下架。一直找不到什么好用的替代品，幸而Cisco Anyconnect这个很早以前就用过的VPN解决方案仍然可以使用，并且在Android和iOS上都可以使用，因此我准备以此为切入点，搭建自己的Anyconnect服务器。
+准备工作和踩坑预警我准备使用的是OpenConnect Server">
+
+    
+    <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="A Cup of Coffee" title="A Cup of Coffee"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A Cup of Coffee">A Cup of Coffee</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:ming-holy.space">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/10/14/搭建VPN服务器/" title="在VPS上搭建Android/iOS双平台可用的梯子的解决方案" itemprop="url">在VPS上搭建Android/iOS双平台可用的梯子的解决方案</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-10-14T07:00:00.000Z" itemprop="datePublished"> 发表于 2016-10-14</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建双平台可用的梯子"><span class="toc-number">1.</span> <span class="toc-text">搭建双平台可用的梯子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作和踩坑预警"><span class="toc-number">1.1.</span> <span class="toc-text">准备工作和踩坑预警</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装依赖和OCserv"><span class="toc-number">1.2.</span> <span class="toc-text">安装依赖和OCserv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加证书与配置OCServ"><span class="toc-number">1.3.</span> <span class="toc-text">添加证书与配置OCServ</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#生成CA证书"><span class="toc-number">1.3.1.</span> <span class="toc-text">生成CA证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#生成Server证书"><span class="toc-number">1.3.2.</span> <span class="toc-text">生成Server证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置OCServ"><span class="toc-number">1.3.3.</span> <span class="toc-text">配置OCServ</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Iptables与系统转发配置"><span class="toc-number">1.4.</span> <span class="toc-text">Iptables与系统转发配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用证书登录"><span class="toc-number">1.5.</span> <span class="toc-text">使用证书登录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建高速Android-PC可用的Shadowsocks梯子"><span class="toc-number">2.</span> <span class="toc-text">搭建高速Android/PC可用的Shadowsocks梯子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务端设置"><span class="toc-number">2.1.</span> <span class="toc-text">服务端设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端设置"><span class="toc-number">2.2.</span> <span class="toc-text">客户端设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chrome设置"><span class="toc-number">2.3.</span> <span class="toc-text">Chrome设置</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="搭建双平台可用的梯子"><a href="#搭建双平台可用的梯子" class="headerlink" title="搭建双平台可用的梯子"></a>搭建双平台可用的梯子</h2><p>由于众所周知的原因，本来是爬墙利器的Shadowsocks于iOS的AppStore中被下架。一直找不到什么好用的替代品，幸而Cisco Anyconnect这个很早以前就用过的VPN解决方案仍然可以使用，并且在Android和iOS上都可以使用，因此我准备以此为切入点，搭建自己的Anyconnect服务器。</p>
+<h3 id="准备工作和踩坑预警"><a href="#准备工作和踩坑预警" class="headerlink" title="准备工作和踩坑预警"></a>准备工作和踩坑预警</h3><p>我准备使用的是OpenConnect Server，它是一款开源的VPN服务器，能够很好的支持Cisco Anyconnect。最主要的是它并没有像OpenVPN那样被挂城墙。但是要使用它同样也有一些缺点：</p>
+<ol>
+<li>速度比较慢</li>
+<li>搭建配置比较麻烦——主要是依赖问题</li>
+</ol>
+<p>首先要提及一下系统平台的问题。<br>本来我是Centos6，因为提供商的一键搭建Shadowsocks服务器的脚本只支持Centos6，我图方便一开始就没有换。但是开始搭建OCserv之后，发现Centos6这个系统实在是有年代了。很多依赖的库版本都非常老旧，比如下面要用到的GnuTLS只有2.8.x，而Ocserv依赖3.X。当然这也不是绝对的，我们且做且分析。</p>
+<p>平台基本信息：<br>RAM：512MB<br>OS：Ubuntu 16.04 x86_64<br>不管你是用Xshell还是PuTTY，总之最好还是要做好ssh登录，调试过程中免不了要断开重启等操作，每一次登录都很麻烦的话会用光耐心的。</p>
+<a id="more"></a>
+<h3 id="安装依赖和OCserv"><a href="#安装依赖和OCserv" class="headerlink" title="安装依赖和OCserv"></a>安装依赖和OCserv</h3><p>按照惯例首先<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update</div><div class="line">sudo apt-get upgrade</div></pre></td></tr></table></figure></p>
+<p>更新一下。<br>然后安装相关依赖：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install build-essential pkg-config libgnutls28-dev libreadline-dev libseccomp-dev libwrap0-dev libnl-nf-3-dev liblz4-dev</div></pre></td></tr></table></figure></p>
+<p>当然其中有些是用来编译安装OCServ所要用到的，我安装的时候并没有自己编译，但是为了保险起见还是安装完全为好。<br>然后安装 OCServ，ubuntu的源中是可以找到这个软件包的，版本是0.11.x。可以正常使用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install ocserv</div></pre></td></tr></table></figure></p>
+<p>安装结束之后可以在<code>/etc/ocserv/</code>下找到<code>ocserv.conf</code>配置文件，我们记住这个配置文件的位置，一会要对它进行修改。</p>
+<h3 id="添加证书与配置OCServ"><a href="#添加证书与配置OCServ" class="headerlink" title="添加证书与配置OCServ"></a>添加证书与配置OCServ</h3><p>我们常用的Anyconnect连接OCServ有两种方式，一种是通过用户密码登录，一种是通过证书。证书其实类似于公钥秘钥，证书一致的两端连接时可以免去输入用户名密码的麻烦。最终我们总会用到这种方式，因此首先先把证书生成好。</p>
+<h4 id="生成CA证书"><a href="#生成CA证书" class="headerlink" title="生成CA证书"></a>生成CA证书</h4><p>生成证书需要用到<code>certtool</code>命令，它由<code>gnutls-bin</code>这个软件包提供。因此要安装它：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install gnutls-bin</div></pre></td></tr></table></figure></p>
+<p>接着我们在home下创建一个文件夹ocserv-prep，在这个文件夹里面准备好所有用到的东西。<br>首先创建CA模板，一会要用它来生成CA证书。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cd ocserv-prep</div><div class="line">vim ca.tmpl</div></pre></td></tr></table></figure></p>
+<p>输入如下内容：</p>
+<blockquote>
+<p>cn = “Your CA name”<br>organization = “Your fancy name”<br>serial = 1<br>expiration_days = 3650<br>ca<br>signing_key<br>cert_signing_key<br>crl_signing_key</p>
+</blockquote>
+<p>这里的”Your CA name”可以随便填写。<br>然后生成CA秘钥<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">certtool --generate-privkey --outfile ca-key.pem</div></pre></td></tr></table></figure></p>
+<p>接着用秘钥生成CA证书<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">certtool --generate-self-signed --load-privkey ca-key.pem --template ca.tmpl --outfile ca-cert.pem</div></pre></td></tr></table></figure></p>
+<p>最后把这个证书放在ssl秘钥文件夹下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo cp ca-cert.pem /etc/ssl/private/my-ca-cert.pem</div></pre></td></tr></table></figure></p>
+<h4 id="生成Server证书"><a href="#生成Server证书" class="headerlink" title="生成Server证书"></a>生成Server证书</h4><p>跟上面的过程类似，首先要创建一个模板server.tmpl：</p>
+<blockquote>
+<p>cn = “Your hostname or IP”<br>organization = “Your fancy name”<br>expiration_days = 3650<br>signing_key<br>encryption_key<br>tls_www_server</p>
+</blockquote>
+<p><strong>这里的”Your host name or IP”就必须要填写你的服务器ip地址了。</strong><br>然后生成秘钥和证书：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">certtool --generate-privkey --outfile server-key.pem</div><div class="line">certtool --generate-certificate --load-privkey server-key.pem --load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem --template server.tmpl --outfile server-cert.pem</div></pre></td></tr></table></figure></p>
+<p>最后将证书和秘钥复制到ssl秘钥文件夹下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo cp server-cert.pem /etc/ssl/private/my-server-cert.pem</div><div class="line">sudo cp server-key.pem /etc/ssl/private/my-server-key.pem</div></pre></td></tr></table></figure></p>
+<h4 id="配置OCServ"><a href="#配置OCServ" class="headerlink" title="配置OCServ"></a>配置OCServ</h4><p>还记得刚刚说过的那个<code>ocserv.conf</code>吗？现在我们生成好了各种秘钥和证书，要使用它，就需要配置OCserv的启动选项。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/ocserv/ocserv.conf</div></pre></td></tr></table></figure></p>
+<p>会发现有非常多的注释内容，其实你可以把它们都删掉，填入如下内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#登录验证方式 后面要在这个位置创建一个用户</span></div><div class="line">auth = <span class="string">"plain[/etc/ocserv/ocpasswd]"</span></div><div class="line"><span class="comment">#auth = "certificate"</span></div><div class="line"></div><div class="line"><span class="comment">#设置TCP UDP端口</span></div><div class="line">tcp-port = 1600</div><div class="line">udp-port = 1600</div><div class="line"></div><div class="line"><span class="comment">#设置socket文件位置</span></div><div class="line">socket-file = /var/run/ocserv-socket</div><div class="line"></div><div class="line"><span class="comment">#设置服务端证书秘钥</span></div><div class="line">server-cert = /etc/ssl/private/my-server-cert.pem</div><div class="line">server-key = /etc/ssl/private/my-server-key.pem</div><div class="line"></div><div class="line"><span class="comment">#设置用户证书秘钥</span></div><div class="line">ca-cert = /etc/ssl/private/my-ca-cert.pem</div><div class="line"></div><div class="line"><span class="comment">#设置用户数和连接数</span></div><div class="line">max-clients = 10</div><div class="line">max-same-clients = 2</div><div class="line"></div><div class="line"><span class="comment">#使服务器兼容Cisco Anyconnect客户端</span></div><div class="line">cisco-client-compat = <span class="literal">true</span></div><div class="line"></div><div class="line"><span class="comment">#设置OID为2.5.4.3不用动</span></div><div class="line">cert-user-oid = 2.5.4.3</div><div class="line"></div><div class="line"><span class="comment">#客户端ip地址段 必需</span></div><div class="line">ipv4-network = 192.168.1.0</div><div class="line">ipv4-netmask = 255.255.255.0</div><div class="line"></div><div class="line"><span class="comment">#为代理指定使用的dns</span></div><div class="line">dns = 8.8.8.8</div><div class="line">dns = 8.8.4.4</div><div class="line"></div><div class="line"><span class="comment"># 注释掉所有的route，让服务器成为gateway</span></div><div class="line"><span class="comment">#route = 192.168.1.0/255.255.255.0</span></div><div class="line"></div><div class="line"><span class="comment">#其他设置 仅供参考</span></div><div class="line">keepalive = 86400</div><div class="line">mobile-dpd = 1800</div><div class="line">isolate-workers = <span class="literal">true</span></div><div class="line">try-mtu-discovery = <span class="literal">true</span></div><div class="line">min-reauth-time = 3</div><div class="line">auth-timeout = 40</div><div class="line">tls-priorities = <span class="string">"NORMAL:%SERVER_PRECEDENCE:%COMPAT:-VERS-SSL3.0"</span></div><div class="line">max-ban-score = 50</div><div class="line">ban-reset-time = 300</div><div class="line">cookie-timeout = 300</div><div class="line">cookie-rekey-time = 14400</div><div class="line">deny-roaming = <span class="literal">false</span></div><div class="line">rekey-time = 172800</div><div class="line">rekey-method = ssl</div><div class="line">use-utmp = <span class="literal">true</span></div><div class="line">use-occtl = <span class="literal">true</span></div><div class="line">pid-file = /var/run/ocserv.pid</div><div class="line">device = vpns</div><div class="line">predictable-ips = <span class="literal">true</span></div><div class="line">default-domain = example.com</div><div class="line">ping-leases = <span class="literal">false</span></div></pre></td></tr></table></figure><br>最后在刚才确定的位置创建一个用户和密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo ocpasswd -c /etc/ocserv/ocpasswd your-username</div></pre></td></tr></table></figure></p>
+<p>到这里OCServ端的配置就基本完成了，接下来还要对服务器的防火墙进行一些配置。</p>
+<h3 id="Iptables与系统转发配置"><a href="#Iptables与系统转发配置" class="headerlink" title="Iptables与系统转发配置"></a>Iptables与系统转发配置</h3><p>这里的设置主要是打开服务所要占用的端口、允许转发、启用NAT等操作。<br>我们首先建立一个规则文件<code>ipv4</code>输入：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">*filter</div><div class="line"></div><div class="line"><span class="comment"># Allow all loopback (lo0) traffic and reject traffic</span></div><div class="line"><span class="comment"># to localhost that does not originate from lo0.</span></div><div class="line">-A INPUT -i lo -j ACCEPT</div><div class="line"></div><div class="line"><span class="comment"># Allow ICMP</span></div><div class="line">-A INPUT -p icmpv6 -j ACCEPT</div><div class="line"></div><div class="line"><span class="comment"># Allow HTTP and HTTPS connections from anywhere</span></div><div class="line"><span class="comment"># (the normal ports for web servers).</span></div><div class="line"><span class="comment"># -A INPUT -p tcp --dport 80 -m state --state NEW -j ACCEPT</span></div><div class="line"><span class="comment"># -A INPUT -p tcp --dport 443 -m state --state NEW -j ACCEPT</span></div><div class="line"></div><div class="line"><span class="comment"># Allow inbound traffic from established connections.</span></div><div class="line">-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</div><div class="line"></div><div class="line"><span class="comment"># Log what was incoming but denied (optional but useful).</span></div><div class="line">-A INPUT -m <span class="built_in">limit</span> --limit 5/min -j LOG --log-prefix <span class="string">"ip6tables_INPUT_denied: "</span> --log-level 7</div><div class="line"></div><div class="line"><span class="comment"># Reject all other inbound.</span></div><div class="line"><span class="comment"># -A INPUT -j REJECT</span></div><div class="line"></div><div class="line"><span class="comment"># Log any traffic that was sent to you</span></div><div class="line"><span class="comment"># for forwarding (optional but useful).</span></div><div class="line">-A FORWARD -m <span class="built_in">limit</span> --limit 5/min -j LOG --log-prefix <span class="string">"ip6tables_FORWARD_denied: "</span> --log-level 7</div><div class="line"></div><div class="line"><span class="comment"># Reject all traffic forwarding.</span></div><div class="line"><span class="comment"># -A FORWARD -j REJECT</span></div><div class="line">-A INPUT -p tcp -m state --state NEW --dport 1600 -j ACCEPT</div><div class="line">-A INPUT -p udp -m state --state NEW --dport 1600 -j ACCEPT</div><div class="line"></div><div class="line">COMMIT</div><div class="line"></div><div class="line">*nat</div><div class="line">-A POSTROUTING -j MASQUERADE</div><div class="line">COMMIT</div></pre></td></tr></table></figure><br>这是一份从Linode提供的安全配置修改而来的iptables配置规则。其中我禁用了80和443端口，是因为总有人来用我的服务器转发垃圾邮件，而我最近又没有打算在上面搭建站点，因此暂时禁用了它们。<br>设置好iptables之后要应用到系统防火墙上。但ubuntu每次重启的时候，都将重置iptables规则，我们需要另一个工具来持久化iptables规则。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install iptables-persistent</div></pre></td></tr></table></figure></p>
+<p>安装过程中选择yes即可。<br>然后把将上面写好的规则应用到系统上：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo iptables-restore &lt; ipv4</div><div class="line">sudo iptables-save</div></pre></td></tr></table></figure></p>
+<p>最后打开IPv4流量转发：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /etc/sysctl.conf</div></pre></td></tr></table></figure></p>
+<p>修改下面这一条为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">net.ipv4.ip_forward=1</div></pre></td></tr></table></figure></p>
+<p>最后刷新配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo sysctl -p /etc/sysctl.conf</div></pre></td></tr></table></figure></p>
+<p>至此我们的服务器已经搭建完毕。<br>接着使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ocserv -fd 1</div></pre></td></tr></table></figure></p>
+<p>来开启服务器。这时你可以在控制台看到运行信息如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Parsing plain auth method subconfig using legacy format</div><div class="line">Setting &apos;plain&apos; as primary authentication method</div><div class="line">listening (TCP) on 0.0.0.0:1900...</div><div class="line">listening (UDP) on 0.0.0.0:1900...</div><div class="line">ocserv[1569]: main: initialized ocserv 0.10.11</div><div class="line">ocserv[1570]: sec-mod: reading supplemental config from files</div><div class="line">ocserv[1570]: sec-mod: sec-mod initialized (socket: /var/run/ocserv-socket.1569)</div></pre></td></tr></table></figure></p>
+<p>你可以通过Anyconnect客户端，填好服务器地址和端口号，使用之前创建的用户名和密码登录到该服务器了。连接时控制台将显示你的连接信息。要想使服务在后台运行，去掉参数<code>f</code>即可。</p>
+<h3 id="使用证书登录"><a href="#使用证书登录" class="headerlink" title="使用证书登录"></a>使用证书登录</h3><p>最后为了避免每次都输入密码，我们想要使用证书登录。创建证书模板和生成证书的过程同上面类似。首先创建证书模板<code>user.tmpl</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">cn = &quot;some random name&quot;</div><div class="line">unit = &quot;some random unit&quot;</div><div class="line">expiration_days = 365</div><div class="line">signing_key</div><div class="line">tls_www_client</div></pre></td></tr></table></figure></p>
+<p>生成User密钥和证书：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">certtool --generate-privkey --outfile user-key.pem</div><div class="line">certtool --generate-certificate --load-privkey user-key.pem --load-ca-certificate ca-cert.pem --load-ca-privkey ca-key.pem --template user.tmpl --outfile user-cert.pem</div></pre></td></tr></table></figure></p>
+<p>将证书和密钥转为PKCS12格式，方便移动设备导入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">certtool --to-p12 --load-privkey user-key.pem --pkcs-cipher 3des-pkcs12 --load-certificate user-cert.pem --outfile user.p12 --outder</div></pre></td></tr></table></figure></p>
+<p>Android平台可以直接把证书文件发到手机上打开导入。iOS平台就需要建立本地的http服务器，使用URL导入了。<br>最后修改OCserv的配置文件<code>/etc/ocserv/ocserv.conf</code>找到<code>auth = &quot;certificate&quot;</code>这一项取消注释，并注释其他的<code>auth</code>项，启用证书验证。</p>
+<p>至此双平台都可以使用梯子了。Anyconnect的速度还算可以，用手机的4G网可以有1M多的速度。</p>
+<h2 id="搭建高速Android-PC可用的Shadowsocks梯子"><a href="#搭建高速Android-PC可用的Shadowsocks梯子" class="headerlink" title="搭建高速Android/PC可用的Shadowsocks梯子"></a>搭建高速Android/PC可用的Shadowsocks梯子</h2><p>上面所述的OCserv+Anyconnect是为了照顾iOS没有shadowsocks而不得已为之。它采用全局代理模式，建立连接后所有的访问均要通过vpn。并且它只支持Windows。对于常常在Linux/Windows之间切换的同学来说很不方便。<br>所以在PC上我们可以使用shadowsocks+kcptun的解决方案，来获得更高速的连接。</p>
+<h3 id="服务端设置"><a href="#服务端设置" class="headerlink" title="服务端设置"></a>服务端设置</h3><p>搭建shadowsocks的方法，在项目的wiki中有非常简单的实现方式。<br>我们现在要使用KCPtun利用kcp协议来加速shadowsocks。<br>登录到vps后使用一键安装脚本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget https://raw.githubusercontent.com/kuoruan/kcptun_installer/master/kcptun.sh</div><div class="line">chmod +x ./kcptun.sh</div><div class="line">./kcptun.sh</div></pre></td></tr></table></figure></p>
+<p>现在假设你的shadowsocks运行在8388端口上，密码是sspasswd。那么接下来需要设置的有：</p>
+<ol>
+<li>KCPtun的服务端口：该端口不是shadowsocks端口。它是供KCPtun客户端连接的端口。比如我们设置成8400。</li>
+<li>设置加速IP：如果ss服务端就建立在该服务器上，那么默认即可；否则填写服务器ip。</li>
+<li>设置加速端口：这里的端口即shadowsocks端口。设置为8388。接下来可能会出现确认是否有软件使用此端口的问题。选择是即可。<br>4.设置KCPtun密码：最好修改成没有空格的。比如kcptunpasswd。<br>5.其余选项暂时使用默认即可。如需修改，使用<code>./kcptun.sh reconfig</code>修改配置文件。下列配置仅供参考：<blockquote>
+<p>crypt: aes-192<br>datashard: 10<br>parityshard: 3<br>conn: 1<br>mtu: 1350<br>sndwnd: 1024<br>rcvwnd: 1024<br>dscp: 0<br>autoexpire: 60<br>mode: fast2<br>keepalive: 10<br>sockbuf: 4194304</p>
+</blockquote>
+</li>
+</ol>
+<p>至此服务端的设置已经完成。下面是本地客户端的设置。</p>
+<h3 id="客户端设置"><a href="#客户端设置" class="headerlink" title="客户端设置"></a>客户端设置</h3><p>到<a href="https://github.com/xtaci/kcptun/releases" target="_blank" rel="external">KCPtun作者的github</a>上下载最新版本的release，解压到任意位置。再下载<a href="https://github.com/dfdragon/kcptun_gclient/releases" target="_blank" rel="external">KCPtun客户端管理工具</a>，打开客户端管理工具，导入刚刚解压的相应版本的kcptun客户端，各项参数按照刚刚设置好的参数配置，最后启动即可。其中基础参数中本地侦听端口是指shadowsocks客户端运行时填写的服务器端口。</p>
+<p>KCPtun和shadowsocks的工作模式是，shadowsocks客户端-&gt;KCPtun客户端———&gt;kcptun服务端-&gt;shadowsocks服务端。由于客户端都在本地，所以shadowsocks客户端中服务器地址和端口应与本机地址127.0.0.1和本地KCPtun客户端的侦听端口一致。比如KCPtun本地侦听端口为1605，则shadowsocks客户端的服务器端口也应为1605。<br>启动之后可以查看shadowsocks日志查看链接是否畅通。配置无误的话就可以正常使用了。</p>
+<h3 id="Chrome设置"><a href="#Chrome设置" class="headerlink" title="Chrome设置"></a>Chrome设置</h3><p>可以开启Shadowsocks系统代理来进行系统级别代理，也可以安装Chrome插件SwitchySharp来启用浏览器级别代理。在不开启系统代理的情况下后台运行Shadowsocks，SwitchySharp配置为SOCKS5代理，地址为127.0.0.1端口为1080（即Shadowsocks客户端中下方的代理端口）。访问需要梯子的网站时开启该情景模式即可。</p>
+<p>使用KCPtun加速之后的梯子速度非常给力，看Youtube720p应该是没有压力的。</p>
+<p>参考文献：<br><a href="https://github.com/xtaci/kcptun" target="_blank" rel="external">https://github.com/xtaci/kcptun</a><br><a href="http://www.jianshu.com/p/172c38ba6cee" target="_blank" rel="external">http://www.jianshu.com/p/172c38ba6cee</a><br><a href="https://bitinn.net/11084/" target="_blank" rel="external">https://bitinn.net/11084/</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://ming-holy.space/2016/10/14/搭建VPN服务器/" data-title="在VPS上搭建Android/iOS双平台可用的梯子的解决方案 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/01/19/Python学习笔记(一)/" title="Python学习笔记(一)">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Python学习笔记(一)</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/05/19/Dubtitler Project/"  title="Dubtitler 初步设想">
+ <strong>下一篇：</strong><br/> 
+ <span>Dubtitler 初步设想
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/10/14/搭建VPN服务器/" data-title="在VPS上搭建Android/iOS双平台可用的梯子的解决方案" data-url="http://ming-holy.space/2016/10/14/搭建VPN服务器/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建双平台可用的梯子"><span class="toc-number">1.</span> <span class="toc-text">搭建双平台可用的梯子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作和踩坑预警"><span class="toc-number">1.1.</span> <span class="toc-text">准备工作和踩坑预警</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装依赖和OCserv"><span class="toc-number">1.2.</span> <span class="toc-text">安装依赖和OCserv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加证书与配置OCServ"><span class="toc-number">1.3.</span> <span class="toc-text">添加证书与配置OCServ</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#生成CA证书"><span class="toc-number">1.3.1.</span> <span class="toc-text">生成CA证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#生成Server证书"><span class="toc-number">1.3.2.</span> <span class="toc-text">生成Server证书</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#配置OCServ"><span class="toc-number">1.3.3.</span> <span class="toc-text">配置OCServ</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Iptables与系统转发配置"><span class="toc-number">1.4.</span> <span class="toc-text">Iptables与系统转发配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用证书登录"><span class="toc-number">1.5.</span> <span class="toc-text">使用证书登录</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搭建高速Android-PC可用的Shadowsocks梯子"><span class="toc-number">2.</span> <span class="toc-text">搭建高速Android/PC可用的Shadowsocks梯子</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务端设置"><span class="toc-number">2.1.</span> <span class="toc-text">服务端设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#客户端设置"><span class="toc-number">2.2.</span> <span class="toc-text">客户端设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chrome设置"><span class="toc-number">2.3.</span> <span class="toc-text">Chrome设置</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C++">C++<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/Git/" title="Git">Git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/人民南路四段九号/" title="人民南路四段九号">人民南路四段九号<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/" title="数学">数学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
+  </div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编辑器/" title="编辑器">编辑器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Be a live-wire artist, <br/>
+			Do something amazing.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/mingholy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:liminghao15@mails.ucas.ac.cn" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Mingholy">Mingholy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mingholy"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<script src="https://s4.cnzz.com/z_stat.php?id=1261294969&web_id=1261294969" language="JavaScript"></script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

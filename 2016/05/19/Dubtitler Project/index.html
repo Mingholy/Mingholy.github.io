@@ -1,0 +1,627 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Dubtitler 初步设想 | A Cup of Coffee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Mingholy">
+    
+
+    
+    <meta name="description" content="主要问题：
+HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法解决。 搜索了很久，HTML5播放视频的格式，取决于浏览器。多数主流浏览器都只支持MP4,WebM，播放avi需要很多其他的东西。第三方的播放器videojs，也是这里要使用的播放器库，有插件通过java来支持avi和其他媒体格式，但是这个作者在放出第一版不久就因为一些没办法解决的问题放弃更新了，致命的是这个jav">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dubtitler 初步设想">
+<meta property="og:url" content="http://ming-holy.space/2016/05/19/Dubtitler Project/index.html">
+<meta property="og:site_name" content="A Cup of Coffee">
+<meta property="og:description" content="主要问题：
+HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法解决。 搜索了很久，HTML5播放视频的格式，取决于浏览器。多数主流浏览器都只支持MP4,WebM，播放avi需要很多其他的东西。第三方的播放器videojs，也是这里要使用的播放器库，有插件通过java来支持avi和其他媒体格式，但是这个作者在放出第一版不久就因为一些没办法解决的问题放弃更新了，致命的是这个jav">
+<meta property="og:updated_time" content="2017-02-13T15:22:17.565Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dubtitler 初步设想">
+<meta name="twitter:description" content="主要问题：
+HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法解决。 搜索了很久，HTML5播放视频的格式，取决于浏览器。多数主流浏览器都只支持MP4,WebM，播放avi需要很多其他的东西。第三方的播放器videojs，也是这里要使用的播放器库，有插件通过java来支持avi和其他媒体格式，但是这个作者在放出第一版不久就因为一些没办法解决的问题放弃更新了，致命的是这个jav">
+
+    
+    <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="A Cup of Coffee" title="A Cup of Coffee"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A Cup of Coffee">A Cup of Coffee</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:ming-holy.space">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/19/Dubtitler Project/" title="Dubtitler 初步设想" itemprop="url">Dubtitler 初步设想</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-19T06:00:00.000Z" itemprop="datePublished"> 发表于 2016-05-19</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#主要问题："><span class="toc-number">1.</span> <span class="toc-text">主要问题：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字幕处理"><span class="toc-number">2.</span> <span class="toc-text">字幕处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字幕的分行显示"><span class="toc-number">2.1.</span> <span class="toc-text">字幕的分行显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字幕的高亮显示"><span class="toc-number">2.2.</span> <span class="toc-text">字幕的高亮显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式检测"><span class="toc-number">2.3.</span> <span class="toc-text">格式检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拆轴合轴"><span class="toc-number">2.4.</span> <span class="toc-text">拆轴合轴</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#播放器"><span class="toc-number">3.</span> <span class="toc-text">播放器</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="主要问题："><a href="#主要问题：" class="headerlink" title="主要问题："></a>主要问题：</h2><ol>
+<li>HTML5支持的播放器仅支持H.264编码的MP4文件格式<br> 这个问题没法解决。<br> 搜索了很久，HTML5播放视频的格式，取决于浏览器。多数主流浏览器都只支持MP4,WebM，播放avi需要很多其他的东西。第三方的播放器videojs，也是这里要使用的播放器库，有插件通过java来支持avi和其他媒体格式，但是这个作者在放出第一版不久就因为一些没办法解决的问题放弃更新了，致命的是这个java版本的播放器不仅难以支持外挂字幕，还有其他很多的问题。因此我也放弃强行支持avi了，这是一个除了体积稍微小一点，没有其他优点的视频格式。<br> 片源的格式取决于压制组的输出格式，DIMENSION的初版输出格式一般都是<code>.avi</code>，这一点我没办法控制。我只能接到片源之后，自己使用格式工厂转成<code>.mp4</code>，以我I5 4200H @2.8GHZ 的CPU，转一集183MB的盲点大概需要13分钟，不勾多线程反而会快一点点，但是不管怎么说都在10分钟以上。悲观估计在15分钟以内都可以接受。如果DL要求非常高，或者片源不能提前cc发放，那么…</li>
+</ol>
+<a id="more"></a>
+<ol>
+<li><p>如何更新WebVTT文件/更新修改过后的字幕<br> 问题在于，在保存文件之后，如何向服务器再发一次请求获取新的字幕文件，并且在播放过程中无缝地替换。<br> 这个问题纠结了好久，其实它是另一个问题：要不要用服务器。<br> 这个工具的初衷是尽量简单地让不能很好运行TM的同学，在翻译字幕的时候得到与使用TM类似的体验，或者说就是有选择地实现TM的功能，<strong>在一个可以轻松跨平台而不会产生兼容性问题的基础上</strong>。<br> 使用服务器的一大好处是，大家无需操心它的版本更新问题，部署在服务器上可以保证你时刻使用到的是最新的版本。<br> 同时它也有一些问题，比如——如果服务器挂了会坑到人，而我又没办法及时地获取服务器状态并修复。<br> 不使用服务器的好处是：足够简单。但是要知道这样所有东西都是静态的了，那么一旦出现了个小bug，出现了任何问题，使得该工具无法正常使用或者得不到正确的结果，当然这是可以修复的，然而这个时候它就不够简单了。<br> 暂行的办法是，不再追求实时地更新视频的内置字幕了。我准备直接使用一个透明的div添加在视频块的固定位置上，这样显示字幕的同步性会好很多。而且我想使用angular，它的特性也很好地支持了这一种做法。<br> 不使用<code>&lt;video&gt;</code>标签的内置字幕元素，那么就不需要使用WebVTT格式的文件了。很多问题都可以解决了。</p>
+</li>
+<li><p>如何保存字幕为SRT文件<br> 我准备使用HTML5 filesystem API写入一个文件。但是这个想法最终并不一定会实现，可以肯定的是，在我们点击保存字幕的按钮时，一定会生成一个文字域包含所有已经修改过的字幕。至少你可以通过复制粘贴来手动新建一个srt文件。<br> HTML5 Filesystem API是一个有些争议的东西，目前只有Chrome有支持它，而又有消息说它早已被Google放弃。O’Reilly出版的一本API说明，日期还在11年。所以我不确定是否有必要添加对这一功能的支持。</p>
+</li>
+</ol>
+<h2 id="字幕处理"><a href="#字幕处理" class="headerlink" title="字幕处理"></a>字幕处理</h2><h3 id="字幕的分行显示"><a href="#字幕的分行显示" class="headerlink" title="字幕的分行显示"></a>字幕的分行显示</h3><p>字幕格式要求</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">编号: 8</div><div class="line">时间轴: 00:00:16,320 --&gt; 00:00:18,010</div><div class="line">中文字幕: 我们遇到了地...</div><div class="line">英文字幕: I&apos;ll tell you what, we&apos;re having an earth...</div></pre></td></tr></table></figure>
+<p>特殊地：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">编号: 6</div><div class="line">时间轴: 00:00:30,000 --&gt; 00:00:35,000</div><div class="line">单行字幕: &#123;\an3&#125;&#123;\pos(360,230)&#125;后期：bongpong</div></pre></td></tr></table></figure></p>
+<p>主要的问题是，两行字幕中间的换行符不应该被忽略，如果不加修改，JS显然会这么做。</p>
+<h3 id="字幕的高亮显示"><a href="#字幕的高亮显示" class="headerlink" title="字幕的高亮显示"></a>字幕的高亮显示</h3><ol>
+<li>srt时间轴的格式：<code>HH:MM:SS,xxx</code><br> vtt时间轴的格式：<code>HH:MM:SS.xxx</code><br> 要求各时间基数使用不同颜色显示。包括毫秒。</li>
+<li>代码：<code>{\an8}</code>代码使用单独颜色显示，包括但不限于这类，一切形如<code>{\\.+}</code>这类的代码段都要高亮显示</li>
+<li>引用：字幕中的单双引号，使用单独颜色显示</li>
+<li>对话：字幕中表示对话的<code>-</code>使用单独颜色表示</li>
+<li>命名实体高亮： 这是一个比较麻烦的功能。命名实体识别本身就是一个（学术）问题。另一个问题是我可能没有办法再将它限制在没有服务器的纯内存应用中了。不管怎么说，我们提交的几百行字幕总是需要时间经过后台的一些处理，才能识别出其中的每一个命名实体。这里我暂且使用最简单的规则：<br> a. 中文行中的非代码英文单词，和英文行中句首的首字母大写词。<br> b. 字典：<code>Dr.</code>, <code>Mr.</code>, <code>Mrs.</code>, <code>Sgt.</code>, <code>Pvt.</code>, <code>Cpl.</code>, <code>Maj.</code>, <code>Ltc.</code>, <code>Col.</code>, <code>General.</code> 等。<br>权当是检查首字母大写了。本来这个功能就是针对这一格式要求的。</li>
+</ol>
+<h3 id="格式检测"><a href="#格式检测" class="headerlink" title="格式检测"></a>格式检测</h3><ol>
+<li>中文行存在任何除书名号外的其他全角符号，均应警告；</li>
+<li>英文行任何全角字符都应警告；</li>
+<li>字幕序号为递增整数；</li>
+<li>首字母大写，且上一句结尾出现下列情况之一的，需要警告：<br> a. 没有标点符号<br> b. 有逗号或者连字符</li>
+<li>删除行首尾空格；</li>
+<li>小写i替换为I。</li>
+</ol>
+<h3 id="拆轴合轴"><a href="#拆轴合轴" class="headerlink" title="拆轴合轴"></a>拆轴合轴</h3><p>对单行字幕进行拆轴时，用户分别指定英文行和中文行打拆轴点，然后按照英文行的拆轴点拆分时间段。将拆分出的两个时间轴作为两行单独字幕插入原位置。</p>
+<p>合轴即简单地将中英文字幕分别合成为一轴。</p>
+<h2 id="播放器"><a href="#播放器" class="headerlink" title="播放器"></a>播放器</h2><p>使用开源的HTML5播放器Video.js。<br>Angular可以很好的支持异步请求，只需要一个<code>$http</code>语句。那么这就为实时更新字幕创造了条件。但是需要考虑两个问题：  </p>
+<ol>
+<li>虽然这个App没有实际上的后端，但是用户的srt文件是不是需要上传到服务器缓存呢？这会不会给服务器带来过大压力？</li>
+<li>如何进行实时更新字幕？可以有两个思路：<br> a. 在每次用户点击播放器的播放按钮的时候，自动保存当前editor的内容作为字幕文件，然后发起http请求获取最新保存的字幕放到<code>&lt;track&gt;</code>元素中。<br> b. 新增一个保存按钮，当点击该按钮时才保存。但是每当用户点击播放器的播放按钮时都要重新请求<code>&lt;track&gt;</code>元素的路径。</li>
+</ol>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Dubtitler/">Dubtitler</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/DubtitlerDev/">DubtitlerDev</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://ming-holy.space/2016/05/19/Dubtitler Project/" data-title="Dubtitler 初步设想 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/10/14/搭建VPN服务器/" title="在VPS上搭建Android/iOS双平台可用的梯子的解决方案">
+  <strong>上一篇：</strong><br/>
+  <span>
+  在VPS上搭建Android/iOS双平台可用的梯子的解决方案</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/"  title="大数据系统实验二Part1：MapReduce实践">
+ <strong>下一篇：</strong><br/> 
+ <span>大数据系统实验二Part1：MapReduce实践
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/05/19/Dubtitler Project/" data-title="Dubtitler 初步设想" data-url="http://ming-holy.space/2016/05/19/Dubtitler Project/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#主要问题："><span class="toc-number">1.</span> <span class="toc-text">主要问题：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字幕处理"><span class="toc-number">2.</span> <span class="toc-text">字幕处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字幕的分行显示"><span class="toc-number">2.1.</span> <span class="toc-text">字幕的分行显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字幕的高亮显示"><span class="toc-number">2.2.</span> <span class="toc-text">字幕的高亮显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式检测"><span class="toc-number">2.3.</span> <span class="toc-text">格式检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拆轴合轴"><span class="toc-number">2.4.</span> <span class="toc-text">拆轴合轴</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#播放器"><span class="toc-number">3.</span> <span class="toc-text">播放器</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C++">C++<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/Git/" title="Git">Git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/人民南路四段九号/" title="人民南路四段九号">人民南路四段九号<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/" title="数学">数学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
+  </div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编辑器/" title="编辑器">编辑器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Be a live-wire artist, <br/>
+			Do something amazing.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/mingholy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:liminghao15@mails.ucas.ac.cn" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Mingholy">Mingholy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mingholy"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<script src="https://s4.cnzz.com/z_stat.php?id=1261294969&web_id=1261294969" language="JavaScript"></script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

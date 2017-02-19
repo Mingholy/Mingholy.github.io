@@ -1,0 +1,661 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>大数据系统实验二Part2：Graphlite分布式图运算 | A Cup of Coffee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Mingholy">
+    
+
+    
+    <meta name="description" content="GraphLite与图运算系统GraphLite是陈世敏老师和学长写的一个开源的分布式图运算系统.
+该系统是一个同步图运算系统,我们需要实现的是class Vertex的一个子类.这其中包括:  
+
+进行图计算的Compute()函数;
+系统提供的函数,可以在Compute()中调用: 如:getValue(),mutableValue(),getOutEdgeIterator(),sendMes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据系统实验二Part2：Graphlite分布式图运算">
+<meta property="og:url" content="http://ming-holy.space/2016/05/08/大数据系统实验二Part2：Graphlite分布式图运算/index.html">
+<meta property="og:site_name" content="A Cup of Coffee">
+<meta property="og:description" content="GraphLite与图运算系统GraphLite是陈世敏老师和学长写的一个开源的分布式图运算系统.
+该系统是一个同步图运算系统,我们需要实现的是class Vertex的一个子类.这其中包括:  
+
+进行图计算的Compute()函数;
+系统提供的函数,可以在Compute()中调用: 如:getValue(),mutableValue(),getOutEdgeIterator(),sendMes">
+<meta property="og:updated_time" content="2017-02-12T12:26:28.714Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大数据系统实验二Part2：Graphlite分布式图运算">
+<meta name="twitter:description" content="GraphLite与图运算系统GraphLite是陈世敏老师和学长写的一个开源的分布式图运算系统.
+该系统是一个同步图运算系统,我们需要实现的是class Vertex的一个子类.这其中包括:  
+
+进行图计算的Compute()函数;
+系统提供的函数,可以在Compute()中调用: 如:getValue(),mutableValue(),getOutEdgeIterator(),sendMes">
+
+    
+    <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="A Cup of Coffee" title="A Cup of Coffee"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A Cup of Coffee">A Cup of Coffee</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:ming-holy.space">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/08/大数据系统实验二Part2：Graphlite分布式图运算/" title="大数据系统实验二Part2：Graphlite分布式图运算" itemprop="url">大数据系统实验二Part2：Graphlite分布式图运算</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-08T15:00:00.000Z" itemprop="datePublished"> 发表于 2016-05-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#GraphLite与图运算系统"><span class="toc-number">1.</span> <span class="toc-text">GraphLite与图运算系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实验问题-求一个图的K-Core"><span class="toc-number">2.</span> <span class="toc-text">实验问题:求一个图的K-Core</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="GraphLite与图运算系统"><a href="#GraphLite与图运算系统" class="headerlink" title="GraphLite与图运算系统"></a>GraphLite与图运算系统</h3><p>GraphLite是陈世敏老师和学长写的一个开源的分布式图运算系统.</p>
+<p>该系统是一个同步图运算系统,我们需要实现的是<code>class Vertex</code>的一个子类.这其中包括:  </p>
+<ol>
+<li>进行图计算的<code>Compute()</code>函数;</li>
+<li>系统提供的函数,可以在<code>Compute()</code>中调用:<br> 如:<code>getValue()</code>,<code>mutableValue()</code>,<code>getOutEdgeIterator()</code>,<code>sendMessageTo()</code>,<code>sendMessageToAllNeighbors()</code>,<code>voteToHalt()</code>等.</li>
+</ol>
+<p>同步图运算系统的架构是master-worker模式,每一个worker对应一个graph partition.也就是图的一部分.</p>
+<a id="more"></a>
+<p>计算的过程分为多个”<strong>超步(superstep)</strong>“,在一个超步内,对每一个顶点<strong>并行地</strong>调用<code>Compute()</code>函数.在超步中,顶点计算执行算法的过程通常是:</p>
+<ol>
+<li>接收上一个超步发出的in-neighbor的消息,即接收由上一个超步中各顶点发送给邻居顶点的信息;</li>
+<li>计算当前顶点的value;</li>
+<li>形成信息,并发送给当前的邻居顶点.</li>
+</ol>
+<p>这个过程贯彻了两个特性:</p>
+<p>1. BSP模型(Bulk Synchronous Processing):</p>
+<ul>
+<li>全部计算分成多个超步</li>
+<li>超步之间进行全局同步</li>
+<li>超步内部全部并行<ul>
+<li>对多个运算单元进行运算</li>
+<li>超步内部的算法都是无依赖地分布式运行</li>
+</ul>
+</li>
+<li>相邻超步之间存在依赖:上一个超步的输出结果作为下一个超步的输入.</li>
+</ul>
+<p>2. 基于顶点的编程模型:  </p>
+<ul>
+<li>每个顶点有自己的Value</li>
+<li>以顶点为中心的运算</li>
+<li>如上文所说,程序员实现一个<code>Compute()</code>函数,在每个超步内对每个顶点调用一次该函数</li>
+<li><code>Compute()</code>函数负责接收,计算并发送消息.</li>
+</ul>
+<p>所有的顶点具有两种状态,Active和Inactive.它们之间的转换靠两个机制:</p>
+<ol>
+<li>vote to halt: active -&gt; inactive</li>
+<li>message received: inactive -&gt; active</li>
+</ol>
+<p>如果一个顶点接收到信息,那么它将从Inactive状态重新回到Active状态.当所有的顶点都处于Inactive的时候,图运算将自动停止.</p>
+<h3 id="实验问题-求一个图的K-Core"><a href="#实验问题-求一个图的K-Core" class="headerlink" title="实验问题:求一个图的K-Core"></a>实验问题:求一个图的K-Core</h3><p>这里解决的问题是求一个图的K-Core.</p>
+<p>K-core是一个图的子图,使得该子图的所有顶点的度都不小于K.</p>
+<p>输入前两行是顶点数和边数,之后每一行为一个由空格隔开的三元整数组,分别代表一条边的起点和终点,以及该边的权重(本题用不上).<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">num_vertex_in_this_partition</div><div class="line">num_edge_in_this_partition</div><div class="line">src_vertex_id dest_vertex_id</div><div class="line">src_vertex_id dest_vertex_id</div><div class="line">...</div></pre></td></tr></table></figure><br>输出只需要列出K-Core子图中存在的顶点id即可.</p>
+<p>对于每个顶点,需要维护两个值:<code>is_deleted</code>和<code>current_degree</code>,它们分别记录着当前顶点的活跃状态,以及当前顶点的度数.当度数小于K时,需要将该顶点逻辑上从图中删除,即将<code>is_deleted</code>置真.删除顶点后发送消息给它的相邻顶点,并在相邻顶点的<code>Compute()</code>函数中对自己的值进行相应的更新.</p>
+<p>需要指出的是,这里担任各worker间全局同步工作的是<code>Aggregator</code>,算法输出正确的结果主要在于如何使用这个<code>Aggregator</code>.</p>
+<p>我的想法是:</p>
+<blockquote>
+<ul>
+<li>对于一个顶点,<code>Compute()</code>开始的时候需要初始化顶点的度数,这一操作有GraphLite本身提供的方法来实现.</li>
+<li>之后马上要检查该顶点是否已被删除,如果<code>is_deleted</code>显示它已被删除,那么它的<code>Compute()</code>将不执行任何操作,尤其是不得发送任何信息.它将保持对其他顶点的静默状态.</li>
+<li>接着收取上一个超步(如果存在的话)接收到的所有信息,并对信息加和得到一个负数-n(后面会解释),该负数的绝对值n表明,在上一个超步结束之后,有n个顶点不符要求而被删除.</li>
+<li>获取该顶点当前度数d,并计算d-n得到新的度数.</li>
+<li>比较新的度数与K.如果一个顶点经过计算后发现自己要被删除了,首先它要置<code>is_deleted</code>为<code>true</code>标识它已被删除的状态.</li>
+<li>接着它要给它的所有邻居顶点发送一条信息,该信息是一个整数”-1”,表示要对度-1.</li>
+<li>最后对本地的<code>Aggregator</code>值加上message的值,如果是0就+0,如果是-1就+(-1).</li>
+<li>全局<code>Aggregator</code>的计算就是将本地的<code>Aggregator</code>值求和.如果得到的值不为0,则表明这个超步中还有顶点被删除,图没有达到稳定状态,继续进行下一个超步;如果值为0,那么说明这个超步中没有顶点被删除,则以后也不会有顶点被删除,图已经达到稳定状态,可以结束.</li>
+<li>如果全局<code>Aggregator</code>为0,则进行的下一个超步所需要做的仅仅是对每个顶点调用<code>voteToHalt()</code>,使其变为不活跃状态.</li>
+<li>而还在图中的顶点的<code>is_deleted</code>并没有改变,于是这时输出<code>is_deleted</code>为假的顶点即可.</li>
+</ul>
+</blockquote>
+<p>其次就是对各输入输出函数的类型进行一致化,由于顶点数目较大,需要使用<code>int64_t</code>.</p>
+<p>代码附下:<br><figure class="highlight"><figcaption><span>source.cc</span><a href="/downloads/code/source.cc">view raw</a></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div></pre></td><td class="code"><pre><div class="line">/* Group1, 201528015329005, Minghao Li */</div><div class="line"></div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">#include &lt;string.h&gt;</div><div class="line">#include &lt;math.h&gt;</div><div class="line"></div><div class="line">#include "GraphLite.h"</div><div class="line"></div><div class="line">#define VERTEX_CLASS_NAME(name) KCore##name</div><div class="line"></div><div class="line">static int64_t KValue = 0;</div><div class="line"></div><div class="line">class  Vertex_state {</div><div class="line">public:</div><div class="line">    bool is_deleted = false;</div><div class="line">    int64_t current_degree = 0;</div><div class="line">};</div><div class="line"></div><div class="line">class VERTEX_CLASS_NAME(InputFormatter): public InputFormatter {</div><div class="line">public:</div><div class="line">    int64_t getVertexNum() {</div><div class="line">        unsigned long long n;</div><div class="line">        sscanf(m_ptotal_vertex_line, "%lld", &amp;n);</div><div class="line">        m_total_vertex= n;</div><div class="line">        return m_total_vertex;</div><div class="line">    }</div><div class="line">    int64_t getEdgeNum() {</div><div class="line">        unsigned long long n;</div><div class="line">        sscanf(m_ptotal_edge_line, "%lld", &amp;n);</div><div class="line">        m_total_edge= n;</div><div class="line">        return m_total_edge;</div><div class="line">    }</div><div class="line">    int getVertexValueSize() {</div><div class="line">        m_n_value_size = sizeof(Vertex_state);</div><div class="line">        return m_n_value_size;</div><div class="line">    }</div><div class="line">    int getEdgeValueSize() {</div><div class="line">        m_e_value_size = sizeof(int);</div><div class="line">        return m_e_value_size;</div><div class="line">    }</div><div class="line">    int getMessageValueSize() {</div><div class="line">        m_m_value_size = sizeof(int64_t);</div><div class="line">        return m_m_value_size;</div><div class="line">    }</div><div class="line">    void loadGraph() {</div><div class="line">        unsigned long long last_vertex;</div><div class="line">        unsigned long long from;</div><div class="line">        unsigned long long to;</div><div class="line">        double weight = 0;</div><div class="line">        </div><div class="line">        Vertex_state value;</div><div class="line">        int outdegree = 0;</div><div class="line">        </div><div class="line">        const char *line= getEdgeLine();</div><div class="line"></div><div class="line">        // Note: modify this if an edge weight is to be read</div><div class="line">        //       modify the 'weight' variable</div><div class="line"></div><div class="line">        sscanf(line, "%lld %lld", &amp;from, &amp;to);</div><div class="line">        addEdge(from, to, &amp;weight);</div><div class="line"></div><div class="line">        last_vertex = from;</div><div class="line">        ++outdegree;</div><div class="line">        for (int64_t i = 1; i &lt; m_total_edge; ++i) {</div><div class="line">            line= getEdgeLine();</div><div class="line"></div><div class="line">            // Note: modify this if an edge weight is to be read</div><div class="line">            //       modify the 'weight' variable</div><div class="line"></div><div class="line">            sscanf(line, "%lld %lld", &amp;from, &amp;to);</div><div class="line">            if (last_vertex != from) {</div><div class="line">                addVertex(last_vertex, &amp;value, outdegree);</div><div class="line">                last_vertex = from;</div><div class="line">                outdegree = 1;</div><div class="line">            } else {</div><div class="line">                ++outdegree;</div><div class="line">            }</div><div class="line">            addEdge(from, to, &amp;weight);</div><div class="line">        }</div><div class="line">        addVertex(last_vertex, &amp;value, outdegree);</div><div class="line">    }</div><div class="line">};</div><div class="line"></div><div class="line">class VERTEX_CLASS_NAME(OutputFormatter): public OutputFormatter {</div><div class="line">public:</div><div class="line">    void writeResult() {</div><div class="line">        Vertex_state value;   </div><div class="line">        int64_t vid;</div><div class="line">        char s[1024];</div><div class="line"></div><div class="line">        // Output only requires vertex id</div><div class="line">        for (ResultIterator r_iter; ! r_iter.done(); r_iter.next() ) {</div><div class="line">            r_iter.getIdValue(vid, &amp;value);</div><div class="line">            if(!value.is_deleted){</div><div class="line">                int n = sprintf(s, "%lld\n", (unsigned long long)vid);</div><div class="line">                writeNextResLine(s, n);</div><div class="line">            }</div><div class="line">        }</div><div class="line">    }</div><div class="line">};</div><div class="line"></div><div class="line">/**</div><div class="line"> * This aggregator records the number of vertices which send a negative value message</div><div class="line"> * Value in this class may all be negative, or zero, never positive.</div><div class="line"> */</div><div class="line">class VERTEX_CLASS_NAME(Aggregator): public Aggregator&lt;int64_t&gt; {</div><div class="line">public:</div><div class="line">     void init(){</div><div class="line">        m_global = 0;</div><div class="line">        m_local = 0;</div><div class="line">     }</div><div class="line">     void* getGlobal() {</div><div class="line">        return &amp;m_global;</div><div class="line">     }</div><div class="line">     void setGlobal(const void* p) {</div><div class="line">        m_global = *(int64_t *) p;</div><div class="line">     }</div><div class="line">     void* getLocal() {</div><div class="line">        return &amp;m_local;</div><div class="line">     }</div><div class="line">     void merge(const void* p) {</div><div class="line">        m_global += * (int64_t *)p;</div><div class="line">     }</div><div class="line">     void accumulate(const void* p) {</div><div class="line">        m_local += *(int64_t *)p;</div><div class="line">     }</div><div class="line">};</div><div class="line"></div><div class="line">/**</div><div class="line"> * Main class</div><div class="line"> * Initially set vertex value</div><div class="line"> * Get vertex value and check its state, if it's deleted then vote to halt</div><div class="line"> * Otherwise deal with the messages received then update current degree</div><div class="line"> * If new degree is less than K, do 3 things below:</div><div class="line"> * 1. switch value.is_deleted to true, this vertex will voteToHalt() in next superstep</div><div class="line"> * 2.set message value to -1 meaning "delete one vertex" or "outdegree minus one"</div><div class="line"> * 3.send message to all its neighbours</div><div class="line"> * At last update local m_value as the value of message sent</div><div class="line"> * Important!</div><div class="line"> * If global aggregated value is 0, that indicates the graph is stable</div><div class="line"> * no vertex will be deleted since.</div><div class="line"> * Ready to voteToHalt()</div><div class="line"> */</div><div class="line">class VERTEX_CLASS_NAME(): public Vertex&lt;Vertex_state, int, int64_t&gt; {</div><div class="line">public:</div><div class="line">    void compute(MessageIterator* pmsgs) {</div><div class="line">        Vertex_state value;</div><div class="line"></div><div class="line">        //Set initial outdegree</div><div class="line">        if (getSuperstep() == 0) {</div><div class="line">            value.current_degree = getOutEdgeIterator().size();</div><div class="line">            value.is_deleted = false;</div><div class="line">            * mutableValue() = value;</div><div class="line">        }</div><div class="line"></div><div class="line">        value = getValue();</div><div class="line"></div><div class="line">        //Check vertex state</div><div class="line">        if(value.is_deleted) {</div><div class="line">            voteToHalt();</div><div class="line">            return;</div><div class="line">        }</div><div class="line"></div><div class="line">        //Caculate number of deleted neighbours</div><div class="line">        int64_t sum = 0;</div><div class="line">        for (;!pmsgs-&gt;done(); pmsgs-&gt;next()) {</div><div class="line">            sum += pmsgs-&gt;getValue();</div><div class="line">        }</div><div class="line"></div><div class="line">        //Update current outdegree</div><div class="line">        value.current_degree = value.current_degree + sum;</div><div class="line"></div><div class="line">        int64_t msg = 0;</div><div class="line">        int64_t t = * (int64_t *)getAggrGlobal(0);</div><div class="line"></div><div class="line">        //Send message to neighbours</div><div class="line">        if (value.current_degree &lt; KValue) {</div><div class="line">            value.is_deleted = true;</div><div class="line">            msg = -1;</div><div class="line">            sendMessageToAllNeighbors(msg);</div><div class="line">        } else if ( t == 0){</div><div class="line">            voteToHalt();</div><div class="line">        }</div><div class="line"></div><div class="line">        * mutableValue() = value;</div><div class="line">        accumulateAggr(0, &amp;msg);</div><div class="line"></div><div class="line">    }</div><div class="line">};</div><div class="line"></div><div class="line">/**</div><div class="line"> * Aggregator rules:</div><div class="line"> * A negative global aggregated value means there exists some vertex</div><div class="line"> * which is deleted in the superstep just finished</div><div class="line"> * And the graph is not stable</div><div class="line">*/</div><div class="line">class VERTEX_CLASS_NAME(Graph): public Graph {</div><div class="line">public:</div><div class="line">    VERTEX_CLASS_NAME(Aggregator)* aggregator;</div><div class="line"></div><div class="line">public:</div><div class="line">    // argv[0]: PageRankVertex.so</div><div class="line">    // argv[1]: &lt;input path&gt;</div><div class="line">    // argv[2]: &lt;output path&gt;</div><div class="line">    // argv[3]: &lt;K&gt;</div><div class="line">    void init(int argc, char* argv[]) {</div><div class="line"></div><div class="line">        setNumHosts(5);</div><div class="line">        setHost(0, "localhost", 1411);</div><div class="line">        setHost(1, "localhost", 1421);</div><div class="line">        setHost(2, "localhost", 1431);</div><div class="line">        setHost(3, "localhost", 1441);</div><div class="line">        setHost(4, "localhost", 1451);</div><div class="line"></div><div class="line">        if (argc &lt; 4) {</div><div class="line">           printf ("Usage: %s &lt;input path&gt; &lt;output path&gt; &lt;K&gt;\n", argv[0]);</div><div class="line">           exit(1);</div><div class="line">        }</div><div class="line"></div><div class="line">        m_pin_path = argv[1];</div><div class="line">        m_pout_path = argv[2];</div><div class="line">        KValue = atol(argv[3]);</div><div class="line"></div><div class="line">        aggregator = new VERTEX_CLASS_NAME(Aggregator)[1];</div><div class="line">        regNumAggr(1);</div><div class="line">        regAggr(0, &amp;aggregator[0]);</div><div class="line">    }</div><div class="line"></div><div class="line">    void term() {</div><div class="line">        delete[] aggregator;</div><div class="line">    }</div><div class="line">};</div><div class="line"></div><div class="line">/* STOP: do not change the code below. */</div><div class="line">extern "C" Graph* create_graph() {</div><div class="line">    Graph* pgraph = new VERTEX_CLASS_NAME(Graph);</div><div class="line"></div><div class="line">    pgraph-&gt;m_pin_formatter = new VERTEX_CLASS_NAME(InputFormatter);</div><div class="line">    pgraph-&gt;m_pout_formatter = new VERTEX_CLASS_NAME(OutputFormatter);</div><div class="line">    pgraph-&gt;m_pver_base = new VERTEX_CLASS_NAME();</div><div class="line"></div><div class="line">    return pgraph;</div><div class="line">}</div><div class="line"></div><div class="line">extern "C" void destroy_graph(Graph* pobject) {</div><div class="line">    delete ( VERTEX_CLASS_NAME()* )(pobject-&gt;m_pver_base);</div><div class="line">    delete ( VERTEX_CLASS_NAME(OutputFormatter)* )(pobject-&gt;m_pout_formatter);</div><div class="line">    delete ( VERTEX_CLASS_NAME(InputFormatter)* )(pobject-&gt;m_pin_formatter);</div><div class="line">    delete ( VERTEX_CLASS_NAME(Graph)* )pobject;</div><div class="line">}</div></pre></td></tr></table></figure></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/C/">C++</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/C/">C++</a><a href="/tags/Graph-Compute/">Graph Compute</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://ming-holy.space/2016/05/08/大数据系统实验二Part2：Graphlite分布式图运算/" data-title="大数据系统实验二Part2：Graphlite分布式图运算 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/" title="大数据系统实验二Part1：MapReduce实践">
+  <strong>上一篇：</strong><br/>
+  <span>
+  大数据系统实验二Part1：MapReduce实践</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/04/13/Emmet/"  title="Emmet快捷键总结">
+ <strong>下一篇：</strong><br/> 
+ <span>Emmet快捷键总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/05/08/大数据系统实验二Part2：Graphlite分布式图运算/" data-title="大数据系统实验二Part2：Graphlite分布式图运算" data-url="http://ming-holy.space/2016/05/08/大数据系统实验二Part2：Graphlite分布式图运算/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#GraphLite与图运算系统"><span class="toc-number">1.</span> <span class="toc-text">GraphLite与图运算系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实验问题-求一个图的K-Core"><span class="toc-number">2.</span> <span class="toc-text">实验问题:求一个图的K-Core</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C++">C++<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/Git/" title="Git">Git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/人民南路四段九号/" title="人民南路四段九号">人民南路四段九号<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/" title="数学">数学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
+  </div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编辑器/" title="编辑器">编辑器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Be a live-wire artist, <br/>
+			Do something amazing.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/mingholy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:liminghao15@mails.ucas.ac.cn" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Mingholy">Mingholy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mingholy"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<script src="https://s4.cnzz.com/z_stat.php?id=1261294969&web_id=1261294969" language="JavaScript"></script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

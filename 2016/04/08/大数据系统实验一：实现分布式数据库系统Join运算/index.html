@@ -1,0 +1,612 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>大数据系统实验一：实现分布式数据库系统Join运算 | A Cup of Coffee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Mingholy">
+    
+
+    
+    <meta name="description" content="##大数据系统与大规模数据分析 第一次作业
+
+了解HDFS和Hbase的基本操作，能够进行读写。并自己实现对数据库表的JOIN操作
+
+作业要求输入参数：1java Hw1Grp1 R=/hw1/join\_1.tbl S=/hw1/join\_2.tbl join:R0=S0 res:R1,R2,S1,S2参数所表示的意思就是，输入两个表R和S的路径，join key，以及需要显示的结果列R1，R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大数据系统实验一：实现分布式数据库系统Join运算">
+<meta property="og:url" content="http://ming-holy.space/2016/04/08/大数据系统实验一：实现分布式数据库系统Join运算/index.html">
+<meta property="og:site_name" content="A Cup of Coffee">
+<meta property="og:description" content="##大数据系统与大规模数据分析 第一次作业
+
+了解HDFS和Hbase的基本操作，能够进行读写。并自己实现对数据库表的JOIN操作
+
+作业要求输入参数：1java Hw1Grp1 R=/hw1/join\_1.tbl S=/hw1/join\_2.tbl join:R0=S0 res:R1,R2,S1,S2参数所表示的意思就是，输入两个表R和S的路径，join key，以及需要显示的结果列R1，R">
+<meta property="og:updated_time" content="2017-02-12T12:59:05.304Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大数据系统实验一：实现分布式数据库系统Join运算">
+<meta name="twitter:description" content="##大数据系统与大规模数据分析 第一次作业
+
+了解HDFS和Hbase的基本操作，能够进行读写。并自己实现对数据库表的JOIN操作
+
+作业要求输入参数：1java Hw1Grp1 R=/hw1/join\_1.tbl S=/hw1/join\_2.tbl join:R0=S0 res:R1,R2,S1,S2参数所表示的意思就是，输入两个表R和S的路径，join key，以及需要显示的结果列R1，R">
+
+    
+    <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="A Cup of Coffee" title="A Cup of Coffee"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A Cup of Coffee">A Cup of Coffee</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:ming-holy.space">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/04/08/大数据系统实验一：实现分布式数据库系统Join运算/" title="大数据系统实验一：实现分布式数据库系统Join运算" itemprop="url">大数据系统实验一：实现分布式数据库系统Join运算</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-04-08T15:00:00.000Z" itemprop="datePublished"> 发表于 2016-04-08</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#参数处理"><span class="toc-number">1.</span> <span class="toc-text">参数处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读取与输出"><span class="toc-number">2.</span> <span class="toc-text">读取与输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#排序"><span class="toc-number">3.</span> <span class="toc-text">排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#归并"><span class="toc-number">4.</span> <span class="toc-text">归并</span></a></li></ol>
+		
+		</div>
+		
+		<p>##大数据系统与大规模数据分析 第一次作业</p>
+<blockquote>
+<p>了解HDFS和Hbase的基本操作，能够进行读写。并自己实现对数据库表的JOIN操作</p>
+</blockquote>
+<p>作业要求输入参数：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java Hw1Grp1 R=/hw1/join\_1.tbl S=/hw1/join\_2.tbl join:R0=S0 res:R1,R2,S1,S2</div></pre></td></tr></table></figure><br>参数所表示的意思就是，输入两个表R和S的路径，join key，以及需要显示的结果列R1，R2，S1，S2。</p>
+<p>因为我也没有写过java，很多东西都是霰弹枪式编程，以学习为主。基本思路都体现在步骤里了。</p>
+<a id="more"></a>
+<h3 id="参数处理"><a href="#参数处理" class="headerlink" title="参数处理"></a>参数处理</h3><p>由于参数比较长，觉得有必要存成一个对象，就声明了一个类，把两个表的路径存成字符串，两个join key存成整数，其实就是它在表中是第几列；把结果列暂时存成一个数组。<br><code>formatArgs</code>方法就是用来解析参数的。<br>首先按”=”切分表的路径，只存路径部分，作为传给读取方法的参数。<br>然后对参数数组中的第二个元素，即字符串”join:R0=S0”，按”[=:]”切分，再分别匹配一个整数，就可以得到两个join key。<br>最后输出列的数组处理略多一点，因为要识别表和列。这里仅仅是存储字符串，识别表名和列放在输出方法中。</p>
+<h3 id="读取与输出"><a href="#读取与输出" class="headerlink" title="读取与输出"></a>读取与输出</h3><p>从HDFS中按行读出表中内容，存成字符串，再根据TPCH表的标准按照”|”切分字符串，这样每一个字符串就变成一个字符型数组。每个数组作为一个对象，将一张表存成一个ArrayList。<br>输出比较繁琐，因为JOIN操作可能出现不同的记录Column Family和Column Name都相同的情况，这样在put到Hbase时就会出现后put的覆盖之前的记录的情况。于是需要对重复记录重命名成R.1这样的形式。<br>思路是每输出一条记录，就将它的join key与前一条记录比较，如果相同就重命名该记录相应的列名。<br>输出的过程是对于每一条记录，循环输出参数中给出的所有列，这时需要取参数中的结果列数组，正则识别每一个元素的列名和列号。<br>这里需要注意的是，由于join key都是字符串，所以需要用<code>compareTo()</code>方法来确定join key的异同。不能用<code>==</code>。</p>
+<h3 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h3><p>排序这里自定义了一个比较器。这是为了在一个比较方法中，既可以按照整数大小排序，也可以按照字符串的规则处理。</p>
+<h3 id="归并"><a href="#归并" class="headerlink" title="归并"></a>归并</h3><p>虽然自定义了比较器，但是我不知道如何把这个比较器用到其他方法中。所以这里又写了一个公用的比较方法…</p>
+<p>虽然这是一个比较简单的作业，但是其中很多细节还是需要做好才能满分通过。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div><div class="line">275</div><div class="line">276</div><div class="line">277</div><div class="line">278</div><div class="line">279</div><div class="line">280</div><div class="line">281</div><div class="line">282</div><div class="line">283</div><div class="line">284</div><div class="line">285</div><div class="line">286</div><div class="line">287</div><div class="line">288</div><div class="line">289</div><div class="line">290</div><div class="line">291</div><div class="line">292</div><div class="line">293</div><div class="line">294</div><div class="line">295</div><div class="line">296</div><div class="line">297</div><div class="line">298</div><div class="line">299</div><div class="line">300</div><div class="line">301</div><div class="line">302</div><div class="line">303</div><div class="line">304</div><div class="line">305</div><div class="line">306</div><div class="line">307</div><div class="line">308</div><div class="line">309</div><div class="line">310</div><div class="line">311</div><div class="line">312</div><div class="line">313</div><div class="line">314</div><div class="line">315</div><div class="line">316</div><div class="line">317</div><div class="line">318</div><div class="line">319</div><div class="line">320</div><div class="line">321</div><div class="line">322</div><div class="line">323</div><div class="line">324</div><div class="line">325</div><div class="line">326</div><div class="line">327</div><div class="line">328</div><div class="line">329</div><div class="line">330</div><div class="line">331</div><div class="line">332</div><div class="line">333</div><div class="line">334</div><div class="line">335</div><div class="line">336</div><div class="line">337</div><div class="line">338</div><div class="line">339</div><div class="line">340</div><div class="line">341</div><div class="line">342</div><div class="line">343</div><div class="line">344</div><div class="line">345</div><div class="line">346</div><div class="line">347</div><div class="line">348</div><div class="line">349</div><div class="line">350</div><div class="line">351</div><div class="line">352</div><div class="line">353</div><div class="line">354</div><div class="line">355</div><div class="line">356</div><div class="line">357</div><div class="line">358</div><div class="line">359</div><div class="line">360</div><div class="line">361</div><div class="line">362</div><div class="line">363</div><div class="line">364</div><div class="line">365</div><div class="line">366</div><div class="line">367</div><div class="line">368</div><div class="line">369</div><div class="line">370</div><div class="line">371</div><div class="line">372</div><div class="line">373</div><div class="line">374</div><div class="line">375</div><div class="line">376</div><div class="line">377</div><div class="line">378</div><div class="line">379</div><div class="line">380</div><div class="line">381</div><div class="line">382</div><div class="line">383</div><div class="line">384</div><div class="line">385</div><div class="line">386</div><div class="line">387</div><div class="line">388</div><div class="line">389</div><div class="line">390</div><div class="line">391</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line">*<span class="doctag">@author</span> Minghao Li 201528015329005</div><div class="line">*/</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.*;</div><div class="line"><span class="keyword">import</span> java.math.BigDecimal;</div><div class="line"><span class="keyword">import</span> java.util.regex.*;</div><div class="line"><span class="keyword">import</span> java.util.Arrays;</div><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.Comparator;</div><div class="line"><span class="keyword">import</span> java.util.Collections;</div><div class="line"><span class="keyword">import</span> java.net.URI;</div><div class="line"><span class="keyword">import</span> java.net.URISyntaxException;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.conf.Configuration;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FSDataInputStream;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FSDataOutputStream;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.fs.FileSystem;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.fs.Path;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.io.IOUtils;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.HBaseConfiguration;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.HColumnDescriptor;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.HTableDescriptor;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.MasterNotRunningException;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.TableName;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.ZooKeeperConnectionException;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.client.HBaseAdmin;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.client.HTable;</div><div class="line"><span class="keyword">import</span> org.apache.hadoop.hbase.client.Put;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.log4j.*;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line">* This is a class of Homework 1.</div><div class="line">*&lt;p&gt;Main function: &lt;br&gt;</div><div class="line">*Read in two tables and try to JOIN them using the arguments indicated.</div><div class="line">*/</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Hw1Grp1</span></span>&#123;</div><div class="line">    <span class="comment">/**</span></div><div class="line">        * Read in a table from HDFS.</div><div class="line">        *<span class="doctag">@param</span> args  table name</div><div class="line">        *<span class="doctag">@return</span> an arraylist object storing a table</div><div class="line">        *<span class="doctag">@exception</span> IOException, URISyntaxException</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList <span class="title">hdfsRead</span><span class="params">(String args)</span> <span class="keyword">throws</span> IOException, URISyntaxException</span>&#123;</div><div class="line"></div><div class="line">        String file= <span class="string">"hdfs://localhost:9000"</span> + args;</div><div class="line"></div><div class="line">        Configuration conf = <span class="keyword">new</span> Configuration();</div><div class="line">        FileSystem fs = FileSystem.get(URI.create(file), conf);</div><div class="line">        Path path = <span class="keyword">new</span> Path(file);</div><div class="line">        FSDataInputStream in_stream = fs.open(path);</div><div class="line">        BufferedReader in = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(in_stream));</div><div class="line"></div><div class="line">        <span class="comment">/** create a variable size  array to save the table record as a string array each */</span></div><div class="line">        String s;</div><div class="line">        String[] str;</div><div class="line">        ArrayList table = <span class="keyword">new</span> ArrayList();</div><div class="line">        Pattern tab = Pattern.compile(<span class="string">"[|]+"</span>); </div><div class="line"></div><div class="line">        <span class="keyword">while</span> ((s=in.readLine())!=<span class="keyword">null</span>) &#123;</div><div class="line">            str = tab.split(s);</div><div class="line">            table.add(str);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        in.close();</div><div class="line">        fs.close();</div><div class="line"></div><div class="line">        <span class="keyword">return</span> table;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">    *Commit result to HBase</div><div class="line">    *<span class="doctag">@param</span> result   JOIN result table to wite into HBase</div><div class="line">    *<span class="doctag">@param</span> resCol   columns that input arguments required to save in result</div><div class="line">    *<span class="doctag">@param</span> joinKeyR   joinKey index in table R, use this integer to caculate the position of result column in S</div><div class="line">    *<span class="doctag">@param</span> sizeR   column counts of table R, use this integer to caculate the position of result column in S</div><div class="line">    *<span class="doctag">@exception</span>   MasterNotRunningException, ZooKeeperConnectionException, IOException</div><div class="line">    */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">hbaseWrite</span><span class="params">(ArrayList result, ArrayList&lt;String&gt; resCol, <span class="keyword">int</span> joinKeyR, <span class="keyword">int</span> sizeR)</span> <span class="keyword">throws</span> MasterNotRunningException, ZooKeeperConnectionException, IOException </span>&#123;</div><div class="line"></div><div class="line">    Logger.getRootLogger().setLevel(Level.WARN);</div><div class="line"></div><div class="line">    <span class="comment">/** create table descriptor */</span></div><div class="line">    String tableName= <span class="string">"Result"</span>;</div><div class="line">    HTableDescriptor htd = <span class="keyword">new</span> HTableDescriptor(TableName.valueOf(tableName));</div><div class="line"></div><div class="line">    <span class="comment">/** create column descriptor */</span></div><div class="line">    HColumnDescriptor cf = <span class="keyword">new</span> HColumnDescriptor(<span class="string">"res"</span>);</div><div class="line">    htd.addFamily(cf);</div><div class="line"></div><div class="line">    <span class="comment">/** configure HBase */</span></div><div class="line">    Configuration configuration = HBaseConfiguration.create();</div><div class="line">    HBaseAdmin hAdmin = <span class="keyword">new</span> HBaseAdmin(configuration);</div><div class="line"></div><div class="line">    <span class="comment">/** recreate the table if table 'Result' already exists */</span></div><div class="line">    <span class="keyword">if</span> (hAdmin.tableExists(tableName)) &#123;</div><div class="line">        hAdmin.disableTable(tableName);</div><div class="line">        hAdmin.deleteTable(tableName);</div><div class="line">        hAdmin.createTable(htd);</div><div class="line">        System.out.println(<span class="string">"Table "</span>+tableName+<span class="string">" recreated!"</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        hAdmin.createTable(htd);</div><div class="line">        System.out.println(<span class="string">"table "</span>+tableName+ <span class="string">" created successfully"</span>);</div><div class="line">    &#125;</div><div class="line">    hAdmin.close();</div><div class="line"></div><div class="line">    HTable table = <span class="keyword">new</span> HTable(configuration,tableName);</div><div class="line"></div><div class="line">    <span class="comment">/** parse the result table and put */</span></div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> column = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> duplicate = <span class="number">0</span>;</div><div class="line">    String addDuplicate = <span class="keyword">new</span> String();</div><div class="line">    String[] temp,lastRecord; </div><div class="line">    Pattern columnNumber = Pattern.compile(<span class="string">"\\d+"</span>);</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(j &lt; result.size()) &#123; </div><div class="line">        temp = (String[])result.get(j);</div><div class="line"></div><div class="line">        <span class="comment">/** maintain the index bound of array while checking duplicate */</span></div><div class="line">        <span class="keyword">if</span> (j == <span class="number">0</span>) &#123;</div><div class="line">            lastRecord = (String[])result.get(result.size()-<span class="number">1</span>);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            lastRecord = (String[])result.get(j-<span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">        Put put = <span class="keyword">new</span> Put(temp[joinKeyR].getBytes());</div><div class="line">        i = <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="comment">/** check duplicate prepare to modify column name */</span></div><div class="line">        <span class="keyword">if</span> (temp[joinKeyR].compareTo(lastRecord[joinKeyR]) == <span class="number">0</span>) &#123;</div><div class="line">            duplicate++;</div><div class="line">            addDuplicate = <span class="string">"."</span> + Integer.toString(duplicate);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            duplicate = <span class="number">0</span>;</div><div class="line">            addDuplicate = <span class="string">""</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="comment">/** for every record in result table, output every column value that the input argument indicated */</span></div><div class="line">        <span class="keyword">while</span>(i &lt; resCol.size()) &#123;</div><div class="line">            Matcher columnMatcher = columnNumber.matcher(resCol.get(i));</div><div class="line">                <span class="keyword">if</span>(resCol.get(i).matches(<span class="string">"^R\\d+$"</span>)) &#123;</div><div class="line">                    <span class="keyword">while</span>(columnMatcher.find()) &#123;</div><div class="line">                        column = Integer.valueOf(columnMatcher.group(<span class="number">0</span>)).intValue();</div><div class="line">                    &#125; </div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    <span class="keyword">while</span>(columnMatcher.find()) &#123;</div><div class="line">                        column = Integer.valueOf(columnMatcher.group(<span class="number">0</span>)).intValue() + sizeR;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            put.add(<span class="string">"res"</span>.getBytes(), (resCol.get(i) + addDuplicate).getBytes(), temp[column].getBytes());</div><div class="line">            i++;</div><div class="line">        &#125;</div><div class="line">        j++;</div><div class="line">        table.put(put);</div><div class="line">    &#125;</div><div class="line">    table.close();</div><div class="line">    System.out.println(<span class="string">"put successfully"</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">    <span class="comment">/** </span></div><div class="line">    *Sort Merge Join </div><div class="line">    *&lt;p&gt;main method of this homework</div><div class="line">    *<span class="doctag">@param</span> args input arguments parsed by method formatArgs</div><div class="line">    *<span class="doctag">@exception</span> IOException, URISyntaxException, MasterNotRunningException, ZooKeeperConnectionException</div><div class="line">    */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, URISyntaxException, MasterNotRunningException, ZooKeeperConnectionException </span>&#123;</div><div class="line"></div><div class="line">        Arguments arguments = <span class="keyword">new</span>  Arguments();</div><div class="line">        ArrayList tableR = <span class="keyword">new</span> ArrayList();</div><div class="line">        ArrayList tableS= <span class="keyword">new</span> ArrayList();</div><div class="line">        ArrayList result = <span class="keyword">new</span> ArrayList();</div><div class="line"></div><div class="line">        arguments = formatArgs(args);</div><div class="line"></div><div class="line">        <span class="comment">/** read tables from HDFS */</span></div><div class="line">        tableR = hdfsRead(arguments.fileRPath);</div><div class="line">        tableS = hdfsRead(arguments.fileSPath);</div><div class="line"></div><div class="line">        <span class="comment">/** sort phase create run */</span></div><div class="line">        tableR  = sort(tableR, arguments.joinKeyR);</div><div class="line">        tableS  = sort(tableS, arguments.joinKeyS);</div><div class="line"></div><div class="line">        <span class="comment">/** merge phase */</span></div><div class="line">        result = merge(tableR, tableS, arguments.joinKeyR, arguments.joinKeyS);</div><div class="line"></div><div class="line">        <span class="comment">/** output results in console */</span></div><div class="line">        String[] record = (String[])tableR.get(<span class="number">1</span>);</div><div class="line">        <span class="comment">//output(result, arguments.resCol, arguments.joinKeyR, record.length);</span></div><div class="line"></div><div class="line">        <span class="comment">/** output resutls to HBase */</span></div><div class="line">        hbaseWrite(result, arguments.resCol, arguments.joinKeyR, record.length);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">    *format the args </div><div class="line">    *<span class="doctag">@param</span> args raw arguments input</div><div class="line">    *<span class="doctag">@return</span> a string array contains every argument</div><div class="line">    */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Arguments <span class="title">formatArgs</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line"></div><div class="line">        Pattern splitArgs = Pattern.compile(<span class="string">"[:,=]+"</span>);</div><div class="line">        Pattern extractNum = Pattern.compile(<span class="string">"\\d+"</span>);</div><div class="line">        String[] str;</div><div class="line">        <span class="keyword">int</span> i, j = <span class="number">1</span>;</div><div class="line">        Arguments  arguments = <span class="keyword">new</span> Arguments();</div><div class="line"></div><div class="line">        <span class="comment">/** dispatch arguments to attributes of  object arguments*/</span></div><div class="line">        <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt; <span class="number">4</span>; i++) &#123;</div><div class="line">            str = splitArgs.split(args[i]);</div><div class="line">            <span class="keyword">switch</span>(i) &#123;</div><div class="line">                <span class="keyword">case</span> <span class="number">0</span>: </div><div class="line">                    arguments.fileRPath = str[str.length-<span class="number">1</span>];</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="number">1</span>:</div><div class="line">                    arguments.fileSPath = str[str.length-<span class="number">1</span>];</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="number">2</span>:</div><div class="line">                    Matcher matcher = extractNum.matcher(args[<span class="number">2</span>]);</div><div class="line">                    <span class="keyword">while</span> (matcher.find())&#123;</div><div class="line">                        <span class="keyword">if</span> ( arguments.joinKeyR == -<span class="number">1</span>)&#123;</div><div class="line">                            arguments.joinKeyR = Integer.valueOf(matcher.group(<span class="number">0</span>)).intValue();</div><div class="line">                        &#125; <span class="keyword">else</span> &#123;</div><div class="line">                            arguments.joinKeyS = Integer.valueOf(matcher.group(<span class="number">0</span>)).intValue();</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">                <span class="keyword">case</span> <span class="number">3</span>:</div><div class="line">                    <span class="keyword">while</span>(j &lt; str.length)&#123;</div><div class="line">                        arguments.resCol.add(str[j]);</div><div class="line">                        j++;</div><div class="line">                    &#125;</div><div class="line">                    <span class="keyword">break</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> arguments;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">    *sort the table using indicated join key</div><div class="line">    *&lt;p&gt;override default comparator implementation</div><div class="line">    *<span class="doctag">@param</span> targetList  arraylist to sort</div><div class="line">    *<span class="doctag">@param</span> sortField indicates sort by which column</div><div class="line">    *<span class="doctag">@return</span> a sorted table </div><div class="line">    */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList <span class="title">sort</span> <span class="params">(ArrayList targetList, <span class="keyword">final</span> <span class="keyword">int</span> sortField)</span></span>&#123;</div><div class="line"></div><div class="line">        Collections.sort(targetList, <span class="keyword">new</span> Comparator()&#123;</div><div class="line">            <span class="meta">@Override</span></div><div class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Object r1, Object r2)</span></span>&#123;</div><div class="line">                <span class="keyword">int</span> value = <span class="number">0</span>;</div><div class="line">                String[] record1 = (String[]) r1;</div><div class="line">                String[] record2 = (String[]) r2;</div><div class="line">                String cr1 = record1[sortField].trim();</div><div class="line">                String cr2 = record2[sortField].trim();</div><div class="line">                String p = <span class="string">"^(-?\\d+)(\\.\\d+)?$"</span>;</div><div class="line"></div><div class="line">                <span class="keyword">try</span> &#123;</div><div class="line">                    <span class="keyword">if</span> (cr1.matches(p) &amp;&amp; cr2.matches(p))&#123;</div><div class="line">                        BigDecimal cn1 = <span class="keyword">new</span> BigDecimal(cr1);</div><div class="line">                        BigDecimal cn2 = <span class="keyword">new</span> BigDecimal(cr2);</div><div class="line">                        value = (<span class="keyword">int</span>)cn1.subtract(cn2).doubleValue();</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        value = cr1.compareTo(cr2);</div><div class="line">                    &#125;</div><div class="line">                    </div><div class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span>  RuntimeException();</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">return</span> value;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">        <span class="keyword">return</span> targetList;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">    *public compare method</div><div class="line">    * &lt;p&gt;compare two rows' join keys see if they're equal&lt;br&gt;</div><div class="line">    *   if a is greater than b returns positive value</div><div class="line">    *<span class="doctag">@param</span> record1 one row to compare</div><div class="line">    *<span class="doctag">@param</span> record2 another row</div><div class="line">    *<span class="doctag">@param</span> joinKeyR indicates join key of record1</div><div class="line">    *<span class="doctag">@param</span> joinKeyS indicates join key of record2</div><div class="line">    *<span class="doctag">@return</span> a positive integer if a is greater than b returns positive value else negative</div><div class="line">    */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">mergeCompare</span><span class="params">(Object record1, Object record2, <span class="keyword">int</span> joinKeyR, <span class="keyword">int</span> joinKeyS)</span></span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> value = <span class="number">0</span>;</div><div class="line">        String[] r1 = (String[]) record1;</div><div class="line">        String[] r2 = (String[]) record2;</div><div class="line">        String cr1 = r1[joinKeyR].trim();</div><div class="line">        String cr2 = r2[joinKeyS].trim();</div><div class="line">        String p = <span class="string">"^(-?\\d+)(\\.\\d+)?$"</span>;</div><div class="line"></div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            <span class="keyword">if</span> (cr1.matches(p) &amp;&amp; cr2.matches(p))&#123;</div><div class="line">                BigDecimal cn1 = <span class="keyword">new</span> BigDecimal(cr1);</div><div class="line">                BigDecimal cn2 = <span class="keyword">new</span> BigDecimal(cr2);</div><div class="line">                value = (<span class="keyword">int</span>)cn1.subtract(cn2).doubleValue();</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                value = cr1.compareTo(cr2);</div><div class="line">            &#125;</div><div class="line">                    </div><div class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span>  RuntimeException();</div><div class="line">            &#125;</div><div class="line">        <span class="keyword">return</span> value;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">    *merge method</div><div class="line">    *<span class="doctag">@return</span> a merged result table in which join operation has been accomplished</div><div class="line">    */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ArrayList <span class="title">merge</span><span class="params">(ArrayList tableR, ArrayList tableS, <span class="keyword">int</span> joinKeyR, <span class="keyword">int</span> joinKeyS)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> scanR = <span class="number">0</span>,scanS1 = <span class="number">0</span>, scanS2 = <span class="number">0</span>;</div><div class="line">        String[] recR = (String[])tableR.get(<span class="number">1</span>);</div><div class="line">        String[] recS = (String[])tableS.get(<span class="number">1</span>);</div><div class="line">        String[] addResult;</div><div class="line">        ArrayList result = <span class="keyword">new</span> ArrayList();</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (scanR &lt; tableR.size() &amp;&amp; scanS1 &lt; tableS.size()) &#123;</div><div class="line">            <span class="keyword">if</span> (mergeCompare(tableR.get(scanR), tableS.get(scanS1), joinKeyR, joinKeyS) &lt; <span class="number">0</span>) &#123;</div><div class="line">                scanR++;</div><div class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mergeCompare(tableR.get(scanR), tableS.get(scanS1), joinKeyR, joinKeyS) &gt; <span class="number">0</span>) &#123;</div><div class="line">                scanS1++;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                scanS2 = scanS1;</div><div class="line">                <span class="keyword">while</span> (scanS2 &lt; tableS.size() &amp;&amp; mergeCompare(tableR.get(scanR), tableS.get(scanS2),joinKeyR,joinKeyS) == <span class="number">0</span>) &#123;</div><div class="line">                    addResult = <span class="keyword">new</span> String[recR.length + recS.length];</div><div class="line">                    recR = (String[])tableR.get(scanR);</div><div class="line">                    recS = (String[])tableS.get(scanS2);</div><div class="line">                    System.arraycopy(recR, <span class="number">0</span>, addResult, <span class="number">0</span>, recR.length)       ;</div><div class="line">                    System.arraycopy(recS, <span class="number">0</span>, addResult, recR.length, recS.length);</div><div class="line">                    result.add(addResult);</div><div class="line">                    scanS2++;</div><div class="line">                &#125;</div><div class="line">                scanR++;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/**</span></div><div class="line">    *output method</div><div class="line">    *&lt;p&gt;output result table to console in test</div><div class="line">    *<span class="doctag">@param</span> sizeR to caculate the offset of columns in table S</div><div class="line">    */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">output</span><span class="params">(ArrayList result, ArrayList&lt;String&gt; resCol, <span class="keyword">int</span> joinKeyR, <span class="keyword">int</span> sizeR)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> column = <span class="number">0</span>;</div><div class="line">        String output = <span class="keyword">new</span> String();</div><div class="line">        String[] temp;</div><div class="line">        Pattern columnNumber = Pattern.compile(<span class="string">"\\d+"</span>);</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(j &lt; result.size()) &#123;</div><div class="line">            temp = (String[])result.get(j);</div><div class="line">            output = <span class="string">"join key="</span> + temp[joinKeyR] +<span class="string">", "</span>;</div><div class="line">            i = <span class="number">0</span>;</div><div class="line">            <span class="keyword">while</span>(i &lt; resCol.size()) &#123;</div><div class="line">                Matcher columnMatcher = columnNumber.matcher(resCol.get(i));</div><div class="line"></div><div class="line">                    <span class="keyword">if</span>(resCol.get(i).matches(<span class="string">"^R\\d+$"</span>)) &#123;</div><div class="line">                        <span class="keyword">while</span>(columnMatcher.find()) &#123;</div><div class="line">                            column = Integer.valueOf(columnMatcher.group(<span class="number">0</span>)).intValue();</div><div class="line">                         &#125; </div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        <span class="keyword">while</span>(columnMatcher.find()) &#123;</div><div class="line">                            column = Integer.valueOf(columnMatcher.group(<span class="number">0</span>)).intValue() + sizeR;</div><div class="line">                        &#125;</div><div class="line">                    &#125;</div><div class="line">                 output = output + resCol.get(i) + <span class="string">"="</span> + temp[column] + <span class="string">","</span>;</div><div class="line">                 i++;</div><div class="line">             &#125;</div><div class="line">             j++;</div><div class="line">             System.out.println(output);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Arguments</span> </span>&#123;</div><div class="line">        String fileRPath = <span class="string">""</span>;</div><div class="line">        String fileSPath = <span class="string">""</span>;</div><div class="line">        <span class="keyword">int</span> joinKeyR = -<span class="number">1</span>;</div><div class="line">        <span class="keyword">int</span> joinKeyS = -<span class="number">1</span>;</div><div class="line">        ArrayList&lt;String&gt; resCol = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div><div class="line">&#125;</div></pre></td></tr></table></figure>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>►<a class="article-category-link" href="/categories/Java/Hadoop/">Hadoop</a>►<a class="article-category-link" href="/categories/Java/Hadoop/HBase/">HBase</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Hadoop/">Hadoop</a><a href="/tags/HBase/">HBase</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://ming-holy.space/2016/04/08/大数据系统实验一：实现分布式数据库系统Join运算/" data-title="大数据系统实验一：实现分布式数据库系统Join运算 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/04/13/SublimeText3/" title="Sublime Text 3 快捷键总结">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Sublime Text 3 快捷键总结</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/03/24/编写可维护的JavaScript-第二部分-IV/"  title="编写可维护的JavaScript-第二部分-IV">
+ <strong>下一篇：</strong><br/> 
+ <span>编写可维护的JavaScript-第二部分-IV
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/04/08/大数据系统实验一：实现分布式数据库系统Join运算/" data-title="大数据系统实验一：实现分布式数据库系统Join运算" data-url="http://ming-holy.space/2016/04/08/大数据系统实验一：实现分布式数据库系统Join运算/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#参数处理"><span class="toc-number">1.</span> <span class="toc-text">参数处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#读取与输出"><span class="toc-number">2.</span> <span class="toc-text">读取与输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#排序"><span class="toc-number">3.</span> <span class="toc-text">排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#归并"><span class="toc-number">4.</span> <span class="toc-text">归并</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C++">C++<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/Git/" title="Git">Git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/人民南路四段九号/" title="人民南路四段九号">人民南路四段九号<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/" title="数学">数学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
+  </div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编辑器/" title="编辑器">编辑器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Be a live-wire artist, <br/>
+			Do something amazing.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/mingholy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:liminghao15@mails.ucas.ac.cn" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Mingholy">Mingholy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mingholy"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<script src="https://s4.cnzz.com/z_stat.php?id=1261294969&web_id=1261294969" language="JavaScript"></script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
