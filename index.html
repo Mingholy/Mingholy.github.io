@@ -78,6 +78,138 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/02/23/JSDOM-chapter5/" title="JSDOM-chapter5" itemprop="url">JSDOM-chapter5</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-02-23T13:47:13.000Z" itemprop="datePublished"> 发表于 2017-02-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="第五章：最佳实践"><a href="#第五章：最佳实践" class="headerlink" title="第五章：最佳实践"></a>第五章：最佳实践</h2><h3 id="平稳退化-优雅降级（graceful-degradation"><a href="#平稳退化-优雅降级（graceful-degradation" class="headerlink" title="平稳退化/优雅降级（graceful degradation)"></a>平稳退化/优雅降级（graceful degradation)</h3><blockquote>
+<p><strong>平稳退化</strong>是指虽然某些功能无法使用，但是最基本的操作仍然能顺利完成。</p>
+</blockquote>
+<p>这些无法使用的功能就包括Javascript，因为有些浏览器不支持，或者由于用户的原因被禁用了。<br>以下这两种方式，都不满足平稳退化：</p>
+<ol>
+<li><p>“javascript:”伪协议;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;javascript:popUp(&apos;http://www.example.com/&apos;);&quot;&gt;Example&lt;/a&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>内嵌事件处理函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;#&quot; onclick=&quot;javascript:popUp(&apos;http://www.example.com/&apos;);return false;&quot;&gt;Example&lt;/a&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>因为当在JavaScript不能使用的时候，它们都是无效链接，点击不会产生任何作用。</p>
+<p>但是下面的例子是可用的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;www.example.com&quot; onclick=&quot;popUp(&apos;http://www.example.com&apos;); return false;&quot;&gt;Example&lt;/a&gt;</div></pre></td></tr></table></figure></p>
+<p>最简洁的办法是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;a href=&quot;www.example.com&quot; onclick=&quot;popUp(this.href); return false;&quot;&gt;Example&lt;/a&gt;</div></pre></td></tr></table></figure></p>
+<p>这样即使JavaScript不可用，这个链接也是有效的。</p>
+<h3 id="渐进增强"><a href="#渐进增强" class="headerlink" title="渐进增强"></a>渐进增强</h3><p>其实就是说，对于元素的样式，应该放在单独的CSS文件中，使用<code>&lt;link&gt;</code>标签引入，而不是和HTML元素混杂在一起，这样有利于修改样式，也提高代码的可读性。</p>
+<h3 id="分离JavaScript"><a href="#分离JavaScript" class="headerlink" title="分离JavaScript"></a>分离JavaScript</h3><p>现在有一个需求，就是我们相对所有的<code>&lt;a&gt;</code>标签</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/02/23/JSDOM-chapter5/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/23/JSDOM-chapter5/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/02/23/JSDOM-chapter5-md/" title="JSDOM-chapter5.md" itemprop="url">JSDOM-chapter5.md</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-02-23T13:45:27.000Z" itemprop="datePublished"> 发表于 2017-02-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/02/23/JSDOM-chapter5-md/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/23/JSDOM-chapter5-md/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/02/19/week-summary-20170219/" title="学期初总结" itemprop="url">学期初总结</a>
   </h1>
   <p class="article-author">By
@@ -610,140 +742,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/19/Dubtitler Project/" title="Dubtitler 初步设想" itemprop="url">Dubtitler 初步设想</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-19T06:00:00.000Z" itemprop="datePublished"> 发表于 2016-05-19</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="主要问题："><a href="#主要问题：" class="headerlink" title="主要问题："></a>主要问题：</h2><ol>
-<li>HTML5支持的播放器仅支持H.264编码的MP4文件格式<br> 这个问题没法解决。<br> 搜索了很久，HTML5播放视频的格式，取决于浏览器。多数主流浏览器都只支持MP4,WebM，播放avi需要很多其他的东西。第三方的播放器videojs，也是这里要使用的播放器库，有插件通过java来支持avi和其他媒体格式，但是这个作者在放出第一版不久就因为一些没办法解决的问题放弃更新了，致命的是这个java版本的播放器不仅难以支持外挂字幕，还有其他很多的问题。因此我也放弃强行支持avi了，这是一个除了体积稍微小一点，没有其他优点的视频格式。<br> 片源的格式取决于压制组的输出格式，DIMENSION的初版输出格式一般都是<code>.avi</code>，这一点我没办法控制。我只能接到片源之后，自己使用格式工厂转成<code>.mp4</code>，以我I5 4200H @2.8GHZ 的CPU，转一集183MB的盲点大概需要13分钟，不勾多线程反而会快一点点，但是不管怎么说都在10分钟以上。悲观估计在15分钟以内都可以接受。如果DL要求非常高，或者片源不能提前cc发放，那么…</li>
-</ol>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/05/19/Dubtitler Project/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Dubtitler/">Dubtitler</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/DubtitlerDev/">DubtitlerDev</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/19/Dubtitler Project/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/19/Dubtitler Project/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/" title="大数据系统实验二Part1：MapReduce实践" itemprop="url">大数据系统实验二Part1：MapReduce实践</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-08T15:00:00.000Z" itemprop="datePublished"> 发表于 2016-05-08</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="Hadoop实现一个会话统计的MapReduce实例"><a href="#Hadoop实现一个会话统计的MapReduce实例" class="headerlink" title="Hadoop实现一个会话统计的MapReduce实例"></a>Hadoop实现一个会话统计的MapReduce实例</h2><h3 id="Mapper"><a href="#Mapper" class="headerlink" title="Mapper"></a>Mapper</h3><p>输入：<br><code>&lt;source&gt; &lt;destination&gt; &lt;time&gt;</code><br>可以表示一次电话或者网络访问会话。要求统计不同发起方到不同目标的会话次数和平均时间。<br>基本的思想是：</p>
-<ol>
-<li>对于Mapper，输入是的value是每一行的三个值，通过合法性检验后，作为一个字符串形成key。</li>
-<li>如果遇到不合法的输入，比如时间那一项不是个<code>Double</code>甚至根本不是个数而是个字符串，这一条数据就要丢弃，继续读取下一条。</li>
-<li>Mapper的输出格式是<code>&lt;Text, DoubleWritable&gt;</code>，它们是Hadoop内建的类型，在存储内容上可以理解为<code>String</code>和<code>Double</code>。输出的时候是以<code>&lt;source&gt; &lt;destination&gt;</code>这一整个字符串作为输出的key，以表示时间的<code>Double</code>作为输出的value。
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Java/">Java</a>►<a class="article-category-link" href="/categories/Java/Hadoop/">Hadoop</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Hadoop/">Hadoop</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/08/大数据系统实验二Part1：MapReduce实践/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -786,7 +784,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>8</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
 		  
 		
 		  
@@ -824,7 +822,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
@@ -834,7 +832,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>10</sup></a></li>
 			
 		
 			
