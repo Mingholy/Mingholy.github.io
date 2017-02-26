@@ -178,8 +178,13 @@ button {
     margin: 0 5% 0 5%;
     color: #fff;
     font-weight: bold;
-    background: #3355d0;
+    background: #3385ff;
+    border-bottom: 1px solid #2d78f4;
     border-radius: 5px;
+}
+button:hover {
+    color: #317ef3;
+    border-bottom: 1px solid #2868c8;
 }
 
 /*for footer*/
