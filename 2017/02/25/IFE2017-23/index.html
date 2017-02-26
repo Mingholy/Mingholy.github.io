@@ -31,7 +31,7 @@ transform的scale和translate方法。
 CSS作圆与HTML特殊符号代码
 background-position的注意事项
 CSS sprites">
-<meta property="og:updated_time" content="2017-02-26T08:35:25.445Z">
+<meta property="og:updated_time" content="2017-02-26T09:12:09.972Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IFE2017任务23-自定义checkbox和radio的样式">
 <meta name="twitter:description" content="完成这个任务主要涉及的知识有：
@@ -117,7 +117,7 @@ CSS sprites">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的各种选择器"><span class="toc-number">1.</span> <span class="toc-text">CSS的各种选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪元素和伪类"><span class="toc-number">2.</span> <span class="toc-text">伪元素和伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#transform的scale和translate方法"><span class="toc-number">3.</span> <span class="toc-text">transform的scale和translate方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS作圆与HTML特殊符号代码"><span class="toc-number">4.</span> <span class="toc-text">CSS作圆与HTML特殊符号代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#background-position注意事项"><span class="toc-number">5.</span> <span class="toc-text">background-position注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS-sprites"><span class="toc-number">6.</span> <span class="toc-text">CSS sprites</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的各种选择器"><span class="toc-number">1.</span> <span class="toc-text">CSS的各种选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪元素和伪类"><span class="toc-number">2.</span> <span class="toc-text">伪元素和伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#transform的scale和translate方法"><span class="toc-number">3.</span> <span class="toc-text">transform的scale和translate方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS作圆与HTML特殊符号代码"><span class="toc-number">4.</span> <span class="toc-text">CSS作圆与HTML特殊符号代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#background-position注意事项"><span class="toc-number">5.</span> <span class="toc-text">background-position注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS-sprites"><span class="toc-number">6.</span> <span class="toc-text">CSS sprites</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#究竟哪种方式更好？"><span class="toc-number"></span> <span class="toc-text">究竟哪种方式更好？</span></a>
 		
 		</div>
 		
@@ -159,6 +159,17 @@ CSS sprites">
 <h3 id="background-position注意事项"><a href="#background-position注意事项" class="headerlink" title="background-position注意事项"></a><code>background-position</code>注意事项</h3><p>该属性接受<code>top</code>一族，百分比和<code>0px 0px, center</code>这种混合形式的参数。根据MDN的解释：<br><blockquote><p>With a value pair of ‘0% 0%’, the upper left corner of the image is aligned with the upper left corner of the box’s padding edge. A value pair of ‘100% 100%’ places the lower right corner of the image in the lower right corner of padding area. With a value pair of ‘14% 84%’, the point 14% across and 84% down the image is to be placed at the point 14% across and 84% down the padding area.</p>
 <footer><strong>MDN</strong><cite><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-position" target="_blank" rel="external">background-position</a></cite></footer></blockquote><br>可以知道，当接受<code>14% 84%</code>作为参数时，图片的14%@x和84%@y处将作为锚点，并将该锚点置于区域的14%@x和84%@y处。</p>
 <h3 id="CSS-sprites"><a href="#CSS-sprites" class="headerlink" title="CSS sprites"></a>CSS sprites</h3><p>其实就是把所有的图片都拼接在一张图片上。作用是体积小，减少HTTP请求。然后用css来控制位置，变化显示内容。</p>
+<h2 id="究竟哪种方式更好？"><a href="#究竟哪种方式更好？" class="headerlink" title="究竟哪种方式更好？"></a>究竟哪种方式更好？</h2><p>使用背景图：</p>
+<ul>
+<li>优点：代码量比较少，易于实现；如果需要修改样式，直接更换规格相同的精灵图即可，一定程度上做到了HTML元素与样式的解耦。</li>
+<li>缺点：背景图一般情况下都不是矢量图。极端情况下，比如缩放比例极大或者极小，失真是必然的。</li>
+</ul>
+<p>使用伪类和伪元素：</p>
+<ul>
+<li>优点：CSS实现的样式都是矢量的，不受缩放比例影响，至少单选框可以在任意比例正常工作，同时（可能）也会减少设计师的工作量</li>
+<li>缺点：代码量比较大，实现不如背景图简单；复选框在极端缩放条件下，里面的对号可能会跑出来。</li>
+</ul>
+<p>具体选择哪种方式实现，可能需要根据应用场景来确定。<br>背景图方法四平八稳，最主要的是实现简洁，适用于用量非常大，比如调查表单等的实际应用中，这样能够很好地复用同一张背景图，节约大量时间精力。<br>伪类方法则适用于整个页面对实现效果要求非常高，并且其呈现分辨率跨度非常大的情况下，比如从移动端到4k屏幕上，这也是利用了矢量图对战位图的绝对优势。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -212,7 +223,7 @@ CSS sprites">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的各种选择器"><span class="toc-number">1.</span> <span class="toc-text">CSS的各种选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪元素和伪类"><span class="toc-number">2.</span> <span class="toc-text">伪元素和伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#transform的scale和translate方法"><span class="toc-number">3.</span> <span class="toc-text">transform的scale和translate方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS作圆与HTML特殊符号代码"><span class="toc-number">4.</span> <span class="toc-text">CSS作圆与HTML特殊符号代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#background-position注意事项"><span class="toc-number">5.</span> <span class="toc-text">background-position注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS-sprites"><span class="toc-number">6.</span> <span class="toc-text">CSS sprites</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的各种选择器"><span class="toc-number">1.</span> <span class="toc-text">CSS的各种选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪元素和伪类"><span class="toc-number">2.</span> <span class="toc-text">伪元素和伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#transform的scale和translate方法"><span class="toc-number">3.</span> <span class="toc-text">transform的scale和translate方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS作圆与HTML特殊符号代码"><span class="toc-number">4.</span> <span class="toc-text">CSS作圆与HTML特殊符号代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#background-position注意事项"><span class="toc-number">5.</span> <span class="toc-text">background-position注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS-sprites"><span class="toc-number">6.</span> <span class="toc-text">CSS sprites</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#究竟哪种方式更好？"><span class="toc-number"></span> <span class="toc-text">究竟哪种方式更好？</span></a>
  
   </div>
 
