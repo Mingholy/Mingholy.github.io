@@ -183,7 +183,7 @@ button {
     border-radius: 5px;
 }
 button:hover {
-    color: #317ef3;
+    background: #317ef3;
     border-bottom: 1px solid #2868c8;
 }
 
