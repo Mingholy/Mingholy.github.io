@@ -172,7 +172,7 @@ aside h1 {
 }
 
 /*for button*/
-button {
+input[type="submit"] {
     width: 90%;
     height: 40px;
     margin: 0 5% 0 5%;
@@ -182,7 +182,7 @@ button {
     border-bottom: 1px solid #2d78f4;
     border-radius: 5px;
 }
-button:hover {
+input[type="submit"]:hover {
     background: #317ef3;
     border-bottom: 1px solid #2868c8;
 }
