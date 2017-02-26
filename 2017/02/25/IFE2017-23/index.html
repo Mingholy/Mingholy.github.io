@@ -4,23 +4,44 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>贪心算法证真 | A Cup of Coffee</title>
+    <title>IFE2017任务23-自定义checkbox和radio的样式 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="笔者按：图论的高随祥老师说：一个命题，证伪容易，找出反例就好了。证真可不容易，你得保证它不存在错误的情况。眭跃飞老师也提到：数学里，恒等是一件很麻烦的事情。所以曾经多次被教导，说数学里的精华都在定理上，它们是人的逻辑思维与自然的事实规律最精密最完整的体现。为了确定它们的正确性，无数人付出了不可估量的努力。因此这里依照我的兴趣，记录了一些碰到的简单有趣的命题的证真思路，仅供玩味。只有从小的地方发现">
+    <meta name="description" content="完成这个任务主要涉及的知识有：
+
+CSS的各种选择器
+伪元素和伪元素
+transform的scale和translate方法。
+CSS作圆与HTML特殊符号代码
+background-position的注意事项
+CSS sprites">
 <meta property="og:type" content="article">
-<meta property="og:title" content="贪心算法证真">
-<meta property="og:url" content="http://ming-holy.space/2016/01/07/贪心算法证真/index.html">
+<meta property="og:title" content="IFE2017任务23-自定义checkbox和radio的样式">
+<meta property="og:url" content="http://ming-holy.space/2017/02/25/IFE2017-23/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="笔者按：图论的高随祥老师说：一个命题，证伪容易，找出反例就好了。证真可不容易，你得保证它不存在错误的情况。眭跃飞老师也提到：数学里，恒等是一件很麻烦的事情。所以曾经多次被教导，说数学里的精华都在定理上，它们是人的逻辑思维与自然的事实规律最精密最完整的体现。为了确定它们的正确性，无数人付出了不可估量的努力。因此这里依照我的兴趣，记录了一些碰到的简单有趣的命题的证真思路，仅供玩味。只有从小的地方发现">
-<meta property="og:updated_time" content="2016-10-20T07:42:34.403Z">
+<meta property="og:description" content="完成这个任务主要涉及的知识有：
+
+CSS的各种选择器
+伪元素和伪元素
+transform的scale和translate方法。
+CSS作圆与HTML特殊符号代码
+background-position的注意事项
+CSS sprites">
+<meta property="og:updated_time" content="2017-02-26T08:35:25.445Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="贪心算法证真">
-<meta name="twitter:description" content="笔者按：图论的高随祥老师说：一个命题，证伪容易，找出反例就好了。证真可不容易，你得保证它不存在错误的情况。眭跃飞老师也提到：数学里，恒等是一件很麻烦的事情。所以曾经多次被教导，说数学里的精华都在定理上，它们是人的逻辑思维与自然的事实规律最精密最完整的体现。为了确定它们的正确性，无数人付出了不可估量的努力。因此这里依照我的兴趣，记录了一些碰到的简单有趣的命题的证真思路，仅供玩味。只有从小的地方发现">
+<meta name="twitter:title" content="IFE2017任务23-自定义checkbox和radio的样式">
+<meta name="twitter:description" content="完成这个任务主要涉及的知识有：
+
+CSS的各种选择器
+伪元素和伪元素
+transform的scale和translate方法。
+CSS作圆与HTML特殊符号代码
+background-position的注意事项
+CSS sprites">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -80,14 +101,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/01/07/贪心算法证真/" title="贪心算法证真" itemprop="url">贪心算法证真</a>
+      <a href="/2017/02/25/IFE2017-23/" title="IFE2017任务23-自定义checkbox和radio的样式" itemprop="url">IFE2017任务23-自定义checkbox和radio的样式</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2016-01-07T13:55:03.000Z" itemprop="datePublished"> 发表于 2016-01-07</time>
+    <time datetime="2017-02-25T09:33:00.000Z" itemprop="datePublished"> 发表于 2017-02-25</time>
     
   </p>
 </header>
@@ -96,43 +117,57 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#笔者按："><span class="toc-number">1.</span> <span class="toc-text">笔者按：</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的各种选择器"><span class="toc-number">1.</span> <span class="toc-text">CSS的各种选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪元素和伪类"><span class="toc-number">2.</span> <span class="toc-text">伪元素和伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#transform的scale和translate方法"><span class="toc-number">3.</span> <span class="toc-text">transform的scale和translate方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS作圆与HTML特殊符号代码"><span class="toc-number">4.</span> <span class="toc-text">CSS作圆与HTML特殊符号代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#background-position注意事项"><span class="toc-number">5.</span> <span class="toc-text">background-position注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS-sprites"><span class="toc-number">6.</span> <span class="toc-text">CSS sprites</span></a></li></ol>
 		
 		</div>
 		
 		<blockquote>
-<h3 id="笔者按："><a href="#笔者按：" class="headerlink" title="笔者按："></a>笔者按：</h3><p>图论的高随祥老师说：一个命题，证伪容易，找出反例就好了。证真可不容易，你得保证它不存在错误的情况。<br>眭跃飞老师也提到：数学里，恒等是一件很麻烦的事情。<br>所以曾经多次被教导，说数学里的精华都在定理上，它们是人的逻辑思维与自然的事实规律最精密最完整的体现。为了确定它们的正确性，无数人付出了不可估量的努力。<br>因此这里依照我的兴趣，记录了一些碰到的简单有趣的命题的证真思路，仅供玩味。只有从小的地方发现它的精美绝妙之处，才能从大的地方发现数学之美。</p>
+<p>完成这个任务主要涉及的知识有：</p>
+<ul>
+<li>CSS的各种选择器</li>
+<li>伪元素和伪元素</li>
+<li><code>transform</code>的<code>scale</code>和<code>translate</code>方法。</li>
+<li>CSS作圆与HTML特殊符号代码</li>
+<li><code>background-position</code>的注意事项</li>
+<li>CSS sprites</li>
+</ul>
 </blockquote>
-<hr>
 <a id="more"></a>
-<p>Kruskal算法是构造最小生成树的算法。原则是每次未被选择过的边中挑选一条边，满足:</p>
-<ul>
-<li>权值最小</li>
-<li>选择后不会产生圈</li>
-</ul>
-<p>直到所有顶点都被包括。<br><strong>如何证明它是最小生成树？  </strong><br>设有树$\mathit{T}$是由贪心算法构造的生成树。如果存在更小的一棵树$\mathit{U}$，则应有$\mathit{T}\neq\mathit{U}$且$\mathit{w(\mathit{U})}&lt;\mathit{w(\mathit{T})}$。</p>
-<ul>
-<li>$\mathit{T}\neq\mathit{U}\Rightarrow\mathit{T}$至少含有一条$\mathit{U}$中没有的边。设它（们）中权值最小的一条边是$\mathit{e}$。</li>
-<li>$\mathit{U}$为一棵树$\Rightarrow$若将$\mathit{e}$加入$\mathit{U}$中，则必构成圈，且该圈中必含有一条边$\mathit{e’}$是$\mathit{T}$中没有的。</li>
-<li>考虑$\mathit{w(\mathit{e’})}$与$\mathit{w(\mathit{e})}$，按照$\mathit{T}$的构造规则，如果$\mathit{w(\mathit{e’})}&lt;\mathit{w(\mathit{e})}$，那么在构造$\mathit{T}$时，应该选取$\mathit{e’}$而非$\mathit{e}$。因此$\mathit{w(\mathit{e’})}\geq\mathit{w(\mathit{e})}$。</li>
-<li>此时，如果我们移除$\mathit{e’}$，就又构造了一棵生成树$\mathit{V}$，由于$\mathit{w(\mathit{e’})}\geq\mathit{w(\mathit{e})}$，有$\mathit{w(\mathit{V})}\leq\mathit{w(\mathit{U})}$，且$\mathit{V}$与$\mathit{T}$的公共边比$\mathit{V}$与$\mathit{U}$的公共边多一条。</li>
-<li>重复上述过程，最终我们就能将$\mathit{U}$完全转化为$\mathit{T}$，这时就有$\mathit{w(\mathit{T})}\leq\mathit{w(\mathit{U})}&lt;\mathit{w(\mathit{T})}$，显然这不可能发生。</li>
-</ul>
-<p>于是$\mathit{U}$是不存在的，即证明了$\mathit{T}$是一棵最小生成树。</p>
+<p><a href="http://ife.baidu.com/course/detail/id/23" target="_blank" rel="external">任务23：自定义checkbox和radio样式</a><br><a href="http://ming-holy.space/2017/IFE-2017/23/index.html">Demo</a><br><a href="https://github.com/Mingholy/IFE-2017/tree/master/23" target="_blank" rel="external">Code</a></p>
+<h3 id="CSS的各种选择器"><a href="#CSS的各种选择器" class="headerlink" title="CSS的各种选择器"></a>CSS的各种选择器</h3><p>本例中我用到了<strong>相邻兄弟选择器</strong>、<strong>属性选择器</strong>以及<strong>伪类和伪元素选择器</strong>。<br>除了最基本的使用id、类和标签选择器外，要想实现题目要求的效果，需要更灵活地选择元素。<br>需要注意的是:</p>
+<ol>
+<li>相邻兄弟选择器的<code>+</code>会以前面的标签作为判定标准，而选择后面的标签。比如本例中<code>input + label</code>将选择前面存在<code>input</code>标签的<code>label</code>标签。</li>
+<li>使用<code>input[type=&quot;radio&quot;]</code>选择单选控件，同样修改<code>type</code>即可实现选择其他类型的控件。</li>
+<li>组合选择器<code>,</code>，后代选择器<code>就是空格</code>，儿子选择器<code>&gt;</code>。</li>
+</ol>
+<h3 id="伪元素和伪类"><a href="#伪元素和伪类" class="headerlink" title="伪元素和伪类"></a>伪元素和伪类</h3><p>CSS中的伪元素有四种：</p>
+<ol>
+<li><code>::first-line</code><br>可以对文本的第一行应用样式。因此该伪元素只能被块级元素使用，因为内联元素并不存在第一行和其他行之分。</li>
+<li><code>::first-letter</code><br>可以对文本的首字母应用样式。该伪元素也只能用于块级元素，这就不知道有什么特别的原因了。</li>
+<li><code>::before</code><br>在元素内容前面插入新的内容，且该内容不是DOM对象，不占用DOM中的位置，它是虚拟元素。</li>
+<li><code>::after</code><br>同理，只是在后面插入新的内容。</li>
+</ol>
+<p>而伪类则是表示某一元素各种状态，而不是实际的类的“假的”类。<br>比如一个<code>a</code>标签，可能有四种状态：</p>
+<ol>
+<li><code>a:link</code>:未访问链接</li>
+<li><code>a:visited</code>:已访问链接</li>
+<li><code>a:hover</code>:鼠标指向的链接</li>
+<li><code>a:active</code>:选定的链接<br>本例中就结合了选择器和伪元素，实现了不使用静态图片的自定义样式。主要思路就是隐藏默认的控件样式，然后使用一个<code>label</code>来伪装成新的空间，对这个<code>label</code>进行各种样式定义，得到不同的效果。</li>
+</ol>
+<h3 id="transform的scale和translate方法"><a href="#transform的scale和translate方法" class="headerlink" title="transform的scale和translate方法"></a><code>transform</code>的<code>scale</code>和<code>translate</code>方法</h3><p>这两个方法在热身任务中就有使用到，是CSS3的新特性。<br><code>transform: scale(x, y)</code>主要是进行缩放，两个参数分别是x轴方向和y轴方向的缩放系数。<br><code>transform: translate(x, y)</code>主要是进行2D变换，目前我的理解就是定位，两个参数分别是x轴方向和y周方向的定位值，可以接收具体像素，也可以接收百分比。</p>
+<h3 id="CSS作圆与HTML特殊符号代码"><a href="#CSS作圆与HTML特殊符号代码" class="headerlink" title="CSS作圆与HTML特殊符号代码"></a>CSS作圆与HTML特殊符号代码</h3><p>其实这一块的内容就是为了实现单选控件里的那个圆形小点点。<br>CSS作圆的一个简单的方法就是，给一个正方形元素加上边框，并使其<code>border-radius</code>属性为50%。这样就可以得到一个圆形。通过控制正方形的大小来控制圆的大小。<br>它有一个缺点，在极端条件下，比如缩放比例极小的时候，我们还会明显地看到它作为正方形的本来面目，也就是说，它的圆角化效果会因为缩放比例变化而变得不稳定，部分情况下会失效。<br>另一种方法是使用HTML的特殊符号，比如&amp;copy将变成©。这种东西叫做HTML字符实体，有很多很多。比如<a href="http://tool.chinaz.com/Tools/HtmlChar.aspx" target="_blank" rel="external">HTML特殊符号对照表</a>和<a href="http://www.w3school.com.cn/html/html_entities.asp" target="_blank" rel="external">HTML字符实体</a>等。但是实际使用起来，单个字符小且不好定位，缩放容易失真，所以还是使用CSS画圆实现了。</p>
+<h3 id="background-position注意事项"><a href="#background-position注意事项" class="headerlink" title="background-position注意事项"></a><code>background-position</code>注意事项</h3><p>该属性接受<code>top</code>一族，百分比和<code>0px 0px, center</code>这种混合形式的参数。根据MDN的解释：<br><blockquote><p>With a value pair of ‘0% 0%’, the upper left corner of the image is aligned with the upper left corner of the box’s padding edge. A value pair of ‘100% 100%’ places the lower right corner of the image in the lower right corner of padding area. With a value pair of ‘14% 84%’, the point 14% across and 84% down the image is to be placed at the point 14% across and 84% down the padding area.</p>
+<footer><strong>MDN</strong><cite><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-position" target="_blank" rel="external">background-position</a></cite></footer></blockquote><br>可以知道，当接受<code>14% 84%</code>作为参数时，图片的14%@x和84%@y处将作为锚点，并将该锚点置于区域的14%@x和84%@y处。</p>
+<h3 id="CSS-sprites"><a href="#CSS-sprites" class="headerlink" title="CSS sprites"></a>CSS sprites</h3><p>其实就是把所有的图片都拼接在一张图片上。作用是体积小，减少HTTP请求。然后用css来控制位置，变化显示内容。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/数学/">数学</a>►<a class="article-category-link" href="/categories/数学/算法/">算法</a>
-</div>
-
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/上帝之语/">上帝之语</a><a href="/tags/算法/">算法</a>
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/HTML/">HTML</a>
   </div>
 
 </div>
@@ -141,7 +176,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2016/01/07/贪心算法证真/" data-title="贪心算法证真 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/02/25/IFE2017-23/" data-title="IFE2017任务23-自定义checkbox和radio的样式 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -154,19 +189,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/01/15/证明-sqrt-2-是无理数/" title="证明根号2是无理数">
-  <strong>上一篇：</strong><br/>
-  <span>
-  证明根号2是无理数</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/01/01/hello-world/"  title="Hello World">
+<a href="/2017/02/23/JSDOM-chapter5/"  title="JavaScript DOM 编程艺术 笔记-第五章">
  <strong>下一篇：</strong><br/> 
- <span>Hello World
+ <span>JavaScript DOM 编程艺术 笔记-第五章
 </span>
 </a>
 </div>
@@ -175,7 +202,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/01/07/贪心算法证真/" data-title="贪心算法证真" data-url="http://ming-holy.space/2016/01/07/贪心算法证真/"></div>
+	<div class="ds-thread" data-thread-key="2017/02/25/IFE2017-23/" data-title="IFE2017任务23-自定义checkbox和radio的样式" data-url="http://ming-holy.space/2017/02/25/IFE2017-23/"></div>
 </section>
 
 
@@ -185,7 +212,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#笔者按："><span class="toc-number">1.</span> <span class="toc-text">笔者按：</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的各种选择器"><span class="toc-number">1.</span> <span class="toc-text">CSS的各种选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪元素和伪类"><span class="toc-number">2.</span> <span class="toc-text">伪元素和伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#transform的scale和translate方法"><span class="toc-number">3.</span> <span class="toc-text">transform的scale和translate方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS作圆与HTML特殊符号代码"><span class="toc-number">4.</span> <span class="toc-text">CSS作圆与HTML特殊符号代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#background-position注意事项"><span class="toc-number">5.</span> <span class="toc-text">background-position注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS-sprites"><span class="toc-number">6.</span> <span class="toc-text">CSS sprites</span></a></li></ol>
  
   </div>
 

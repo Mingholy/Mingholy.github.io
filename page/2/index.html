@@ -78,29 +78,27 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/" title="大数据系统实验二Part1：MapReduce实践" itemprop="url">大数据系统实验二Part1：MapReduce实践</a>
+      <a href="/2016/05/19/Dubtitler Project/" title="Dubtitler 初步设想" itemprop="url">Dubtitler 初步设想</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-08T15:00:00.000Z" itemprop="datePublished"> 发表于 2016-05-08</time>
+    <time datetime="2016-05-19T06:00:00.000Z" itemprop="datePublished"> 发表于 2016-05-19</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h2 id="Hadoop实现一个会话统计的MapReduce实例"><a href="#Hadoop实现一个会话统计的MapReduce实例" class="headerlink" title="Hadoop实现一个会话统计的MapReduce实例"></a>Hadoop实现一个会话统计的MapReduce实例</h2><h3 id="Mapper"><a href="#Mapper" class="headerlink" title="Mapper"></a>Mapper</h3><p>输入：<br><code>&lt;source&gt; &lt;destination&gt; &lt;time&gt;</code><br>可以表示一次电话或者网络访问会话。要求统计不同发起方到不同目标的会话次数和平均时间。<br>基本的思想是：</p>
-<ol>
-<li>对于Mapper，输入是的value是每一行的三个值，通过合法性检验后，作为一个字符串形成key。</li>
-<li>如果遇到不合法的输入，比如时间那一项不是个<code>Double</code>甚至根本不是个数而是个字符串，这一条数据就要丢弃，继续读取下一条。</li>
-<li>Mapper的输出格式是<code>&lt;Text, DoubleWritable&gt;</code>，它们是Hadoop内建的类型，在存储内容上可以理解为<code>String</code>和<code>Double</code>。输出的时候是以<code>&lt;source&gt; &lt;destination&gt;</code>这一整个字符串作为输出的key，以表示时间的<code>Double</code>作为输出的value。
+        <h2 id="主要问题："><a href="#主要问题：" class="headerlink" title="主要问题："></a>主要问题：</h2><ol>
+<li>HTML5支持的播放器仅支持H.264编码的MP4文件格式<br> 这个问题没法解决。<br> 搜索了很久，HTML5播放视频的格式，取决于浏览器。多数主流浏览器都只支持MP4,WebM，播放avi需要很多其他的东西。第三方的播放器videojs，也是这里要使用的播放器库，有插件通过java来支持avi和其他媒体格式，但是这个作者在放出第一版不久就因为一些没办法解决的问题放弃更新了，致命的是这个java版本的播放器不仅难以支持外挂字幕，还有其他很多的问题。因此我也放弃强行支持avi了，这是一个除了体积稍微小一点，没有其他优点的视频格式。<br> 片源的格式取决于压制组的输出格式，DIMENSION的初版输出格式一般都是<code>.avi</code>，这一点我没办法控制。我只能接到片源之后，自己使用格式工厂转成<code>.mp4</code>，以我I5 4200H @2.8GHZ 的CPU，转一集183MB的盲点大概需要13分钟，不勾多线程反而会快一点点，但是不管怎么说都在10分钟以上。悲观估计在15分钟以内都可以接受。如果DL要求非常高，或者片源不能提前cc发放，那么…</li>
+</ol>
         
         
         <p class="article-more-link">
           
-            <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#more">Read More</a>
+            <a href="/2016/05/19/Dubtitler Project/#more">Read More</a>
           
        </p>
     </div>
@@ -109,13 +107,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Java/">Java</a>►<a class="article-category-link" href="/categories/Java/Hadoop/">Hadoop</a>
+  <a class="article-category-link" href="/categories/Dubtitler/">Dubtitler</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Hadoop/">Hadoop</a>
+  <span></span> <a href="/tags/DubtitlerDev/">DubtitlerDev</a>
   </div>
 
 </div>
@@ -126,7 +124,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/08/大数据系统实验二Part1：MapReduce实践/" data-count-type="comments">&nbsp;</a>
+		<a href="/2016/05/19/Dubtitler Project/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/19/Dubtitler Project/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -197,6 +195,74 @@
 	
 	  	<span></span>
 		<a href="/2016/05/08/大数据系统实验二Part2：Graphlite分布式图运算/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/08/大数据系统实验二Part2：Graphlite分布式图运算/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/" title="大数据系统实验二Part1：MapReduce实践" itemprop="url">大数据系统实验二Part1：MapReduce实践</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-08T15:00:00.000Z" itemprop="datePublished"> 发表于 2016-05-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="Hadoop实现一个会话统计的MapReduce实例"><a href="#Hadoop实现一个会话统计的MapReduce实例" class="headerlink" title="Hadoop实现一个会话统计的MapReduce实例"></a>Hadoop实现一个会话统计的MapReduce实例</h2><h3 id="Mapper"><a href="#Mapper" class="headerlink" title="Mapper"></a>Mapper</h3><p>输入：<br><code>&lt;source&gt; &lt;destination&gt; &lt;time&gt;</code><br>可以表示一次电话或者网络访问会话。要求统计不同发起方到不同目标的会话次数和平均时间。<br>基本的思想是：</p>
+<ol>
+<li>对于Mapper，输入是的value是每一行的三个值，通过合法性检验后，作为一个字符串形成key。</li>
+<li>如果遇到不合法的输入，比如时间那一项不是个<code>Double</code>甚至根本不是个数而是个字符串，这一条数据就要丢弃，继续读取下一条。</li>
+<li>Mapper的输出格式是<code>&lt;Text, DoubleWritable&gt;</code>，它们是Hadoop内建的类型，在存储内容上可以理解为<code>String</code>和<code>Double</code>。输出的时候是以<code>&lt;source&gt; &lt;destination&gt;</code>这一整个字符串作为输出的key，以表示时间的<code>Double</code>作为输出的value。
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>►<a class="article-category-link" href="/categories/Java/Hadoop/">Hadoop</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Hadoop/">Hadoop</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/08/大数据系统实验二Part1：MapReduce实践/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -687,72 +753,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/07/SSH免密码部署-git-bash配置/" title="SSH免密码部署:git-bash配置" itemprop="url">SSH免密码部署:git-bash配置</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-07T11:10:29.000Z" itemprop="datePublished"> 发表于 2016-03-07</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>在使用<code>hexo d</code>部署这个博客的时候，经常会遇到拒绝public key的问题，要求确认访问repository的权限或者确定repository存在。<br>而实际上按照github的说明我已经生成并添加了ssh key，并且使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -T git@github.com</div></pre></td></tr></table></figure></p>
-<p>测试成功。<br>但是由于ssh-agent是一个临时进程，它存储公钥的方式也是写入一个临时的session，因此每次重启git-bash都会重置连接，于是每次都需要<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">eval &quot;$(ssh-agent -s)&quot;</div><div class="line">ssh-add ~/.ssh/id_rsa</div><div class="line">ssh-add -l</div></pre></td></tr></table></figure></p>
-<p>走一遍才能正确部署。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/07/SSH免密码部署-git-bash配置/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/SSH/">SSH</a>►<a class="article-category-link" href="/categories/SSH/Git/">Git</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/git/">git</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/07/SSH免密码部署-git-bash配置/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/07/SSH免密码部署-git-bash配置/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next<span></span></a>
@@ -775,6 +775,8 @@
 		  
 		
 		  
+		
+		  
 			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
 		  
 		
@@ -784,6 +786,8 @@
 		
 		  
 			<li><a href="/categories/Java/Hadoop/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+		  
+		
 		  
 		
 		  
@@ -833,7 +837,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
@@ -855,7 +859,7 @@
 			
 		
 			
-				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
 			
 		
 			
@@ -863,11 +867,11 @@
 			
 		
 			
-				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
 			
 		
 			
@@ -891,11 +895,15 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
 			
 		
 		</ul>
