@@ -66,14 +66,15 @@ section h5 {
     color: #999999;
 }
 
-section p {
-    font-size: 1em;
-    text-indent: 2em;
-}
 
 /*for articles*/
 article {
     margin: 15px;
+}
+
+article p {
+    font-size: 1em;
+    text-indent: 2em;
 }
 
 /*for img in section 3*/
@@ -94,6 +95,10 @@ article {
 
 .img-wrapper p {
     font-size: 10pt;
+}
+/*for figure*/
+figure {
+    text-align: center;
 }
 
 /*for table*/
