@@ -4,23 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>JavaScript DOM 编程艺术 笔记-第三章 第四章 | A Cup of Coffee</title>
+    <title>IFE2017任务92-HTML/CSS相关总结 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="其实这些内容很早之前就遇见过，也实际应用过。但是当时脑子里根本没有一些基本的概念，只知道这样做有效就这样做了。后来渐渐懂了一些道理，但是深深的感觉到还是野路子出身。基础知识还是要扎实才好，巩固的工作还是要做的。这也是为什么回过头来认认真真地看这一章，总结出这些内容。">
+    <meta name="description" content="HMTL5语义化标签备忘录和92题CSS总结
+
+怎么看待以前的div?还记得很久以前写HTML都是和JS和CSS混在一起，一个标签好长好长。那个时候并没有这种语义化的概念，也没有标签、样式、交互代码分离的概念。div在页面里横冲直撞，带着不同的id和class，样式也写得乱七八糟，只要页面看起来没问题就算过关了，殊不知那样的代码估计除了写的人不会有第二个人愿意去看。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript DOM 编程艺术 笔记-第三章 第四章">
-<meta property="og:url" content="http://ming-holy.space/2017/02/16/JSDOM-chapter3&4/index.html">
+<meta property="og:title" content="IFE2017任务92-HTML/CSS相关总结">
+<meta property="og:url" content="http://ming-holy.space/2017/02/28/IFE2017-9-92/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="其实这些内容很早之前就遇见过，也实际应用过。但是当时脑子里根本没有一些基本的概念，只知道这样做有效就这样做了。后来渐渐懂了一些道理，但是深深的感觉到还是野路子出身。基础知识还是要扎实才好，巩固的工作还是要做的。这也是为什么回过头来认认真真地看这一章，总结出这些内容。">
-<meta property="og:updated_time" content="2017-02-23T15:15:45.839Z">
+<meta property="og:description" content="HMTL5语义化标签备忘录和92题CSS总结
+
+怎么看待以前的div?还记得很久以前写HTML都是和JS和CSS混在一起，一个标签好长好长。那个时候并没有这种语义化的概念，也没有标签、样式、交互代码分离的概念。div在页面里横冲直撞，带着不同的id和class，样式也写得乱七八糟，只要页面看起来没问题就算过关了，殊不知那样的代码估计除了写的人不会有第二个人愿意去看。">
+<meta property="og:updated_time" content="2017-02-28T14:27:16.778Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript DOM 编程艺术 笔记-第三章 第四章">
-<meta name="twitter:description" content="其实这些内容很早之前就遇见过，也实际应用过。但是当时脑子里根本没有一些基本的概念，只知道这样做有效就这样做了。后来渐渐懂了一些道理，但是深深的感觉到还是野路子出身。基础知识还是要扎实才好，巩固的工作还是要做的。这也是为什么回过头来认认真真地看这一章，总结出这些内容。">
+<meta name="twitter:title" content="IFE2017任务92-HTML/CSS相关总结">
+<meta name="twitter:description" content="HMTL5语义化标签备忘录和92题CSS总结
+
+怎么看待以前的div?还记得很久以前写HTML都是和JS和CSS混在一起，一个标签好长好长。那个时候并没有这种语义化的概念，也没有标签、样式、交互代码分离的概念。div在页面里横冲直撞，带着不同的id和class，样式也写得乱七八糟，只要页面看起来没问题就算过关了，殊不知那样的代码估计除了写的人不会有第二个人愿意去看。">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -80,14 +86,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/02/16/JSDOM-chapter3&4/" title="JavaScript DOM 编程艺术 笔记-第三章 第四章" itemprop="url">JavaScript DOM 编程艺术 笔记-第三章 第四章</a>
+      <a href="/2017/02/28/IFE2017-9-92/" title="IFE2017任务92-HTML/CSS相关总结" itemprop="url">IFE2017任务92-HTML/CSS相关总结</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2017-02-16T12:21:00.000Z" itemprop="datePublished"> 发表于 2017-02-16</time>
+    <time datetime="2017-02-28T12:21:09.000Z" itemprop="datePublished"> 发表于 2017-02-28</time>
     
   </p>
 </header>
@@ -96,62 +102,57 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第三章：DOM"><span class="toc-number">1.</span> <span class="toc-text">第三章：DOM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#O和M"><span class="toc-number">1.1.</span> <span class="toc-text">O和M</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#O-Object-对象"><span class="toc-number">1.1.1.</span> <span class="toc-text">O-Object-对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#M-Model-模型"><span class="toc-number">1.1.2.</span> <span class="toc-text">M-Model-模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一些原生DOM方法"><span class="toc-number">1.2.</span> <span class="toc-text">一些原生DOM方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取和设置属性"><span class="toc-number">1.3.</span> <span class="toc-text">获取和设置属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四章：实例：图片库"><span class="toc-number">2.</span> <span class="toc-text">第四章：实例：图片库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何在元素上阻止onclick-的冒泡事件"><span class="toc-number">2.1.</span> <span class="toc-text">如何在元素上阻止onclick()的冒泡事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于node的各种属性和方法"><span class="toc-number">2.2.</span> <span class="toc-text">关于node的各种属性和方法</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#怎么看待以前的div"><span class="toc-number">1.</span> <span class="toc-text">怎么看待以前的div?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的大标签"><span class="toc-number">2.</span> <span class="toc-text">新的大标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的小标签"><span class="toc-number">3.</span> <span class="toc-text">新的小标签</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文本字体元素"><span class="toc-number">3.1.</span> <span class="toc-text">文本字体元素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分组元素标签"><span class="toc-number">3.2.</span> <span class="toc-text">分组元素标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他新标签"><span class="toc-number">3.3.</span> <span class="toc-text">其他新标签</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的总结"><span class="toc-number">4.</span> <span class="toc-text">CSS的总结</span></a></li></ol>
 		
 		</div>
 		
 		<blockquote>
-<p>其实这些内容很早之前就遇见过，也实际应用过。但是当时脑子里根本没有一些基本的概念，只知道这样做有效就这样做了。后来渐渐懂了一些道理，但是深深的感觉到还是野路子出身。基础知识还是要扎实才好，巩固的工作还是要做的。这也是为什么回过头来认认真真地看这一章，总结出这些内容。</p>
+<p>HMTL5语义化标签备忘录和92题CSS总结</p>
 </blockquote>
-<a id="more"></a>
-<h2 id="第三章：DOM"><a href="#第三章：DOM" class="headerlink" title="第三章：DOM"></a>第三章：DOM</h2><p>DOM：Document Object Model<br>D是document毫无疑问，值得注意的是O和M。  </p>
-<h3 id="O和M"><a href="#O和M" class="headerlink" title="O和M"></a>O和M</h3><h4 id="O-Object-对象"><a href="#O-Object-对象" class="headerlink" title="O-Object-对象"></a>O-Object-对象</h4><p>JS里对象分为三类：</p>
+<h3 id="怎么看待以前的div"><a href="#怎么看待以前的div" class="headerlink" title="怎么看待以前的div?"></a>怎么看待以前的<code>div</code>?</h3><p>还记得很久以前写HTML都是和JS和CSS混在一起，一个标签好长好长。那个时候并没有这种语义化的概念，也没有标签、样式、交互代码分离的概念。<br><code>div</code>在页面里横冲直撞，带着不同的id和class，样式也写得乱七八糟，只要页面看起来没问题就算过关了，殊不知那样的代码估计除了写的人不会有第二个人愿意去看。<br><a id="more"></a><br>语义化的目的就在于不再单一地使用一种标签，通过id和class标记它的作用和控制样式；而是直接从名字体现。<br>不过尽管上古时期的<code>div</code>到了现在很多都被一些带有明显语义的标签替代，但它仍然是有它自己的作用的，不能因为HTML5的浪潮拍来，就将它遗弃。</p>
+<h3 id="新的大标签"><a href="#新的大标签" class="headerlink" title="新的大标签"></a>新的<strong>大</strong>标签</h3><p><code>header</code>代表页眉。</p>
+<ul>
+<li>可以用在所有带有页眉或者头部的内容中。  </li>
+<li>经常和<code>hgroup</code>放在一起，或包含各种标题<code>h1-6</code>或包含搜索框导航条<code>nav</code>等。</li>
+</ul>
+<p><code>footer</code>代表页脚。<br><code>hgroup</code>代表标题组，主副标题作者时间等等。写到这里我就想回去改代码了…那个HTML基础代码完全没体现语义化嘛。<br><code>nav</code>代表导航栏、条、区。当然里面一般情况下都会包裹一个无序列表。<strong>注意:</strong>应该把它用在<strong>主要</strong>导航区上，这是一条规范。貌似不能随便使用。<br><code>aside</code>元素一般是侧边栏。不过它的用途是显示主要内容的附属部分，比如我博客里的这个侧边栏分类、归档等。（然而我去看了一下，它最外层仍然是一个<code>div</code>）。<br><code>section</code>元素代表一节或一段，或者你认为的一个页面的一大块部分。最初知道这个标签的时候是偶然碰到了一个优秀SPA站点的集合站，在里面逛了半天，见识到了很多非常漂亮的SPA。我就去挨个点开看代码，发现了这样的标签。（还记得当时看到<code>::after</code>等伪元素一脸懵逼地想这东西是啥。）<br><code>article</code>我觉得这个元素与<code>section</code>和<code>div</code>的最大区别是在使用的时候应该非常注意一点，就是里面的结构应该是一个典型的文章结构。有标题，有内容，有结尾署名，或许还有评论（嵌套<code>article</code>）。我觉得在使用它们时，考虑一下它所展示的内容和整个文档的关系即可。比如整篇文档只显示一篇文章，比如一篇很长的小说，那么就可以用<code>article</code>包裹多个<code>section</code>，每个<code>section</code>是一个章节；反之如果这篇文档显示的是多篇短篇小说，那么久可以用多个<code>section</code>包裹<code>article</code>。<br><code>address</code>这个标签我是第一次知道。见名知意了。一般出现在<code>footer</code>。</p>
+<h3 id="新的小标签"><a href="#新的小标签" class="headerlink" title="新的小标签"></a>新的小标签</h3><p>上面的那些标签都是用来包裹页面中相对较大的区块的，有利于对内容进行分割。（模块化？；-&gt;）<br>而一些小的标签，如文本元素等也经过了重新定义，这一块的内容就比较碎了，总结一下。（如果与以前的没有什么太大区别，并且非常常用，我就不写了。）</p>
+<h4 id="文本字体元素"><a href="#文本字体元素" class="headerlink" title="文本字体元素"></a>文本字体元素</h4><p>这一块有很多常用的标签，比如<code>a</code>，<code>p</code>等，这些就不再赘述。其他一些元素很大程度上是为了方便搜索引擎或者网络爬虫更好滴理解你的页面而存在的。这在以后可能很重要。需要注意的有：</p>
+<ul>
+<li>一些纯样式标签最好不要使用，因为样式应该由CSS来负责。比如：<code>em</code>,<code>strong</code>,<code>b</code>,<code>i</code>,<code>u</code>等。但是需要注意的是前两个存在一些语义的信息，这种“强调”的工作对于表现来说，可以通过CSS取代；对于SEO等需要理解语义的方面来说，就不能取代。目前我也不太知道是否有必要去使用它们。在确定的信息到来之前，我会持续关注。</li>
+<li>一些标签可能有特殊用途，比如：<code>code</code>,<code>q(uote)</code>,<code>cite</code>用来展示带有特性的文本。</li>
+<li><code>abbr</code>这种在显示上其实和不使用它时看不出差别，但是它能够在文档中告诉搜索引擎其中的内容是哪些词的缩写。</li>
+<li><code>span</code>没有意义，它只表示一定范围。与<code>div</code>类似，我认为应该尽量少用没有意义的标签，如果有其他语义化标签能够发挥作用，这些标签应该是最后选择的。</li>
+<li>还有其他的如<code>var</code>,<code>samp</code>,<code>kbd</code>,<code>wbr</code>等，目前还可能还没有投入使用。也不清楚用了之后会有什么好处。</li>
+<li><code>time</code>使用后会在其内容前后产生一些缩进，让里面的文字看起来是一个特殊的时间。它的使用方式是：<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">time</span> <span class="attr">datetime</span>=<span class="string">"2017-02-28T21:19:40+08:00"</span> <span class="attr">pubdate</span>&gt;</span>2017年2月28日21:19:40 UTC+8<span class="tag">&lt;/<span class="name">time</span>&gt;</span></div></pre></td></tr></table></figure>
+语义上需要注意的是如果它在一个<code>article</code>中，则代表的是文章发布时间；否则表示整个文档发布时间。</li>
+</ul>
+<h4 id="分组元素标签"><a href="#分组元素标签" class="headerlink" title="分组元素标签"></a>分组元素标签</h4><p>这一部分是我不太知道的。看了别人的代码发现图片与标题文字可以使用<code>dl</code> <code>dt</code> <code>dd</code>来组合，这里总结一下。</p>
+<ul>
+<li><code>dl</code>即definition list，它的使用方式类似<code>ul</code>（不知道这样理解对不对），是一个列表的最外边标签元素。</li>
+<li><code>dt</code>就像<code>li</code>，代表一个列表项，或者说项目标题。</li>
+<li><code>dd</code>就是对该项的解释和描述。它们的关系实际上类似<code>ul</code>和<code>table</code>的结合，就是以<code>th``td</code>的方式来展示一个<code>li</code>。</li>
+<li><code>ol</code>代表有序列表。需要注意两个属性<code>&lt;ol start=&quot;5&quot; reversed&gt;</code>表示从2开始降序计数。目前只有Chrome和Safari6支持<code>ol</code>元素的<code>reversed</code>属性。</li>
+<li><code>figure</code>与<code>figurecaption</code>结合使用可以展现类似latex中的图片样式，即上图下题，最多只能有一个<code>figurecaption</code>。</li>
+</ul>
+<h4 id="其他新标签"><a href="#其他新标签" class="headerlink" title="其他新标签"></a>其他新标签</h4><p>比如<code>audio</code>, <code>video</code>及其里面的<code>source</code>、<code>track</code>等元素，还有可以绘画的<code>canvas</code>元素等等，会在碰到的时候进行专题总结。</p>
+<h3 id="CSS的总结"><a href="#CSS的总结" class="headerlink" title="CSS的总结"></a>CSS的总结</h3><p>这里只总结一下样式属性的顺序。关于这些规范其实有很多种，比如<a href="http://nec.netease.com/standard" target="_blank" rel="external">网易的规范</a>和<a href="http://www.shejidaren.com/css-written-specifications.html" target="_blank" rel="external">推荐大家使用的CSS书写规范、顺序</a><br>CSS样式定义顺序：</p>
 <ol>
-<li>用户定义对象</li>
-<li>内键对象：<code>Array</code>、<code>Math</code>、<code>Date</code>等，JavaScript自带的对象</li>
-<li>宿主对象：由浏览器提供的对象，如<code>window</code></li>
-</ol>
-<p><code>window</code>对象对应浏览器窗口，由浏览器提供。它的属性和方法就是BOM：<code>window.innerHeight</code>, <code>window.open</code>, <code>window.blur</code>等。</p>
-<h4 id="M-Model-模型"><a href="#M-Model-模型" class="headerlink" title="M-Model-模型"></a>M-Model-模型</h4><p>即Model，其实说的就是HTML节点树的形态描述</p>
-<h3 id="一些原生DOM方法"><a href="#一些原生DOM方法" class="headerlink" title="一些原生DOM方法"></a>一些原生DOM方法</h3><ol>
-<li><code>getElementById</code></li>
-<li><code>getElementsByTagName</code>: 返回对象数组</li>
-<li><code>getElementsByClass</code>: H5新增，类选择器</li>
-</ol>
-<p>注意，上述方法是<code>document</code>对象的方法。</p>
-<h3 id="获取和设置属性"><a href="#获取和设置属性" class="headerlink" title="获取和设置属性"></a>获取和设置属性</h3><p>这些方法就是普通对象<code>object</code>的方法了。</p>
-<ol>
-<li><code>object.getAttribute(attribute)</code></li>
-<li><code>object.setAttribute(attribute, value)</code></li>
-</ol>
-<h2 id="第四章：实例：图片库"><a href="#第四章：实例：图片库" class="headerlink" title="第四章：实例：图片库"></a>第四章：实例：图片库</h2><p>这一章主要是实例，其中需要注意的几个点总结如下。</p>
-<h3 id="如何在元素上阻止onclick-的冒泡事件"><a href="#如何在元素上阻止onclick-的冒泡事件" class="headerlink" title="如何在元素上阻止onclick()的冒泡事件"></a>如何在元素上阻止<code>onclick()</code>的冒泡事件</h3><p>首先，如果在<code>a</code>元素上绑定了<code>onclick()</code>这样的事件，在点击它的时候，<code>onclick</code>事件处理函数<strong>调用的函数</strong>默认返回值是<code>true</code>，对于该事件处理函数来说，它会认为自己受到了一次点击，就要转到<code>a</code>元素所指向的链接。<br>反之如果该调用函数返回了<code>false</code>，那么事件处理函数将不会触发这个链接的默认行为，则不会跳转。所以这里的处理方式的，给调用函数的代码处添加<code>false</code>返回值。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://www.example.com"</span> <span class="attr">onclick</span>=<span class="string">"showPic(); return false;"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h3 id="关于node的各种属性和方法"><a href="#关于node的各种属性和方法" class="headerlink" title="关于node的各种属性和方法"></a>关于<code>node</code>的各种属性和方法</h3><p>首先是子元素：</p>
-<ol>
-<li><code>childNodes</code>属性：返回一个子元素数组</li>
-<li><code>nodeType</code>属性，可以根据值区分节点类型：<ol>
-<li>值为1：元素节点</li>
-<li>值为2：属性节点</li>
-<li>值为3：文本节点</li>
-</ol>
-</li>
-<li><code>nodeValue</code>属性：它可以取到一个<strong>文本节点</strong>的值；给它赋值也可以改变该文本节点的值。</li>
-<li><code>firstChild</code>和<code>lastChild</code>：见名知意。</li>
+<li>位置属性(position, top, right, z-index, display, float等)</li>
+<li>大小(width, height, padding, margin)</li>
+<li>文字系列(font, line-height, letter-spacing, color- text-align等)</li>
+<li>背景(background, border等)</li>
+<li>其他(animation, transition等)</li>
 </ol>
   
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/HTML/">HTML</a>
   </div>
 
 </div>
@@ -160,7 +161,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2017/02/16/JSDOM-chapter3&4/" data-title="JavaScript DOM 编程艺术 笔记-第三章 第四章 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/02/28/IFE2017-9-92/" data-title="IFE2017任务92-HTML/CSS相关总结 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -173,19 +174,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/02/19/week-summary-20170219/" title="学期初总结">
-  <strong>上一篇：</strong><br/>
-  <span>
-  学期初总结</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/02/15/IFE2017-warmup/"  title="IFE2017 热身任务">
+<a href="/2017/02/25/IFE2017-23/"  title="IFE2017任务23-自定义checkbox和radio的样式">
  <strong>下一篇：</strong><br/> 
- <span>IFE2017 热身任务
+ <span>IFE2017任务23-自定义checkbox和radio的样式
 </span>
 </a>
 </div>
@@ -194,7 +187,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/02/16/JSDOM-chapter3&4/" data-title="JavaScript DOM 编程艺术 笔记-第三章 第四章" data-url="http://ming-holy.space/2017/02/16/JSDOM-chapter3&4/"></div>
+	<div class="ds-thread" data-thread-key="2017/02/28/IFE2017-9-92/" data-title="IFE2017任务92-HTML/CSS相关总结" data-url="http://ming-holy.space/2017/02/28/IFE2017-9-92/"></div>
 </section>
 
 
@@ -204,7 +197,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第三章：DOM"><span class="toc-number">1.</span> <span class="toc-text">第三章：DOM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#O和M"><span class="toc-number">1.1.</span> <span class="toc-text">O和M</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#O-Object-对象"><span class="toc-number">1.1.1.</span> <span class="toc-text">O-Object-对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#M-Model-模型"><span class="toc-number">1.1.2.</span> <span class="toc-text">M-Model-模型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一些原生DOM方法"><span class="toc-number">1.2.</span> <span class="toc-text">一些原生DOM方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取和设置属性"><span class="toc-number">1.3.</span> <span class="toc-text">获取和设置属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四章：实例：图片库"><span class="toc-number">2.</span> <span class="toc-text">第四章：实例：图片库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何在元素上阻止onclick-的冒泡事件"><span class="toc-number">2.1.</span> <span class="toc-text">如何在元素上阻止onclick()的冒泡事件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于node的各种属性和方法"><span class="toc-number">2.2.</span> <span class="toc-text">关于node的各种属性和方法</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#怎么看待以前的div"><span class="toc-number">1.</span> <span class="toc-text">怎么看待以前的div?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的大标签"><span class="toc-number">2.</span> <span class="toc-text">新的大标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的小标签"><span class="toc-number">3.</span> <span class="toc-text">新的小标签</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文本字体元素"><span class="toc-number">3.1.</span> <span class="toc-text">文本字体元素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分组元素标签"><span class="toc-number">3.2.</span> <span class="toc-text">分组元素标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他新标签"><span class="toc-number">3.3.</span> <span class="toc-text">其他新标签</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的总结"><span class="toc-number">4.</span> <span class="toc-text">CSS的总结</span></a></li></ol>
  
   </div>
 
