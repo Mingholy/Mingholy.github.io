@@ -1,0 +1,111 @@
+/* reset */
+body {
+    margin: 0;
+}
+
+#method-1, #method-2 {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.g-container {
+    padding: 20px;
+}
+
+.g-main, .m-left-content, .m-middle-content, .m-right-content {
+    border: 1px solid #999;
+    background: #fff;
+}
+
+/* content */
+.g-main {
+    position: relative;
+    padding: 20px;
+    min-width: 650px;
+    background: #eee;
+    overflow: auto;
+}
+
+/* method-1 */
+#method-1 .m-left-content {
+    float: left;
+    width: 200px;
+    margin: 0 20px 20px 0;
+    text-align: center;
+}
+
+#method-1 .m-right-content {
+    float: right;
+    width: 120px;
+    margin: 0 0 20px 20px;
+}
+
+#method-1 .m-middle-content {
+    display: block;
+    padding: 20px;
+    min-width: 200px;
+    overflow: auto;
+}
+
+/* method-2 */
+#method-2 .m-middle-container {
+    float: left;
+    width: 100%;
+}
+
+#method-2 .m-middle-content {
+    margin: 0 140px 0 220px;
+}
+
+#method-2 .m-left-content, #method-2 .m-right-content {
+    float: left;
+}
+
+#method-2 .m-left-content {
+    width: 200px;
+    margin-left: -100%;
+}
+
+#method-2 .m-right-content {
+    width: 120px;
+    margin-left: -122px;
+}
+
+
+/* public */
+.m-middle-content capital {
+    float: left;
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 2em;
+    line-height: 1em;
+}
+
+.m-middle-content section {
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.m-right-content img {
+    width: 120px;
+}
+
+.m-left-content img {
+    width: 200px;
+}
+
+.m-middle-content h1, h2 {
+    text-align: right;
+    padding: 0 2em;
+}
+
+.m-middle-content h3 {
+    background: #ccc;
+    text-align: center;
+    line-height: 2em;
+}
+
+.m-right-content {
+    text-align: center;
+    font-size: small;
+}
