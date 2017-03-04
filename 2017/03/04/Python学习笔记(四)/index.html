@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="A Cup of Coffee">
 <meta property="og:description" content="今天看了一些关于返回函数，闭包和正则表达式替换的一个小trick。
 返回函数这一块的内容…我已经不知道该怎么说好了。因为这一块和闭包联系非常紧密，而闭包又是JavaScript的必会内容。其实已经看了好几遍相关内容了，就是没理解也记不住。昨天在尝试解决同学的一个svg不能插入html元素的问题时，尝试使用闭包，也失败了。虽然最后问题所在并不是闭包能解决的，但是还是感觉到，看知识是一回事，自己运用它">
-<meta property="og:updated_time" content="2017-03-04T14:45:57.328Z">
+<meta property="og:updated_time" content="2017-03-04T14:46:15.181Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Python学习笔记(四)-关于闭包、高阶函数">
 <meta name="twitter:description" content="今天看了一些关于返回函数，闭包和正则表达式替换的一个小trick。
@@ -105,6 +105,7 @@
 		
 		<p>今天看了一些关于返回函数，闭包和正则表达式替换的一个小trick。</p>
 <h3 id="返回函数"><a href="#返回函数" class="headerlink" title="返回函数"></a>返回函数</h3><p>这一块的内容…我已经不知道该怎么说好了。因为这一块和闭包联系非常紧密，而闭包又是JavaScript的必会内容。其实已经看了好几遍相关内容了，就是没理解也记不住。<br>昨天在尝试解决同学的一个svg不能插入html元素的问题时，尝试使用闭包，也失败了。虽然最后问题所在并不是闭包能解决的，但是还是感觉到，看知识是一回事，自己运用它来实现功能、解决问题是另一回事。</p>
+<a id="more"></a>
 <p>在JavaScript中，函数也是个对象，把函数作为一返回值再正常不过。Python其实也是一样。如果不需要一个函数立即运行，可以把它放在另一个函数里，并且作为外层函数的返回值。这样当运行外层函数时，<strong>将按照内层函数的样子“实例化”一个对象</strong>，把这个对象返回。（不知道这么理解对不对。）这样内层函数将不会立即执行。</p>
 <p>同时，内层函数将可以引用外层函数的所有参数和局部变量。这也是一种能够将函数内部的变量暴露供外界使用的方式。（<a href="http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html" target="_blank" rel="external">阮一峰关于闭包的解释</a>）</p>
 <p>需要注意的是：既然我上面说是按照内层函数的样子实例化一个函数对象，那么就意味着如果多次调用外层函数实例化了多个内层函数返回值，则每一个返回值都是不同的对象，尽管它们的内容一模一样——都是按照同一个函数生成的。</p>
