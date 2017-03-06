@@ -94,27 +94,8 @@
      * @returns string 中文数字
      */
     function numberTransform(n) {
-        var mapper = {
-            0: "零",
-            1: "一",
-            2: "二",
-            3: "三",
-            4: "四",
-            5: "五",
-            6: "六",
-            7: "七",
-            8: "八",
-            9: "九"
-        }
-        var base = {
-            0: "",
-            1: "十",
-            2: "百",
-            3: "千",
-            4: "万",
-            5: "十",
-            6: "百"
-        }
+        var mapper = {0: "零", 1: "一", 2: "二", 3: "三", 4: "四", 5: "五", 6: "六", 7: "七", 8: "八", 9: "九"};
+        var base = {0: "", 1: "十", 2: "百", 3: "千", 4: "万", 5: "十", 6: "百"};
         var cnumber = "";
         if(n && n >= 0){
             n = n.toString();
@@ -122,10 +103,7 @@
                 cnumber += mapper[n[i]];
                 if (n[i] !== "0") {
                     cnumber += base[n.length - i - 1];
-                } else if (n.length - i === 5) {
-                    cnumber = cnumber.replace(/零+/g, "万");
-                }
-                else if (n[i - 1] === "0" && n.length - i === 4) {
+                } else if (n.length - i === 5 || n[i - 1] === "0" && n.length - i === 4) {
                     cnumber = cnumber.replace(/零+/g, "万");
                 }
             }
