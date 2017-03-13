@@ -16,13 +16,10 @@
 事件绑定
 类型检测的trick
 闭包
-‘this’与作用域
+this与作用域
 数据持久化与面向对象
 ES6
-响应式设计
-
-
-  乍看之下，这么简单的任务这么会涉及到这么多内容？其实在写任务103的时候，并没有涉及到这么多的东西，但">
+响应式设计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IFE2017任务105-可视化排序算法">
 <meta property="og:url" content="http://ming-holy.space/2017/03/13/IFE2017-105/index.html">
@@ -32,14 +29,12 @@ ES6
 事件绑定
 类型检测的trick
 闭包
-‘this’与作用域
+this与作用域
 数据持久化与面向对象
 ES6
-响应式设计
-
-
-  乍看之下，这么简单的任务这么会涉及到这么多内容？其实在写任务103的时候，并没有涉及到这么多的东西，但">
-<meta property="og:updated_time" content="2017-03-13T07:12:12.159Z">
+响应式设计">
+<meta property="og:image" content="http://ming-holy.space/2017/03/13/IFE2017-105/1.png">
+<meta property="og:updated_time" content="2017-03-13T09:15:08.821Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IFE2017任务105-可视化排序算法">
 <meta name="twitter:description" content="这个任务实际上是跟之前的103基础JavaScript练习(一)一起总结的。这两个任务虽然说是基础任务，但是涉及到的点还是比较多并且非常重要的，可以说是逢面试必考。主要想到了的点有：
@@ -47,13 +42,11 @@ ES6
 事件绑定
 类型检测的trick
 闭包
-‘this’与作用域
+this与作用域
 数据持久化与面向对象
 ES6
-响应式设计
-
-
-  乍看之下，这么简单的任务这么会涉及到这么多内容？其实在写任务103的时候，并没有涉及到这么多的东西，但">
+响应式设计">
+<meta name="twitter:image" content="http://ming-holy.space/2017/03/13/IFE2017-105/1.png">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -129,7 +122,7 @@ ES6
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从“面子上”做起——事件绑定"><span class="toc-number">2.</span> <span class="toc-text">从“面子上”做起——事件绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的合法性判断——类型检测小trick"><span class="toc-number">3.</span> <span class="toc-text">简单的合法性判断——类型检测小trick</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined、null和NaN"><span class="toc-number">3.1.</span> <span class="toc-text">undefined、null和NaN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类型检测小trick"><span class="toc-number">3.2.</span> <span class="toc-text">类型检测小trick</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据持久化与面向对象"><span class="toc-number">4.</span> <span class="toc-text">数据持久化与面向对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#理解闭包——这个标题见到过…好几十遍了？"><span class="toc-number">5.</span> <span class="toc-text">理解闭包——这个标题见到过…好几十遍了？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this与作用域——《你不知道的JavaScript》"><span class="toc-number">6.</span> <span class="toc-text">this与作用域——《你不知道的JavaScript》</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6——好像还考Babel的实现"><span class="toc-number">7.</span> <span class="toc-text">ES6——好像还考Babel的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#适度的“精雕细琢”——响应式设计"><span class="toc-number">8.</span> <span class="toc-text">适度的“精雕细琢”——响应式设计</span></a></li></ol>
 		
 		</div>
 		
@@ -139,14 +132,61 @@ ES6
 <li>事件绑定</li>
 <li>类型检测的trick</li>
 <li>闭包</li>
-<li>‘this’与作用域</li>
+<li><code>this</code>与作用域</li>
 <li>数据持久化与面向对象</li>
 <li>ES6</li>
 <li>响应式设计</li>
 </ul>
 </blockquote>
-<p>  乍看之下，这么简单的任务这么会涉及到这么多内容？其实在写任务103的时候，并没有涉及到这么多的东西，但是后来在看了别的同学的代码之后，发现自己只是实现了功能，但是从其他方面都不够优雅，所以开始学着其他同学的写法自己重写103任务，并且延续这种风格，试着解决105的新问题。参考了一位同学的代码，我是在提交作业后的表格里看到他的，但是我已经忘了他的名字，还是直接写上他的<a href="https://github.com/Away0x/baidu_fe/blob/master/" target="_blank" rel="external">Github</a>吧</p>
-  
+  <a id="more"></a>
+<p><a href="http://ife.baidu.com/course/detail/id/103" target="_blank" rel="external">任务103</a><br><a href="http://ming-holy.space/2017/IFE-2017/103/index.html">103-Demo</a><br><a href="https://github.com/Mingholy/IFE-2017/tree/master/103" target="_blank" rel="external">103-Code</a><br><a href="https://github.com/Mingholy/IFE-2017/tree/master/103-oo" target="_blank" rel="external">103重写-Code</a></p>
+<p><a href="http://ife.baidu.com/course/detail/id/105" target="_blank" rel="external">任务105</a><br><a href="https://github.com/Mingholy/IFE-2017/tree/master/105" target="_blank" rel="external">105-Code</a></p>
+<p>  乍看之下，这么简单的任务这么会涉及到这么多内容？其实在写任务103的时候，并没有涉及到这么多的东西，但是后来在看了别的同学的代码之后，发现自己只是实现了功能，但是从其他方面都不够优雅，所以开始学着其他同学的写法自己重写103任务，并且延续这种风格，试着解决105的新问题。参考了一位同学的代码，我是在提交作业后的表格里看到他的，但是我已经忘了他的名字，还是直接写上他的<a href="https://github.com/Away0x/baidu_fe/blob/master/" target="_blank" rel="external">Github</a>吧。</p>
+<p>  下面要写的，好像每一点都是很大很大的坑，有无数文章和博客和教程介绍，甚至单单一个主题就能写一本书。但是局限在这个任务里，我只写我遇见了的一点点内容，以及有限的百度谷歌能得到的知识。</p>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>首先我们来谈谈问题要我们做什么。我们直接以105为例，因为它也包含了103的需求。我们可以总结如下几点：</p>
+<ol>
+<li>维护一个存储数字的队列，要求<ul>
+<li>数字用元素的高度表示</li>
+<li>带有左入左出、右入右出四个队列首尾增删元素的方法</li>
+<li>点击元素本身也可以删除元素</li>
+<li>元素个数在60以内</li>
+<li>元素表示的数字在10-100之间</li>
+</ul>
+</li>
+<li>实现可视化的排序算法，将排序过程展现出来</li>
+</ol>
+<p>可以发现，对队列本身的维护其实是需求的大头，这一块的工作是最多的。只要队列本身健壮性、可用性较好，那么排序及其可视化，其实就相当于我们使用一个语言自带的array数据结构，编写排序算法。</p>
+<h2 id="从“面子上”做起——事件绑定"><a href="#从“面子上”做起——事件绑定" class="headerlink" title="从“面子上”做起——事件绑定"></a>从“面子上”做起——事件绑定</h2><p>思索之后，觉得表现之后的数据形式还得好好考虑才行，暂时不能做出决定。但是既然是前端任务，不管三七二十一，简单的页面结构先搭建起来。于是写了一个输入框，一些按钮。有了按钮之后，就要把点击按钮要执行的函数绑定在按钮上。<strong>实际上这里的描述是不准确的。我们绑定的实际上是“点击按钮”这个事件。</strong></p>
+<p>首先 ，事件<code>event</code>是HTML DOM的一个对象。它包含的一些属性和方法：</p>
+<ol>
+<li><code>type</code>: 事件的类型；</li>
+<li><code>target/srcElement</code>: 事件源，即发生事件的元素。后面的<code>srcElement</code>是IE的写法</li>
+<li>一些键盘事件的按键属性、鼠标事件的位置属性；</li>
+<li><code>attachEvent()</code>/<code>addEventListener()</code>和<code>detachEvent()</code>/<code>removeEventListener()</code>: 是两种添加移除事件句柄（Event Handler）的方法。前者是IE8的，后面的是webkit的。</li>
+<li>注意，<code>onclick</code>等实际上是事件句柄，而非事件本身。事件本身是如<code>click</code>这样的也就是不带”on”的。</li>
+</ol>
+<p>在绑定事件处理函数时，用到了这样的函数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bindEvent</span>(<span class="params">selector, func</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> element = $(selector);</div><div class="line">    element.addEventListener(<span class="string">"click"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">ev</span>) </span>&#123;</div><div class="line">        <span class="comment">//这里这样写应该是判断func的合法性</span></div><div class="line">        func &amp;&amp; func.call(element, ev);</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>先来看看<code>addEventListener()</code>这个方法的用法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">element.addEventListener(event, function, useCapture)</div></pre></td></tr></table></figure></p>
+<p>其中<code>event</code>是事件命，如<code>click</code>。<code>function</code>是要执行的函数。在调用这个方法时，<strong>会向这个方法传入一个<code>event</code>对象，</strong>这个<code>event</code>对象里面含有很多信息可以利用。<br><img src="/2017/03/13/IFE2017-105/1.png" alt="1.png" title=""></p>
+<blockquote>
+<p>IE系列的events在<code>window.event</code>里，但w3c标准是在事件的回调中传入<code>ev</code>。一般情况下传入的对象和全局的<code>window.event</code>等价。但优先使用参数中的事件对象而非全局。</p>
+</blockquote>
+<p>另一种代码可以看出这个对象的使用方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.onclick = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> e = (e || event);</div><div class="line">    <span class="keyword">var</span> o = e[<span class="string">'target'</span>] || e[<span class="string">'srcElement'</span>];</div><div class="line">    <span class="built_in">console</span>.log(o.tagName);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以通过事件对象的属性取到发生事件的元素。</p>
+<h2 id="简单的合法性判断——类型检测小trick"><a href="#简单的合法性判断——类型检测小trick" class="headerlink" title="简单的合法性判断——类型检测小trick"></a>简单的合法性判断——类型检测小trick</h2><h3 id="undefined、null和NaN"><a href="#undefined、null和NaN" class="headerlink" title="undefined、null和NaN"></a><code>undefined</code>、<code>null</code>和<code>NaN</code></h3><p>首先，JavaScript中的数据类型有<code>undefined</code>，<code>null</code>，<code>boolean</code>，<code>number</code>，<code>string</code>和<code>object</code>。其中<code>undefined</code>和<code>null</code>是单值数据类型。</p>
+<p>使用<code>typeof</code>运算符能够正确检测出的数据类型与上面列出的有所不同，包括：</p>
+<ol>
+<li><code>undefined</code>: 如果数据未定义</li>
+<li><code>boolean</code>: 布尔值</li>
+<li><code>string</code>: 字符串</li>
+<li><code>number</code>: 数字，<strong>包括<code>NaN</code></strong></li>
+<li><code>object</code>: 对象或者<code>null</code></li>
+<li><code>function</code>: 函数</li>
+</ol>
+<p>其中<code>undefined</code>自己成为一个类型；而之所以<code>null</code>会被检测成<code>object</code>是因为它表示一个空对象指针；对于<code>NaN</code>，它表示非数值。它特殊到，它自己都不等于自己。而<code>isNaN()</code>函数是来判断一个数据是否<strong>不是数值</strong>的。它的工作是尝试将接收到的参数转化为数值，比如布尔值会转化为0和1，如果实在不能转就判断为“不是数值”。虽然有这个叫<code>isNaN()</code>的函数跟<code>NaN</code>长得很像，但是它并不能用来判断一个对象是否是<code>NaN</code>。因为<code>isNaN(undefined)</code>也将返回<code>true</code>，然而<code>NaN</code>跟任何其他东西都不相等，当然也不会是<code>undefined</code>。所以可以说，使它返回<code>false</code>的参数，一定不是<code>NaN</code>；但使它返回<code>true</code>的参数不一定是<code>NaN</code>。</p>
+<p>这里面的逻辑很绕，但是在检测<code>NaN</code>的时候最好再加上检测<code>undefined</code>的机制，应该是较好的实践。</p>
+<h3 id="类型检测小trick"><a href="#类型检测小trick" class="headerlink" title="类型检测小trick"></a>类型检测小trick</h3><p>除了使用上述的各种数据类型的特点和<code>typeof</code>运算符来检测，以及使用<code>===</code>判断两个参数是否是同一类型的，还有一种方法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isType</span>(<span class="params">type</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">target</span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> toString.call(target) === <span class="string">"[object "</span> + type + <span class="string">"]"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> is_array = isType(<span class="string">"Array"</span>);</div><div class="line">is_array(<span class="string">"abc"</span>); <span class="comment">// false</span></div></pre></td></tr></table></figure><br>这是利用了<code>Object.prototype</code>上的<code>toString()</code>方法判断数据类型。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="literal">null</span>);<span class="comment">//[object Null]</span></div><div class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="literal">undefined</span>);<span class="comment">//[object Undefined]</span></div><div class="line"><span class="built_in">Object</span>.prototype.toString.call(“abc”);<span class="comment">//[object String]</span></div><div class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="number">123</span>);<span class="comment">//[object Number]</span></div><div class="line"><span class="built_in">Object</span>.prototype.toString.call(<span class="literal">true</span>);<span class="comment">//[object Boolean]</span></div></pre></td></tr></table></figure><br>它也可以判断原生引用类型，如<code>Function</code>、<code>Date</code>和原生JSON等。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">Object</span>.prototype.toString.call(fn);<span class="comment">//[object Function]</span></div><div class="line"><span class="keyword">var</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line"><span class="built_in">Object</span>.prototype.toString.call(date);<span class="comment">//[object Date]</span></div><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</div><div class="line"><span class="built_in">Object</span>.prototype.toString.call(arr);<span class="comment">//[object Array]</span></div></pre></td></tr></table></figure><br>判断一个对象是某一个类的实例时，还是要使用<code>instanceof</code>运算符。</p>
+<h2 id="数据持久化与面向对象"><a href="#数据持久化与面向对象" class="headerlink" title="数据持久化与面向对象"></a>数据持久化与面向对象</h2><h2 id="理解闭包——这个标题见到过…好几十遍了？"><a href="#理解闭包——这个标题见到过…好几十遍了？" class="headerlink" title="理解闭包——这个标题见到过…好几十遍了？"></a>理解闭包——这个标题见到过…好几十遍了？</h2><h2 id="this与作用域——《你不知道的JavaScript》"><a href="#this与作用域——《你不知道的JavaScript》" class="headerlink" title="this与作用域——《你不知道的JavaScript》"></a><code>this</code>与作用域——《你不知道的JavaScript》</h2><h2 id="ES6——好像还考Babel的实现"><a href="#ES6——好像还考Babel的实现" class="headerlink" title="ES6——好像还考Babel的实现"></a>ES6——好像还考Babel的实现</h2><h2 id="适度的“精雕细琢”——响应式设计"><a href="#适度的“精雕细琢”——响应式设计" class="headerlink" title="适度的“精雕细琢”——响应式设计"></a>适度的“精雕细琢”——响应式设计</h2>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -204,7 +244,7 @@ ES6
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#需求"><span class="toc-number">1.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从“面子上”做起——事件绑定"><span class="toc-number">2.</span> <span class="toc-text">从“面子上”做起——事件绑定</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的合法性判断——类型检测小trick"><span class="toc-number">3.</span> <span class="toc-text">简单的合法性判断——类型检测小trick</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined、null和NaN"><span class="toc-number">3.1.</span> <span class="toc-text">undefined、null和NaN</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#类型检测小trick"><span class="toc-number">3.2.</span> <span class="toc-text">类型检测小trick</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据持久化与面向对象"><span class="toc-number">4.</span> <span class="toc-text">数据持久化与面向对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#理解闭包——这个标题见到过…好几十遍了？"><span class="toc-number">5.</span> <span class="toc-text">理解闭包——这个标题见到过…好几十遍了？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#this与作用域——《你不知道的JavaScript》"><span class="toc-number">6.</span> <span class="toc-text">this与作用域——《你不知道的JavaScript》</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ES6——好像还考Babel的实现"><span class="toc-number">7.</span> <span class="toc-text">ES6——好像还考Babel的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#适度的“精雕细琢”——响应式设计"><span class="toc-number">8.</span> <span class="toc-text">适度的“精雕细琢”——响应式设计</span></a></li></ol>
  
   </div>
 
