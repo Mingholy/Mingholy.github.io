@@ -4,29 +4,56 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>JavaScript DOM 编程艺术 笔记-第二章 | A Cup of Coffee</title>
+    <title>IFE2017任务105-可视化排序算法 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="虽然大多数都是最简单的内容，但是为了养成良好的编码习惯，需要注意的还是要记下来。总没有坏处。
+    <meta name="description" content="这个任务实际上是跟之前的103基础JavaScript练习(一)一起总结的。这两个任务虽然说是基础任务，但是涉及到的点还是比较多并且非常重要的，可以说是逢面试必考。主要想到了的点有：
 
-##12345var foo = &quot;first statement&quot;;    //最好在每一行后都加上分号，单行注释使用双斜杠/* 多行注释使用   这种方式比较好 */var mood = &quot;happy&quot;, age = 23;  //变量与其他语法元素的名字都是区分大小写的。var myMood =">
+事件绑定
+类型检测的trick
+闭包
+‘this’与作用域
+数据持久化与面向对象
+ES6
+响应式设计
+
+
+  乍看之下，这么简单的任务这么会涉及到这么多内容？其实在写任务103的时候，并没有涉及到这么多的东西，但">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript DOM 编程艺术 笔记-第二章">
-<meta property="og:url" content="http://ming-holy.space/2017/01/24/JSDOM-chapter2/index.html">
+<meta property="og:title" content="IFE2017任务105-可视化排序算法">
+<meta property="og:url" content="http://ming-holy.space/2017/03/13/IFE2017-105/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="虽然大多数都是最简单的内容，但是为了养成良好的编码习惯，需要注意的还是要记下来。总没有坏处。
+<meta property="og:description" content="这个任务实际上是跟之前的103基础JavaScript练习(一)一起总结的。这两个任务虽然说是基础任务，但是涉及到的点还是比较多并且非常重要的，可以说是逢面试必考。主要想到了的点有：
 
-##12345var foo = &quot;first statement&quot;;    //最好在每一行后都加上分号，单行注释使用双斜杠/* 多行注释使用   这种方式比较好 */var mood = &quot;happy&quot;, age = 23;  //变量与其他语法元素的名字都是区分大小写的。var myMood =">
-<meta property="og:updated_time" content="2017-02-16T12:20:49.600Z">
+事件绑定
+类型检测的trick
+闭包
+‘this’与作用域
+数据持久化与面向对象
+ES6
+响应式设计
+
+
+  乍看之下，这么简单的任务这么会涉及到这么多内容？其实在写任务103的时候，并没有涉及到这么多的东西，但">
+<meta property="og:updated_time" content="2017-03-13T07:12:12.159Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript DOM 编程艺术 笔记-第二章">
-<meta name="twitter:description" content="虽然大多数都是最简单的内容，但是为了养成良好的编码习惯，需要注意的还是要记下来。总没有坏处。
+<meta name="twitter:title" content="IFE2017任务105-可视化排序算法">
+<meta name="twitter:description" content="这个任务实际上是跟之前的103基础JavaScript练习(一)一起总结的。这两个任务虽然说是基础任务，但是涉及到的点还是比较多并且非常重要的，可以说是逢面试必考。主要想到了的点有：
 
-##12345var foo = &quot;first statement&quot;;    //最好在每一行后都加上分号，单行注释使用双斜杠/* 多行注释使用   这种方式比较好 */var mood = &quot;happy&quot;, age = 23;  //变量与其他语法元素的名字都是区分大小写的。var myMood =">
+事件绑定
+类型检测的trick
+闭包
+‘this’与作用域
+数据持久化与面向对象
+ES6
+响应式设计
+
+
+  乍看之下，这么简单的任务这么会涉及到这么多内容？其实在写任务103的时候，并没有涉及到这么多的东西，但">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -86,14 +113,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/01/24/JSDOM-chapter2/" title="JavaScript DOM 编程艺术 笔记-第二章" itemprop="url">JavaScript DOM 编程艺术 笔记-第二章</a>
+      <a href="/2017/03/13/IFE2017-105/" title="IFE2017任务105-可视化排序算法" itemprop="url">IFE2017任务105-可视化排序算法</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2017-01-24T12:00:00.000Z" itemprop="datePublished"> 发表于 2017-01-24</time>
+    <time datetime="2017-03-13T06:56:00.000Z" itemprop="datePublished"> 发表于 2017-03-13</time>
     
   </p>
 </header>
@@ -107,15 +134,18 @@
 		</div>
 		
 		<blockquote>
-<p>虽然大多数都是最简单的内容，但是为了养成良好的编码习惯，需要注意的还是要记下来。总没有坏处。</p>
-</blockquote>
-<p>##<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> foo = <span class="string">"first statement"</span>;    <span class="comment">//最好在每一行后都加上分号，单行注释使用双斜杠</span></div><div class="line"><span class="comment">/* 多行注释使用</span></div><div class="line">   这种方式比较好 */</div><div class="line"><span class="keyword">var</span> mood = <span class="string">"happy"</span>, age = <span class="number">23</span>;  <span class="comment">//变量与其他语法元素的名字都是区分大小写的。</span></div><div class="line"><span class="keyword">var</span> myMood = <span class="string">"happy"</span>;  <span class="comment">//驼峰命名</span></div></pre></td></tr></table></figure></p>
+<p>这个任务实际上是跟之前的103基础JavaScript练习(一)一起总结的。这两个任务虽然说是基础任务，但是涉及到的点还是比较多并且非常重要的，可以说是逢面试必考。主要想到了的点有：</p>
 <ul>
-<li>字符串最好用双引号包裹。不管是单引号还是双引号都可以，但必须要全文同一。</li>
-<li>由浏览器提供的预定义对象被称为是<strong>宿主对象</strong>，如Form、Image和Element等，以及最著名的document。</li>
-<li>下面这个例子比较特殊（来自译注）：<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (a = <span class="literal">false</span>) &#123;</div><div class="line">    alert(<span class="string">'hello, world'</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-这里作者是想说明，不应以一个赋值语句作为<code>if</code>的判断条件，因为赋值语句总是会成功的。但事实上这里的<code>a = false</code>虽然是成功的，但是它并没有返回<code>true</code>而是返回了<code>false</code>。这里的返回值是在赋值成功后变量的值。<br>另外，在之前所写的《编写可维护的JavaScript》笔记中也提到，强判断两个变量是否相等，应使用<code>===</code>作为类型与值双重判断的操作符。</li>
+<li>事件绑定</li>
+<li>类型检测的trick</li>
+<li>闭包</li>
+<li>‘this’与作用域</li>
+<li>数据持久化与面向对象</li>
+<li>ES6</li>
+<li>响应式设计</li>
 </ul>
+</blockquote>
+<p>  乍看之下，这么简单的任务这么会涉及到这么多内容？其实在写任务103的时候，并没有涉及到这么多的东西，但是后来在看了别的同学的代码之后，发现自己只是实现了功能，但是从其他方面都不够优雅，所以开始学着其他同学的写法自己重写103任务，并且延续这种风格，试着解决105的新问题。参考了一位同学的代码，我是在提交作业后的表格里看到他的，但是我已经忘了他的名字，还是直接写上他的<a href="https://github.com/Away0x/baidu_fe/blob/master/" target="_blank" rel="external">Github</a>吧</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -123,7 +153,7 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+  <a class="article-category-link" href="/categories/IFE2017/">IFE2017</a>
 </div>
 
 
@@ -138,7 +168,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2017/01/24/JSDOM-chapter2/" data-title="JavaScript DOM 编程艺术 笔记-第二章 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/03/13/IFE2017-105/" data-title="IFE2017任务105-可视化排序算法 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -151,19 +181,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/02/14/闭包和this的简单总结/" title="JavaScript 小笔记：关于闭包和this的用法">
-  <strong>上一篇：</strong><br/>
-  <span>
-  JavaScript 小笔记：关于闭包和this的用法</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/01/22/Python学习笔记(二)/"  title="Python学习笔记(二)-关于切片、迭代器和生成器">
+<a href="/2017/03/05/IFE2017-94/"  title="IFE2017任务94-三栏式布局">
  <strong>下一篇：</strong><br/> 
- <span>Python学习笔记(二)-关于切片、迭代器和生成器
+ <span>IFE2017任务94-三栏式布局
 </span>
 </a>
 </div>
@@ -172,7 +194,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/01/24/JSDOM-chapter2/" data-title="JavaScript DOM 编程艺术 笔记-第二章" data-url="http://ming-holy.space/2017/01/24/JSDOM-chapter2/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/13/IFE2017-105/" data-title="IFE2017任务105-可视化排序算法" data-url="http://ming-holy.space/2017/03/13/IFE2017-105/"></div>
 </section>
 
 
