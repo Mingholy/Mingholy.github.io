@@ -1,0 +1,29 @@
+#queue {
+    position: relative;
+}
+
+li {
+    float: left;
+    width: 15px;
+    margin: 0 2px 0 2px;
+    list-style-type: none;
+    background: red;
+    color: #fff;
+    font-size: 10px;
+    text-align: center;
+}
+
+li.current {
+    background: #317ef3;
+}
+
+li.key {
+    background: yellow;
+}
+
+@media only screen and (max-width: 900px) {
+    li {
+        width: 15px;
+    }
+}
+

@@ -25,7 +25,7 @@ margin的负值用法（奇技淫巧？）">
 定位属性position和浮动属性float的使用
 关于清除浮动
 margin的负值用法（奇技淫巧？）">
-<meta property="og:updated_time" content="2017-03-05T10:52:34.089Z">
+<meta property="og:updated_time" content="2017-03-09T05:41:05.267Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IFE2017任务94-三栏式布局">
 <meta name="twitter:description" content="完成这个任务主要涉及的知识有：
@@ -123,7 +123,7 @@ margin的负值用法（奇技淫巧？）">
 <a id="more"></a>
 <p><a href="http://ife.baidu.com/course/detail/id/94" target="_blank" rel="external">任务94-三栏式布局</a><br><a href="http://ming-holy.space/2017/IFE-2017/94/">Demo</a><br><a href="https://github.com/Mingholy/IFE-2017/tree/master/94" target="_blank" rel="external">Code</a></p>
 <h2 id="position定位属性"><a href="#position定位属性" class="headerlink" title="position定位属性"></a><code>position</code>定位属性</h2><p>首先，默认情况下元素的定位属性值是<code>static</code>，会根据文档流来定位该元素。<br><code>relative</code>：会以父元素为基准进行定位。这时可以指定<code>top</code>、<code>left</code>等属性来确定元素相对于父元素的位置。<br><code>absolute</code>：则是将元素从文档流中移除，不给占位，并根据浏览器窗口来定位。<br><code>relative</code> + <code>absolute</code>：如果在一个<code>relative</code>元素中给定一个子元素的定位属性值为<code>absolute</code>，那么该子元素将相对于父元素进行绝对定位。例如如果指定<code>top: 0; left: 0;</code>，子元素将出现在父元素内部的左上角。<br>    针对这个特性，我们可以实现简单的两栏布局，即给定一个父元素定位属性为<code>relative</code>，给它两个子元素的定位属性为<code>absolute</code>并且一个靠左定位，另一个靠右定位。</p>
-<h2 id="float浮动属性"><a href="#float浮动属性" class="headerlink" title="float浮动属性"></a><code>float</code>浮动属性</h2><p>一旦有<code>float: left</code>或者<code>float: right</code>，元素将被从文档流中出去，不给占位，并且一直靠左或右，直到碰到一个父元素的边界。<br>它相当于是漂浮在其他元素上面的元素，在它下面的元素中的内容将会重新排版以显示出来。因此浮动可以实现文字环绕图片的效果。<br>但是需要注意的是，由于它被从文档流中除名，它所在的位置就不会再给它保留空间。因此对于它的父元素来说，如果浮动元素的内容较长，使得浮动元素长度大于父元素长度，这时如果不加设置，父元素不会自动变长以包裹浮动元素。  </p>
+<h2 id="float浮动属性"><a href="#float浮动属性" class="headerlink" title="float浮动属性"></a><code>float</code>浮动属性</h2><p>一旦有<code>float: left</code>或者<code>float: right</code>，元素将被从文档流中移除并且一直靠左或右，直到碰到一个父元素的边界。<br>它相当于是漂浮在其他元素上面的元素，但是它仍然在文档中占有它的位置，因此在它下面的元素中的内容不会被遮挡，因此浮动可以实现文字环绕图片的效果。<br>但是需要注意的是，由于它被从文档流中除名，它所在的位置就不会再给它保留空间。因此对于它的父元素来说，如果浮动元素的内容较长，使得浮动元素长度大于父元素长度，这时如果不加设置，父元素不会自动变长以包裹浮动元素。  </p>
 <h2 id="关于清除浮动"><a href="#关于清除浮动" class="headerlink" title="关于清除浮动"></a>关于清除浮动</h2><p>浮动的一个问题就是，虽然浮动元素仍然是一个盒子，但是由于它不在文档流中，正常排版结构中也就没有它的位置和空间。这就导致了父元素不能被撑开包裹它。清除浮动可以用来解决<br>这个问题。清除浮动有下面几种方法：</p>
 <ul>
 <li>首先是伪元素法。在做23题自定义radio和checkbox时，查找资料的过程中就发现在<code>::after</code>伪元素中插入空内容<code>content: &quot;&quot;</code>并添加<code>clear: both</code>的后面注释说可以清除浮动。<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">clear</span>: both;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">visibility</span>: hidden;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
@@ -220,10 +220,6 @@ margin的负值用法（奇技淫巧？）">
 		  
 		
 		  
-		
-		  
-		
-		  
 			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
 		  
 		
@@ -233,10 +229,6 @@ margin的负值用法（奇技淫巧？）">
 		
 		  
 			<li><a href="/categories/Java/Hadoop/HBase/" title="HBase">HBase<sup>1</sup></a></li>
-		  
-		
-		  
-		
 		  
 		
 		  
@@ -324,15 +316,15 @@ margin的负值用法（奇技淫巧？）">
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
 			
 		
 			
@@ -348,11 +340,11 @@ margin的负值用法（奇技淫巧？）">
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
 			
 		
 			
