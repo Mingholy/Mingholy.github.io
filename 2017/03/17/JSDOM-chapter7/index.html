@@ -4,50 +4,41 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Python学习笔记(一)-关于基本语法和异常值类型 | A Cup of Coffee</title>
+    <title>JavaScript DOM 编程艺术 笔记-第七章 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="基础入门目前我最喜欢Python的一点是它具有一些非常方便易用的数据结构。
+    <meta name="description" content="动态创建标记
+很多内容都是关于曾经使用过的创建元素的方法，简单总结一下。
 
-list[]
-list是一个有序集合，类似其他语言中的数组
-list中元素可以增删，可以追加元素到末尾
+传统方法传统的插入元素的方法：
 
-
-tuple()
-tuple也是有序集合
-初始化之后不可增删改">
+document.write()插入raw HTML代码
+为元素设置innerHTML属性；它并不是W3C标准中DOM的组成部分，但是HTML5支持它。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Python学习笔记(一)-关于基本语法和异常值类型">
-<meta property="og:url" content="http://ming-holy.space/2017/01/19/Python学习笔记(一)/index.html">
+<meta property="og:title" content="JavaScript DOM 编程艺术 笔记-第七章">
+<meta property="og:url" content="http://ming-holy.space/2017/03/17/JSDOM-chapter7/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="基础入门目前我最喜欢Python的一点是它具有一些非常方便易用的数据结构。
+<meta property="og:description" content="动态创建标记
+很多内容都是关于曾经使用过的创建元素的方法，简单总结一下。
 
-list[]
-list是一个有序集合，类似其他语言中的数组
-list中元素可以增删，可以追加元素到末尾
+传统方法传统的插入元素的方法：
 
-
-tuple()
-tuple也是有序集合
-初始化之后不可增删改">
-<meta property="og:updated_time" content="2017-03-04T14:45:13.799Z">
+document.write()插入raw HTML代码
+为元素设置innerHTML属性；它并不是W3C标准中DOM的组成部分，但是HTML5支持它。">
+<meta property="og:updated_time" content="2017-03-17T09:04:18.010Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Python学习笔记(一)-关于基本语法和异常值类型">
-<meta name="twitter:description" content="基础入门目前我最喜欢Python的一点是它具有一些非常方便易用的数据结构。
+<meta name="twitter:title" content="JavaScript DOM 编程艺术 笔记-第七章">
+<meta name="twitter:description" content="动态创建标记
+很多内容都是关于曾经使用过的创建元素的方法，简单总结一下。
 
-list[]
-list是一个有序集合，类似其他语言中的数组
-list中元素可以增删，可以追加元素到末尾
+传统方法传统的插入元素的方法：
 
-
-tuple()
-tuple也是有序集合
-初始化之后不可增删改">
+document.write()插入raw HTML代码
+为元素设置innerHTML属性；它并不是W3C标准中DOM的组成部分，但是HTML5支持它。">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -107,14 +98,14 @@ tuple也是有序集合
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/01/19/Python学习笔记(一)/" title="Python学习笔记(一)-关于基本语法和异常值类型" itemprop="url">Python学习笔记(一)-关于基本语法和异常值类型</a>
+      <a href="/2017/03/17/JSDOM-chapter7/" title="JavaScript DOM 编程艺术 笔记-第七章" itemprop="url">JavaScript DOM 编程艺术 笔记-第七章</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2017-01-19T12:00:00.000Z" itemprop="datePublished"> 发表于 2017-01-19</time>
+    <time datetime="2017-03-17T07:46:00.000Z" itemprop="datePublished"> 发表于 2017-03-17</time>
     
   </p>
 </header>
@@ -123,82 +114,59 @@ tuple也是有序集合
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础入门"><span class="toc-number">1.</span> <span class="toc-text">基础入门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见异常类型"><span class="toc-number">2.</span> <span class="toc-text">常见异常类型</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#动态创建标记"><span class="toc-number">1.</span> <span class="toc-text">动态创建标记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#传统方法"><span class="toc-number">1.1.</span> <span class="toc-text">传统方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM方法"><span class="toc-number">1.2.</span> <span class="toc-text">DOM方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ajax"><span class="toc-number">1.3.</span> <span class="toc-text">Ajax</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单例子"><span class="toc-number">1.3.1.</span> <span class="toc-text">简单例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#渐进曾倩与平稳退化"><span class="toc-number">1.3.2.</span> <span class="toc-text">渐进曾倩与平稳退化</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="基础入门"><a href="#基础入门" class="headerlink" title="基础入门"></a>基础入门</h2><p>目前我最喜欢Python的一点是它具有一些非常方便易用的数据结构。</p>
-<ul>
-<li><code>list[]</code><ul>
-<li>list是一个有序集合，类似其他语言中的数组</li>
-<li>list中元素可以增删，可以追加元素到末尾</li>
-</ul>
-</li>
-<li><code>tuple()</code><ul>
-<li>tuple也是有序集合</li>
-<li><strong>初始化之后不可增删改</strong><a id="more"></a></li>
-</ul>
-</li>
-<li><code>dict</code><ul>
-<li>类似其他语言的Hash-map，以key-value形式存储数据</li>
-<li>随机访问速度很快，通过key能够迅速找到value</li>
-<li>插入速度极快</li>
-<li>空间换时间的数据结构</li>
-</ul>
-</li>
-<li><code>set</code><ul>
-<li>可以看成是key的集合，不存储value</li>
-<li>特点类似数学意义上的集合：<ul>
-<li>无序</li>
-<li>不重复</li>
-<li>能够进行集合运算（交并补）</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>可变与不可变对象<ul>
-<li>不可变：初始化后其值/其元素值不改变：str、tuple等</li>
-<li>可变对象：初始化后随着程序运行值可能发生改变、增删的，如list</li>
-</ul>
-</li>
-<li>Python的map-reduce<ul>
-<li><code>map(f, [1, 2, 3])</code>将传入函数的<code>f</code>映射应用于list中的每一个值</li>
-<li><code>reduce(g, [1, 2, 3])</code>中传入函数<code>g</code>一般是二元函数，它将作用于list的前两个值上，得到结果后，下一步将函数作用于该结果和下一个值</li>
-</ul>
-</li>
-</ul>
-<h2 id="常见异常类型"><a href="#常见异常类型" class="headerlink" title="常见异常类型"></a>常见异常类型</h2><ol>
-<li><p><code>NameError</code>：尝试访问一个未申明的变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt;  v</div><div class="line">NameError: name &apos;v&apos; is not defined</div></pre></td></tr></table></figure>
-</li>
-<li><p><code>ZeroDivisionError</code>：除数为0</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; v = 1/0</div><div class="line">ZeroDivisionError: int division or modulo by zero</div></pre></td></tr></table></figure>
-</li>
-<li><p><code>SyntaxError</code>：语法错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; int int</div><div class="line">SyntaxError: invalid syntax (&lt;pyshell#14&gt;, line 1)</div></pre></td></tr></table></figure>
-</li>
-<li><p><code>IndexError</code>：索引超出范围</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; List = [2]</div><div class="line">&gt;&gt;&gt; List[3]</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;&lt;pyshell#18&gt;&quot;, line 1, in &lt;module&gt;</div><div class="line">    List[3]</div><div class="line">IndexError: list index out of range</div></pre></td></tr></table></figure>
-</li>
-<li><p><code>KeyError</code>：字典关键字不存在</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; Dic = &#123;&apos;1&apos;:&apos;yes&apos;, &apos;2&apos;:&apos;no&apos;&#125;</div><div class="line">&gt;&gt;&gt; Dic[&apos;3&apos;]</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;&lt;pyshell#20&gt;&quot;, line 1, in &lt;module&gt;</div><div class="line">    Dic[&apos;3&apos;]</div><div class="line">KeyError: &apos;3&apos;</div></pre></td></tr></table></figure>
-</li>
-<li><p><code>IOError</code>：输入输出错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; f = open(&apos;abc&apos;)</div><div class="line">IOError: [Errno 2] No such file or directory: &apos;abc&apos;</div></pre></td></tr></table></figure>
-</li>
-<li><p><code>AttributeError</code>：访问未知对象属性</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; class Worker:</div><div class="line"> def Work():</div><div class="line">  print(&quot;I am working&quot;)</div><div class="line"></div><div class="line">&gt;&gt;&gt; w = Worker()</div><div class="line">&gt;&gt;&gt; w.a</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;&lt;pyshell#51&gt;&quot;, line 1, in &lt;module&gt;</div><div class="line">    w.a</div><div class="line">AttributeError: &apos;Worker&apos; object has no attribute &apos;a&apos;</div></pre></td></tr></table></figure>
-</li>
-<li><p><code>ValueError</code>：数值错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; int(&apos;d&apos;)</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;&lt;pyshell#54&gt;&quot;, line 1, in &lt;module&gt;</div><div class="line">    int(&apos;d&apos;)</div><div class="line">ValueError: invalid literal for int() with base 10: &apos;d&apos;</div></pre></td></tr></table></figure>
-</li>
-<li><p><code>TypeError</code>：类型错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; iStr = &apos;22&apos;</div><div class="line">&gt;&gt;&gt; iVal = 22</div><div class="line">&gt;&gt;&gt; obj = iStr + iVal;</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;&lt;pyshell#68&gt;&quot;, line 1, in &lt;module&gt;</div><div class="line">    obj = iStr + iVal;</div><div class="line">TypeError: Can&apos;t convert &apos;int&apos; object to str implicitly</div></pre></td></tr></table></figure>
-</li>
-<li><p><code>AssertionError</code>：断言错误</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&gt;&gt;&gt; assert 1 != 1</div><div class="line">Traceback (most recent call last):</div><div class="line">  File &quot;&lt;pyshell#70&gt;&quot;, line 1, in &lt;module&gt;</div><div class="line">    assert 1 != 1</div><div class="line">AssertionError</div></pre></td></tr></table></figure>
-</li>
+		<h1 id="动态创建标记"><a href="#动态创建标记" class="headerlink" title="动态创建标记"></a>动态创建标记</h1><blockquote>
+<p>很多内容都是关于曾经使用过的创建元素的方法，简单总结一下。</p>
+</blockquote>
+<h2 id="传统方法"><a href="#传统方法" class="headerlink" title="传统方法"></a>传统方法</h2><p>传统的插入元素的方法：</p>
+<ol>
+<li><code>document.write()</code>插入raw HTML代码</li>
+<li>为元素设置<code>innerHTML</code>属性；它并不是W3C标准中DOM的组成部分，但是HTML5支持它。</li>
 </ol>
+<a id="more"></a>
+<p>需要注意的是，<code>innerHTML</code>属性能够获取或修改的值，就是一个元素节点内部拥有的所有内容。比如有这样一个元素：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"testdiv"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Some <span class="tag">&lt;<span class="name">em</span>&gt;</span>content.<span class="tag">&lt;/<span class="name">em</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure><br>DOM是树状的结构，他会有一个根节点是<code>div</code>，然后有子节点<code>p</code>，而<code>p</code>又有子节点<code>em</code>这样。但<code>innerHTML</code>属性值只是<code>&lt;p&gt;Some &lt;em&gt;content.&lt;/em&gt;&lt;/p&gt;</code>。它并不关心里面的结构。</p>
+<p>并且，<code>innerHTML</code>属性是HTML的专有属性，在呈现XHTML文档时，该属性会被忽略。</p>
+<h2 id="DOM方法"><a href="#DOM方法" class="headerlink" title="DOM方法"></a>DOM方法</h2><p>具体来说就是，创建和插入方法。<br>创建方法是：</p>
+<ol>
+<li><code>createElement(nodeName)</code></li>
+<li><code>createTextNode(text)</code></li>
+</ol>
+<p>插入方法是：</p>
+<ol>
+<li><code>appenChild(node)</code></li>
+<li><code>insertBefore(newElement, targetElement)</code></li>
+</ol>
+<p>如果有需要，还可以利用已有的DOM方法，编写一个<code>insertAfter()</code>方法。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertAfter</span>(<span class="params">newElement, targetElement</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> parent = targetElement.parentNode;</div><div class="line">    <span class="keyword">if</span>(parent.lastChild == targetElement) &#123;</div><div class="line">        parent.appendChild(newElement);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        parent.insertBefore(newElement, targetElement.nextSibling);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>总体思路就是判断目标元素是否是它的父元素的最后一个子元素，如果是则使用<code>appenChild</code>追加新节点；如果不是则在它的下一个兄弟元素前添加新节点。<br><strong>注意：这个方法使用到的DOM方法和属性有：</strong></p>
+<ol>
+<li><code>parentNode</code>属性</li>
+<li><code>lastChild</code>属性</li>
+<li><code>nextSibling</code>属性</li>
+<li><code>appenChild</code>方法</li>
+<li><code>insertBefore</code>方法</li>
+</ol>
+<p>在使用该函数前，要判断这些属性和方法是否存在。</p>
+<h2 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h2><p>虽然我很想读成荷兰的那支球队的读音，阿贾克斯，但是它的的确确就是读成[ˈeɪˌdʒæks]。<br>全称是”异步JS和XML：Asynchronous Javascript and XML”。  </p>
+<h3 id="简单例子"><a href="#简单例子" class="headerlink" title="简单例子"></a>简单例子</h3><p>这里实现了一个很简单的例子，用来在页面文档加载完毕后，异步地通过<code>XMLHttpRequest</code>对象来发起HTTP请求，通过<code>GET</code>请求类型，来访问“服务器”上的一个文件。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNewContent</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> request = getHTTPObject();</div><div class="line">    <span class="keyword">if</span> (request) &#123;</div><div class="line">       request.open( <span class="string">"GET"</span>, <span class="string">"example.txt"</span>, <span class="literal">true</span>) ;</div><div class="line">       request.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">           <span class="keyword">if</span> (request.readyState === <span class="number">4</span>) &#123;</div><div class="line">               <span class="keyword">var</span> para = <span class="built_in">document</span>.createElement(<span class="string">"p"</span>);</div><div class="line">               <span class="keyword">var</span> txt = <span class="built_in">document</span>.createTextNode(request.responseText);</div><div class="line">               para.appendChild(txt);</div><div class="line">               <span class="built_in">document</span>.getElementById(<span class="string">'new'</span>).appendChild(para);</div><div class="line">           &#125;</div><div class="line">       &#125;;</div><div class="line">       request.send(<span class="literal">null</span>);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        alert(<span class="string">'Sorry, your browser doesn\'t support XMLHttpRequest'</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>其中作为<code>XMLHttpRequest</code>对象的<code>request</code>拥有若干属性和方法。其中<code>open</code>方法用来确定发起请求的类型、访问的文件名和确定是否使用异步工作模式。而<code>onreadystatechange</code>属性则指向一个事件处理函数，当<code>XMLHttpRequest</code>对象返回响应时运行。<br><code>XMLHttpRequest</code>对象的属性<code>readyState</code>值代表请求状态：</p>
+<ul>
+<li>‘0’: 未初始化</li>
+<li>‘1’: 正在加载</li>
+<li>‘2’: 加载完毕</li>
+<li>‘3’: 正在交互</li>
+<li>‘4’: 完成</li>
+</ul>
+<p>而代码中<code>onreadystatechange</code>则是在状态码发生变化时触发的方法。</p>
+<blockquote>
+<p>注意：同源策略。Ajax请求只能访问与当前HTML处于同一个域种的数据。不同协议、不同域名、不同端口都算跨域。</p>
+</blockquote>
+<h3 id="渐进曾倩与平稳退化"><a href="#渐进曾倩与平稳退化" class="headerlink" title="渐进曾倩与平稳退化"></a>渐进曾倩与平稳退化</h3><p>对于Ajax同样存在着当JavaScript被禁用时，如何保证可用性的问题。我们来看一下区别：</p>
+<ul>
+<li>使用Ajax: 用户的表单将异步发送至服务器进行处理，处理结果将马上返回——比如登录失败，则只更新登录表单部分，无需刷新整个页面；显得更快、更敏捷</li>
+<li>不使用Ajax: 用户的表单发送至服务器处理，处理结果返回，重新渲染页面显示处理信息，再登录、再返回……</li>
+</ul>
+<p>实际上<code>XMLHttpRequest</code>只是充当一个中间人的角色，有了它页面的部分内容发出的请求就可以得到处理，否则这一部分的请求就将作为整个页面的请求发送给服务器，服务器返回的结果也将作为整个页面的更新重新渲染。当然会慢一点，但为了保证可用性，应该考虑如果不使用Ajax该如何做。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -206,13 +174,13 @@ tuple也是有序集合
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Python/">Python</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Python/">Python</a>
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
   </div>
 
 </div>
@@ -221,7 +189,7 @@ tuple也是有序集合
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2017/01/19/Python学习笔记(一)/" data-title="Python学习笔记(一)-关于基本语法和异常值类型 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/03/17/JSDOM-chapter7/" data-title="JavaScript DOM 编程艺术 笔记-第七章 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -234,19 +202,11 @@ tuple也是有序集合
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/01/22/Python学习笔记(二)/" title="Python学习笔记(二)-关于切片、迭代器和生成器">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Python学习笔记(二)-关于切片、迭代器和生成器</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/10/14/搭建VPN服务器/"  title="在VPS上搭建Android/iOS双平台可用的梯子的解决方案">
+<a href="/2017/03/17/JSDOM-chapter6/"  title="JavaScript DOM 编程艺术 笔记-第六章">
  <strong>下一篇：</strong><br/> 
- <span>在VPS上搭建Android/iOS双平台可用的梯子的解决方案
+ <span>JavaScript DOM 编程艺术 笔记-第六章
 </span>
 </a>
 </div>
@@ -255,7 +215,7 @@ tuple也是有序集合
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/01/19/Python学习笔记(一)/" data-title="Python学习笔记(一)-关于基本语法和异常值类型" data-url="http://ming-holy.space/2017/01/19/Python学习笔记(一)/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/17/JSDOM-chapter7/" data-title="JavaScript DOM 编程艺术 笔记-第七章" data-url="http://ming-holy.space/2017/03/17/JSDOM-chapter7/"></div>
 </section>
 
 
@@ -265,7 +225,7 @@ tuple也是有序集合
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础入门"><span class="toc-number">1.</span> <span class="toc-text">基础入门</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#常见异常类型"><span class="toc-number">2.</span> <span class="toc-text">常见异常类型</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#动态创建标记"><span class="toc-number">1.</span> <span class="toc-text">动态创建标记</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#传统方法"><span class="toc-number">1.1.</span> <span class="toc-text">传统方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DOM方法"><span class="toc-number">1.2.</span> <span class="toc-text">DOM方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ajax"><span class="toc-number">1.3.</span> <span class="toc-text">Ajax</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简单例子"><span class="toc-number">1.3.1.</span> <span class="toc-text">简单例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#渐进曾倩与平稳退化"><span class="toc-number">1.3.2.</span> <span class="toc-text">渐进曾倩与平稳退化</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
