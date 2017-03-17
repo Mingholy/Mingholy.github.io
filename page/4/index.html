@@ -4,23 +4,19 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>贪心算法证真 | A Cup of Coffee</title>
+    <title>A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="笔者按：图论的高随祥老师说：一个命题，证伪容易，找出反例就好了。证真可不容易，你得保证它不存在错误的情况。眭跃飞老师也提到：数学里，恒等是一件很麻烦的事情。所以曾经多次被教导，说数学里的精华都在定理上，它们是人的逻辑思维与自然的事实规律最精密最完整的体现。为了确定它们的正确性，无数人付出了不可估量的努力。因此这里依照我的兴趣，记录了一些碰到的简单有趣的命题的证真思路，仅供玩味。只有从小的地方发现">
-<meta property="og:type" content="article">
-<meta property="og:title" content="贪心算法证真">
-<meta property="og:url" content="http://ming-holy.space/2016/01/07/贪心算法证真/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="A Cup of Coffee">
+<meta property="og:url" content="http://ming-holy.space/page/4/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="笔者按：图论的高随祥老师说：一个命题，证伪容易，找出反例就好了。证真可不容易，你得保证它不存在错误的情况。眭跃飞老师也提到：数学里，恒等是一件很麻烦的事情。所以曾经多次被教导，说数学里的精华都在定理上，它们是人的逻辑思维与自然的事实规律最精密最完整的体现。为了确定它们的正确性，无数人付出了不可估量的努力。因此这里依照我的兴趣，记录了一些碰到的简单有趣的命题的证真思路，仅供玩味。只有从小的地方发现">
-<meta property="og:updated_time" content="2016-10-20T07:42:34.403Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="贪心算法证真">
-<meta name="twitter:description" content="笔者按：图论的高随祥老师说：一个命题，证伪容易，找出反例就好了。证真可不容易，你得保证它不存在错误的情况。眭跃飞老师也提到：数学里，恒等是一件很麻烦的事情。所以曾经多次被教导，说数学里的精华都在定理上，它们是人的逻辑思维与自然的事实规律最精密最完整的体现。为了确定它们的正确性，无数人付出了不可估量的努力。因此这里依照我的兴趣，记录了一些碰到的简单有趣的命题的证真思路，仅供玩味。只有从小的地方发现">
+<meta name="twitter:title" content="A Cup of Coffee">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -74,120 +70,70 @@
 </div>
     </header>
     <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-  
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/01/07/贪心算法证真/" title="贪心算法证真" itemprop="url">贪心算法证真</a>
+      <a href="/2016/01/01/hello-world/" title="Hello World" itemprop="url">Hello World</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2016-01-07T13:55:03.000Z" itemprop="datePublished"> 发表于 2016-01-07</time>
+    <time datetime="2016-01-01T12:00:00.000Z" itemprop="datePublished"> 发表于 2016-01-01</time>
     
   </p>
 </header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#笔者按："><span class="toc-number">1.</span> <span class="toc-text">笔者按：</span></a></li></ol>
-		
-		</div>
-		
-		<blockquote>
-<h3 id="笔者按："><a href="#笔者按：" class="headerlink" title="笔者按："></a>笔者按：</h3><p>图论的高随祥老师说：一个命题，证伪容易，找出反例就好了。证真可不容易，你得保证它不存在错误的情况。<br>眭跃飞老师也提到：数学里，恒等是一件很麻烦的事情。<br>所以曾经多次被教导，说数学里的精华都在定理上，它们是人的逻辑思维与自然的事实规律最精密最完整的体现。为了确定它们的正确性，无数人付出了不可估量的努力。<br>因此这里依照我的兴趣，记录了一些碰到的简单有趣的命题的证真思路，仅供玩味。只有从小的地方发现它的精美绝妙之处，才能从大的地方发现数学之美。</p>
-</blockquote>
-<hr>
-<a id="more"></a>
-<p>Kruskal算法是构造最小生成树的算法。原则是每次未被选择过的边中挑选一条边，满足:</p>
-<ul>
-<li>权值最小</li>
-<li>选择后不会产生圈</li>
-</ul>
-<p>直到所有顶点都被包括。<br><strong>如何证明它是最小生成树？  </strong><br>设有树$\mathit{T}$是由贪心算法构造的生成树。如果存在更小的一棵树$\mathit{U}$，则应有$\mathit{T}\neq\mathit{U}$且$\mathit{w(\mathit{U})}&lt;\mathit{w(\mathit{T})}$。</p>
-<ul>
-<li>$\mathit{T}\neq\mathit{U}\Rightarrow\mathit{T}$至少含有一条$\mathit{U}$中没有的边。设它（们）中权值最小的一条边是$\mathit{e}$。</li>
-<li>$\mathit{U}$为一棵树$\Rightarrow$若将$\mathit{e}$加入$\mathit{U}$中，则必构成圈，且该圈中必含有一条边$\mathit{e’}$是$\mathit{T}$中没有的。</li>
-<li>考虑$\mathit{w(\mathit{e’})}$与$\mathit{w(\mathit{e})}$，按照$\mathit{T}$的构造规则，如果$\mathit{w(\mathit{e’})}&lt;\mathit{w(\mathit{e})}$，那么在构造$\mathit{T}$时，应该选取$\mathit{e’}$而非$\mathit{e}$。因此$\mathit{w(\mathit{e’})}\geq\mathit{w(\mathit{e})}$。</li>
-<li>此时，如果我们移除$\mathit{e’}$，就又构造了一棵生成树$\mathit{V}$，由于$\mathit{w(\mathit{e’})}\geq\mathit{w(\mathit{e})}$，有$\mathit{w(\mathit{V})}\leq\mathit{w(\mathit{U})}$，且$\mathit{V}$与$\mathit{T}$的公共边比$\mathit{V}$与$\mathit{U}$的公共边多一条。</li>
-<li>重复上述过程，最终我们就能将$\mathit{U}$完全转化为$\mathit{T}$，这时就有$\mathit{w(\mathit{T})}\leq\mathit{w(\mathit{U})}&lt;\mathit{w(\mathit{T})}$，显然这不可能发生。</li>
-</ul>
-<p>于是$\mathit{U}$是不存在的，即证明了$\mathit{T}$是一棵最小生成树。</p>
-  
-	</div>
-		<footer class="article-footer clearfix">
+    <div class="article-content">
+        
+        <p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/01/01/hello-world/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
 <div class="article-catetags">
 
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/数学/">数学</a>►<a class="article-category-link" href="/categories/数学/算法/">算法</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/上帝之语/">上帝之语</a><a href="/tags/算法/">算法</a>
-  </div>
 
 </div>
 
 
 
-	<div class="article-share" id="share">
-	
-	  <div data-url="http://ming-holy.space/2016/01/07/贪心算法证真/" data-title="贪心算法证真 | A Cup of Coffee" data-tsina="null" class="share clearfix">
-	  </div>
-	
-	</div>
 
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/01/01/hello-world/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/01/01/hello-world/" data-count-type="comments">&nbsp;</a>
+	
+</div>
 
 </footer>
 
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2016/01/15/证明-sqrt-2-是无理数/" title="证明根号2是无理数">
-  <strong>上一篇：</strong><br/>
-  <span>
-  证明根号2是无理数</span>
-</a>
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
+
 </div>
-
-
-<div class="next">
-<a href="/2016/01/01/hello-world/"  title="Hello World">
- <strong>下一篇：</strong><br/> 
- <span>Hello World
-</span>
-</a>
-</div>
-
-</nav>
-
-	
-<section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/01/07/贪心算法证真/" data-title="贪心算法证真" data-url="http://ming-holy.space/2016/01/07/贪心算法证真/"></div>
-</section>
-
-
-</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
- 
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#笔者按："><span class="toc-number">1.</span> <span class="toc-text">笔者按：</span></a></li></ol>
- 
-  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -426,103 +372,14 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
-  });
-});
-</script>
 
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina'),
-      description = $this.attr('description');
-  var html = [
-  '<div class="hoverqrcode clearfix"></div>',
-  '<a class="overlay" id="qrcode"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
-  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-
-  $('.hoverqrcode').hide();
-
-  var myWidth = 0;
-  function updatehoverqrcode(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-    var qrsize = myWidth > 1024 ? 200:100;
-    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
-    var p = $('.article-share-qrcode').position();
-    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
-                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
-                          .qrcode(options);
-  };
-  $(window).resize(function(){
-    $('.hoverqrcode').hide();
-  });
-  $('.article-share-qrcode').click(function(){
-    updatehoverqrcode();
-    $('.hoverqrcode').toggle();
-  });
-  $('.article-share-qrcode').hover(function(){}, function(){
-      $('.hoverqrcode').hide();
-  });
-});   
-</script>
-
-
-
-<script type="text/javascript">
-  var duoshuoQuery = {short_name:"mingholy"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-    || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-</script> 
 
 
 
@@ -612,4 +469,4 @@ $(document).ready(function(){
 <!-- Tiny_search End -->
 
   </body>
-</html>
+ </html>

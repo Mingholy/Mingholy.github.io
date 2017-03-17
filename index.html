@@ -78,6 +78,93 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/03/17/JSDOM-chapter6/" title="JavaScript DOM 编程艺术 笔记-第六章" itemprop="url">JavaScript DOM 编程艺术 笔记-第六章</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-17T06:00:00.000Z" itemprop="datePublished"> 发表于 2017-03-17</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="优化一个已有项目的思路"><a href="#优化一个已有项目的思路" class="headerlink" title="优化一个已有项目的思路"></a>优化一个已有项目的思路</h2><p>这一章主要讲述的内容是如何优化一个已经完成了基本功能的项目。在这个思路里，优化存在于方方面面，基本要涉及到以下几个原则：</p>
+<ol>
+<li>支持平稳退化</li>
+<li>降低JavaScript与HTML的耦合度</li>
+<li>减少先入为主的假设</li>
+<li>代码结构优化</li>
+</ol>
+<h2 id="支持平稳退化"><a href="#支持平稳退化" class="headerlink" title="支持平稳退化"></a>支持平稳退化</h2><p>实际上就是，在JavaScript被禁用的环境下，使得项目同样能够正常工作。<br><strong>做法：为<code>a</code>标签填写真实存在的链接，而非不要使用空链接<code>#</code>和<code>javascript:</code>伪协议</strong></p>
+<h2 id="降低JavaScript和HTML的耦合度"><a href="#降低JavaScript和HTML的耦合度" class="headerlink" title="降低JavaScript和HTML的耦合度"></a>降低JavaScript和HTML的耦合度</h2><p>在标签中给它添加点击事件是不好的实践。因此应该让HTML引用外部的脚本文件来完成这件事。</p>
+<h3 id="检查点"><a href="#检查点" class="headerlink" title="检查点"></a>检查点</h3><p>首先进行事件绑定应该想到如下几点：</p>
+<ol>
+<li>嗅探浏览器是否支持所要使用的DOM方法</li>
+<li>要调用DOM方法的元素是否存在<br>为了解决上面两个问题，可以用<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (!<span class="built_in">document</span>.getElementById) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (!<span class="built_in">document</span>.getElementsByTagName) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (!<span class="built_in">document</span>.getElementById(<span class="string">"imagegallery"</span>)) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+来判断相关的DOM方法和元素是否存在。</li>
+</ol>
+<h3 id="改变行为"><a href="#改变行为" class="headerlink" title="改变行为"></a>改变行为</h3><p><strong>注意：</strong>为了在支持JavaScript的浏览器中，屏蔽链接的默认行为，在事件处理函数中我们应该添加<code>return false;</code>。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">links[i].onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    showPic(<span class="keyword">this</span>);</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="onload事件共享"><a href="#onload事件共享" class="headerlink" title="onload事件共享"></a><code>onload</code>事件共享</h3><p>如果有一个方法，需要在文档加载结束之后立即运行，我们一般要做的是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.onload = functionName();</div></pre></td></tr></table></figure><br>但是如果有一系列方法需要在文档加载结束之后依次执行呢？<br>一个最基本的想法是把所有要执行的方法放在一个方法里，统一调用。但这种方法只适用于方法数目较少的情况。<br>还有一种方法叫做<code>addLoadEvent</code>，它完成的事是：</p>
+<ol>
+<li>检查<code>onload</code>事件处理函数中是否有要执行的方法（是否已经被指定为一个函数）</li>
+<li>如果有，则将新函数添加到原来执行的函数后面</li>
+<li>如果没有，则将新函数指定为它的内容<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addLoadEvent</span> (<span class="params">func</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> oldload = <span class="built_in">window</span>.onload;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> oldload != <span class="string">'function'</span>) &#123;</div><div class="line">        <span class="built_in">window</span>.onload = func;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        oldload();</div><div class="line">        func();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="减少先入为主的假设"><a href="#减少先入为主的假设" class="headerlink" title="减少先入为主的假设"></a>减少先入为主的假设</h2><p>这里主要指的是，在调用各种DOM方法时，应该首先对目标对象的存在性进行判断。如果不存在，也不至于在运行时报错，而应有其他方案来处理这个问题。比如<code>return false;</code>也是一种处理方式，它什么都不做但可以使程序终止。</p>
+<h2 id="代码结构优化"><a href="#代码结构优化" class="headerlink" title="代码结构优化"></a>代码结构优化</h2><p>简单的<code>if</code>语句可以用三元表达式来代替。<br><strong>注意：<code>element.nodeName == &quot;IMG&quot;</code>其中<code>nodeName</code>这个属性总是返回大写字母。</strong></p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/17/JSDOM-chapter6/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/17/JSDOM-chapter6/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/03/13/IFE2017-105/" title="IFE2017任务105-可视化排序算法" itemprop="url">IFE2017任务105-可视化排序算法</a>
   </h1>
   <p class="article-author">By
@@ -681,73 +768,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/02/15/IFE2017-warmup/" title="IFE2017 热身任务" itemprop="url">IFE2017 热身任务</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-02-15T14:00:00.000Z" itemprop="datePublished"> 发表于 2017-02-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="百度前端学院-IFE2017-热身任务"><a href="#百度前端学院-IFE2017-热身任务" class="headerlink" title="百度前端学院 IFE2017 热身任务"></a>百度前端学院 IFE2017 热身任务</h2>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/02/15/IFE2017-warmup/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/IFE2017/">IFE2017</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/02/15/IFE2017-warmup/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/15/IFE2017-warmup/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
@@ -791,7 +814,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>9</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>10</sup></a></li>
 		  
 		
 		  
@@ -829,7 +852,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
@@ -839,7 +862,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>11</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>12</sup></a></li>
 			
 		
 			
@@ -863,15 +886,15 @@
 			
 		
 			
-				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
@@ -887,11 +910,11 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
 			
 		
 			

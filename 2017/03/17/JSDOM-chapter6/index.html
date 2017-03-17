@@ -4,26 +4,44 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Dubtitler 初步设想 | A Cup of Coffee</title>
+    <title>JavaScript DOM 编程艺术 笔记-第六章 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="主要问题：
-HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法解决。 搜索了很久，HTML5播放视频的格式，取决于浏览器。多数主流浏览器都只支持MP4,WebM，播放avi需要很多其他的东西。第三方的播放器videojs，也是这里要使用的播放器库，有插件通过java来支持avi和其他媒体格式，但是这个作者在放出第一版不久就因为一些没办法解决的问题放弃更新了，致命的是这个jav">
+    <meta name="description" content="优化一个已有项目的思路这一章主要讲述的内容是如何优化一个已经完成了基本功能的项目。在这个思路里，优化存在于方方面面，基本要涉及到以下几个原则：
+
+支持平稳退化
+降低JavaScript与HTML的耦合度
+减少先入为主的假设
+代码结构优化
+
+支持平稳退化实际上就是，在JavaScript被禁用的环境下，使得项目同样能够正常工作。做法：为a标签填写真实存在的链接，而非不要使用空链接#和javascri">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dubtitler 初步设想">
-<meta property="og:url" content="http://ming-holy.space/2016/05/19/Dubtitler Project/index.html">
+<meta property="og:title" content="JavaScript DOM 编程艺术 笔记-第六章">
+<meta property="og:url" content="http://ming-holy.space/2017/03/17/JSDOM-chapter6/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="主要问题：
-HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法解决。 搜索了很久，HTML5播放视频的格式，取决于浏览器。多数主流浏览器都只支持MP4,WebM，播放avi需要很多其他的东西。第三方的播放器videojs，也是这里要使用的播放器库，有插件通过java来支持avi和其他媒体格式，但是这个作者在放出第一版不久就因为一些没办法解决的问题放弃更新了，致命的是这个jav">
-<meta property="og:updated_time" content="2017-02-13T15:22:17.565Z">
+<meta property="og:description" content="优化一个已有项目的思路这一章主要讲述的内容是如何优化一个已经完成了基本功能的项目。在这个思路里，优化存在于方方面面，基本要涉及到以下几个原则：
+
+支持平稳退化
+降低JavaScript与HTML的耦合度
+减少先入为主的假设
+代码结构优化
+
+支持平稳退化实际上就是，在JavaScript被禁用的环境下，使得项目同样能够正常工作。做法：为a标签填写真实存在的链接，而非不要使用空链接#和javascri">
+<meta property="og:updated_time" content="2017-03-17T07:45:41.385Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dubtitler 初步设想">
-<meta name="twitter:description" content="主要问题：
-HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法解决。 搜索了很久，HTML5播放视频的格式，取决于浏览器。多数主流浏览器都只支持MP4,WebM，播放avi需要很多其他的东西。第三方的播放器videojs，也是这里要使用的播放器库，有插件通过java来支持avi和其他媒体格式，但是这个作者在放出第一版不久就因为一些没办法解决的问题放弃更新了，致命的是这个jav">
+<meta name="twitter:title" content="JavaScript DOM 编程艺术 笔记-第六章">
+<meta name="twitter:description" content="优化一个已有项目的思路这一章主要讲述的内容是如何优化一个已经完成了基本功能的项目。在这个思路里，优化存在于方方面面，基本要涉及到以下几个原则：
+
+支持平稳退化
+降低JavaScript与HTML的耦合度
+减少先入为主的假设
+代码结构优化
+
+支持平稳退化实际上就是，在JavaScript被禁用的环境下，使得项目同样能够正常工作。做法：为a标签填写真实存在的链接，而非不要使用空链接#和javascri">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -83,14 +101,14 @@ HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/19/Dubtitler Project/" title="Dubtitler 初步设想" itemprop="url">Dubtitler 初步设想</a>
+      <a href="/2017/03/17/JSDOM-chapter6/" title="JavaScript DOM 编程艺术 笔记-第六章" itemprop="url">JavaScript DOM 编程艺术 笔记-第六章</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-19T06:00:00.000Z" itemprop="datePublished"> 发表于 2016-05-19</time>
+    <time datetime="2017-03-17T06:00:00.000Z" itemprop="datePublished"> 发表于 2017-03-17</time>
     
   </p>
 </header>
@@ -99,46 +117,35 @@ HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#主要问题："><span class="toc-number">1.</span> <span class="toc-text">主要问题：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字幕处理"><span class="toc-number">2.</span> <span class="toc-text">字幕处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字幕的分行显示"><span class="toc-number">2.1.</span> <span class="toc-text">字幕的分行显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字幕的高亮显示"><span class="toc-number">2.2.</span> <span class="toc-text">字幕的高亮显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式检测"><span class="toc-number">2.3.</span> <span class="toc-text">格式检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拆轴合轴"><span class="toc-number">2.4.</span> <span class="toc-text">拆轴合轴</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#播放器"><span class="toc-number">3.</span> <span class="toc-text">播放器</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#优化一个已有项目的思路"><span class="toc-number">1.</span> <span class="toc-text">优化一个已有项目的思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#支持平稳退化"><span class="toc-number">2.</span> <span class="toc-text">支持平稳退化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#降低JavaScript和HTML的耦合度"><span class="toc-number">3.</span> <span class="toc-text">降低JavaScript和HTML的耦合度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#检查点"><span class="toc-number">3.1.</span> <span class="toc-text">检查点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#改变行为"><span class="toc-number">3.2.</span> <span class="toc-text">改变行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#onload事件共享"><span class="toc-number">3.3.</span> <span class="toc-text">onload事件共享</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#减少先入为主的假设"><span class="toc-number">4.</span> <span class="toc-text">减少先入为主的假设</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码结构优化"><span class="toc-number">5.</span> <span class="toc-text">代码结构优化</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="主要问题："><a href="#主要问题：" class="headerlink" title="主要问题："></a>主要问题：</h2><ol>
-<li>HTML5支持的播放器仅支持H.264编码的MP4文件格式<br> 这个问题没法解决。<br> 搜索了很久，HTML5播放视频的格式，取决于浏览器。多数主流浏览器都只支持MP4,WebM，播放avi需要很多其他的东西。第三方的播放器videojs，也是这里要使用的播放器库，有插件通过java来支持avi和其他媒体格式，但是这个作者在放出第一版不久就因为一些没办法解决的问题放弃更新了，致命的是这个java版本的播放器不仅难以支持外挂字幕，还有其他很多的问题。因此我也放弃强行支持avi了，这是一个除了体积稍微小一点，没有其他优点的视频格式。<br> 片源的格式取决于压制组的输出格式，DIMENSION的初版输出格式一般都是<code>.avi</code>，这一点我没办法控制。我只能接到片源之后，自己使用格式工厂转成<code>.mp4</code>，以我I5 4200H @2.8GHZ 的CPU，转一集183MB的盲点大概需要13分钟，不勾多线程反而会快一点点，但是不管怎么说都在10分钟以上。悲观估计在15分钟以内都可以接受。如果DL要求非常高，或者片源不能提前cc发放，那么…</li>
-</ol>
-<a id="more"></a>
+		<h2 id="优化一个已有项目的思路"><a href="#优化一个已有项目的思路" class="headerlink" title="优化一个已有项目的思路"></a>优化一个已有项目的思路</h2><p>这一章主要讲述的内容是如何优化一个已经完成了基本功能的项目。在这个思路里，优化存在于方方面面，基本要涉及到以下几个原则：</p>
 <ol>
-<li><p>如何更新WebVTT文件/更新修改过后的字幕<br> 问题在于，在保存文件之后，如何向服务器再发一次请求获取新的字幕文件，并且在播放过程中无缝地替换。<br> 这个问题纠结了好久，其实它是另一个问题：要不要用服务器。<br> 这个工具的初衷是尽量简单地让不能很好运行TM的同学，在翻译字幕的时候得到与使用TM类似的体验，或者说就是有选择地实现TM的功能，<strong>在一个可以轻松跨平台而不会产生兼容性问题的基础上</strong>。<br> 使用服务器的一大好处是，大家无需操心它的版本更新问题，部署在服务器上可以保证你时刻使用到的是最新的版本。<br> 同时它也有一些问题，比如——如果服务器挂了会坑到人，而我又没办法及时地获取服务器状态并修复。<br> 不使用服务器的好处是：足够简单。但是要知道这样所有东西都是静态的了，那么一旦出现了个小bug，出现了任何问题，使得该工具无法正常使用或者得不到正确的结果，当然这是可以修复的，然而这个时候它就不够简单了。<br> 暂行的办法是，不再追求实时地更新视频的内置字幕了。我准备直接使用一个透明的div添加在视频块的固定位置上，这样显示字幕的同步性会好很多。而且我想使用angular，它的特性也很好地支持了这一种做法。<br> 不使用<code>&lt;video&gt;</code>标签的内置字幕元素，那么就不需要使用WebVTT格式的文件了。很多问题都可以解决了。</p>
-</li>
-<li><p>如何保存字幕为SRT文件<br> 我准备使用HTML5 filesystem API写入一个文件。但是这个想法最终并不一定会实现，可以肯定的是，在我们点击保存字幕的按钮时，一定会生成一个文字域包含所有已经修改过的字幕。至少你可以通过复制粘贴来手动新建一个srt文件。<br> HTML5 Filesystem API是一个有些争议的东西，目前只有Chrome有支持它，而又有消息说它早已被Google放弃。O’Reilly出版的一本API说明，日期还在11年。所以我不确定是否有必要添加对这一功能的支持。</p>
-</li>
+<li>支持平稳退化</li>
+<li>降低JavaScript与HTML的耦合度</li>
+<li>减少先入为主的假设</li>
+<li>代码结构优化</li>
 </ol>
-<h2 id="字幕处理"><a href="#字幕处理" class="headerlink" title="字幕处理"></a>字幕处理</h2><h3 id="字幕的分行显示"><a href="#字幕的分行显示" class="headerlink" title="字幕的分行显示"></a>字幕的分行显示</h3><p>字幕格式要求</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">编号: 8</div><div class="line">时间轴: 00:00:16,320 --&gt; 00:00:18,010</div><div class="line">中文字幕: 我们遇到了地...</div><div class="line">英文字幕: I&apos;ll tell you what, we&apos;re having an earth...</div></pre></td></tr></table></figure>
-<p>特殊地：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">编号: 6</div><div class="line">时间轴: 00:00:30,000 --&gt; 00:00:35,000</div><div class="line">单行字幕: &#123;\an3&#125;&#123;\pos(360,230)&#125;后期：bongpong</div></pre></td></tr></table></figure></p>
-<p>主要的问题是，两行字幕中间的换行符不应该被忽略，如果不加修改，JS显然会这么做。</p>
-<h3 id="字幕的高亮显示"><a href="#字幕的高亮显示" class="headerlink" title="字幕的高亮显示"></a>字幕的高亮显示</h3><ol>
-<li>srt时间轴的格式：<code>HH:MM:SS,xxx</code><br> vtt时间轴的格式：<code>HH:MM:SS.xxx</code><br> 要求各时间基数使用不同颜色显示。包括毫秒。</li>
-<li>代码：<code>{\an8}</code>代码使用单独颜色显示，包括但不限于这类，一切形如<code>{\\.+}</code>这类的代码段都要高亮显示</li>
-<li>引用：字幕中的单双引号，使用单独颜色显示</li>
-<li>对话：字幕中表示对话的<code>-</code>使用单独颜色表示</li>
-<li>命名实体高亮： 这是一个比较麻烦的功能。命名实体识别本身就是一个（学术）问题。另一个问题是我可能没有办法再将它限制在没有服务器的纯内存应用中了。不管怎么说，我们提交的几百行字幕总是需要时间经过后台的一些处理，才能识别出其中的每一个命名实体。这里我暂且使用最简单的规则：<br> a. 中文行中的非代码英文单词，和英文行中句首的首字母大写词。<br> b. 字典：<code>Dr.</code>, <code>Mr.</code>, <code>Mrs.</code>, <code>Sgt.</code>, <code>Pvt.</code>, <code>Cpl.</code>, <code>Maj.</code>, <code>Ltc.</code>, <code>Col.</code>, <code>General.</code> 等。<br>权当是检查首字母大写了。本来这个功能就是针对这一格式要求的。</li>
-</ol>
-<h3 id="格式检测"><a href="#格式检测" class="headerlink" title="格式检测"></a>格式检测</h3><ol>
-<li>中文行存在任何除书名号外的其他全角符号，均应警告；</li>
-<li>英文行任何全角字符都应警告；</li>
-<li>字幕序号为递增整数；</li>
-<li>首字母大写，且上一句结尾出现下列情况之一的，需要警告：<br> a. 没有标点符号<br> b. 有逗号或者连字符</li>
-<li>删除行首尾空格；</li>
-<li>小写i替换为I。</li>
-</ol>
-<h3 id="拆轴合轴"><a href="#拆轴合轴" class="headerlink" title="拆轴合轴"></a>拆轴合轴</h3><p>对单行字幕进行拆轴时，用户分别指定英文行和中文行打拆轴点，然后按照英文行的拆轴点拆分时间段。将拆分出的两个时间轴作为两行单独字幕插入原位置。</p>
-<p>合轴即简单地将中英文字幕分别合成为一轴。</p>
-<h2 id="播放器"><a href="#播放器" class="headerlink" title="播放器"></a>播放器</h2><p>使用开源的HTML5播放器Video.js。<br>Angular可以很好的支持异步请求，只需要一个<code>$http</code>语句。那么这就为实时更新字幕创造了条件。但是需要考虑两个问题：  </p>
+<h2 id="支持平稳退化"><a href="#支持平稳退化" class="headerlink" title="支持平稳退化"></a>支持平稳退化</h2><p>实际上就是，在JavaScript被禁用的环境下，使得项目同样能够正常工作。<br><strong>做法：为<code>a</code>标签填写真实存在的链接，而非不要使用空链接<code>#</code>和<code>javascript:</code>伪协议</strong></p>
+<h2 id="降低JavaScript和HTML的耦合度"><a href="#降低JavaScript和HTML的耦合度" class="headerlink" title="降低JavaScript和HTML的耦合度"></a>降低JavaScript和HTML的耦合度</h2><p>在标签中给它添加点击事件是不好的实践。因此应该让HTML引用外部的脚本文件来完成这件事。</p>
+<h3 id="检查点"><a href="#检查点" class="headerlink" title="检查点"></a>检查点</h3><p>首先进行事件绑定应该想到如下几点：</p>
 <ol>
-<li>虽然这个App没有实际上的后端，但是用户的srt文件是不是需要上传到服务器缓存呢？这会不会给服务器带来过大压力？</li>
-<li>如何进行实时更新字幕？可以有两个思路：<br> a. 在每次用户点击播放器的播放按钮的时候，自动保存当前editor的内容作为字幕文件，然后发起http请求获取最新保存的字幕放到<code>&lt;track&gt;</code>元素中。<br> b. 新增一个保存按钮，当点击该按钮时才保存。但是每当用户点击播放器的播放按钮时都要重新请求<code>&lt;track&gt;</code>元素的路径。</li>
+<li>嗅探浏览器是否支持所要使用的DOM方法</li>
+<li>要调用DOM方法的元素是否存在<br>为了解决上面两个问题，可以用<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (!<span class="built_in">document</span>.getElementById) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (!<span class="built_in">document</span>.getElementsByTagName) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> (!<span class="built_in">document</span>.getElementById(<span class="string">"imagegallery"</span>)) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+来判断相关的DOM方法和元素是否存在。</li>
 </ol>
+<h3 id="改变行为"><a href="#改变行为" class="headerlink" title="改变行为"></a>改变行为</h3><p><strong>注意：</strong>为了在支持JavaScript的浏览器中，屏蔽链接的默认行为，在事件处理函数中我们应该添加<code>return false;</code>。例如：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">links[i].onclick = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    showPic(<span class="keyword">this</span>);</div><div class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="onload事件共享"><a href="#onload事件共享" class="headerlink" title="onload事件共享"></a><code>onload</code>事件共享</h3><p>如果有一个方法，需要在文档加载结束之后立即运行，我们一般要做的是：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.onload = functionName();</div></pre></td></tr></table></figure><br>但是如果有一系列方法需要在文档加载结束之后依次执行呢？<br>一个最基本的想法是把所有要执行的方法放在一个方法里，统一调用。但这种方法只适用于方法数目较少的情况。<br>还有一种方法叫做<code>addLoadEvent</code>，它完成的事是：</p>
+<ol>
+<li>检查<code>onload</code>事件处理函数中是否有要执行的方法（是否已经被指定为一个函数）</li>
+<li>如果有，则将新函数添加到原来执行的函数后面</li>
+<li>如果没有，则将新函数指定为它的内容<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">addLoadEvent</span> (<span class="params">func</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> oldload = <span class="built_in">window</span>.onload;</div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> oldload != <span class="string">'function'</span>) &#123;</div><div class="line">        <span class="built_in">window</span>.onload = func;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">window</span>.onload = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        oldload();</div><div class="line">        func();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="减少先入为主的假设"><a href="#减少先入为主的假设" class="headerlink" title="减少先入为主的假设"></a>减少先入为主的假设</h2><p>这里主要指的是，在调用各种DOM方法时，应该首先对目标对象的存在性进行判断。如果不存在，也不至于在运行时报错，而应有其他方案来处理这个问题。比如<code>return false;</code>也是一种处理方式，它什么都不做但可以使程序终止。</p>
+<h2 id="代码结构优化"><a href="#代码结构优化" class="headerlink" title="代码结构优化"></a>代码结构优化</h2><p>简单的<code>if</code>语句可以用三元表达式来代替。<br><strong>注意：<code>element.nodeName == &quot;IMG&quot;</code>其中<code>nodeName</code>这个属性总是返回大写字母。</strong></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -146,13 +153,13 @@ HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Dubtitler/">Dubtitler</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/DubtitlerDev/">DubtitlerDev</a>
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
   </div>
 
 </div>
@@ -161,7 +168,7 @@ HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2016/05/19/Dubtitler Project/" data-title="Dubtitler 初步设想 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/03/17/JSDOM-chapter6/" data-title="JavaScript DOM 编程艺术 笔记-第六章 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -174,19 +181,11 @@ HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/10/14/搭建VPN服务器/" title="在VPS上搭建Android/iOS双平台可用的梯子的解决方案">
-  <strong>上一篇：</strong><br/>
-  <span>
-  在VPS上搭建Android/iOS双平台可用的梯子的解决方案</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/05/08/大数据系统实验二Part2：Graphlite分布式图运算/"  title="大数据系统实验二Part2：Graphlite分布式图运算">
+<a href="/2017/03/13/IFE2017-105/"  title="IFE2017任务105-可视化排序算法">
  <strong>下一篇：</strong><br/> 
- <span>大数据系统实验二Part2：Graphlite分布式图运算
+ <span>IFE2017任务105-可视化排序算法
 </span>
 </a>
 </div>
@@ -195,7 +194,7 @@ HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/05/19/Dubtitler Project/" data-title="Dubtitler 初步设想" data-url="http://ming-holy.space/2016/05/19/Dubtitler Project/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/17/JSDOM-chapter6/" data-title="JavaScript DOM 编程艺术 笔记-第六章" data-url="http://ming-holy.space/2017/03/17/JSDOM-chapter6/"></div>
 </section>
 
 
@@ -205,7 +204,7 @@ HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#主要问题："><span class="toc-number">1.</span> <span class="toc-text">主要问题：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字幕处理"><span class="toc-number">2.</span> <span class="toc-text">字幕处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#字幕的分行显示"><span class="toc-number">2.1.</span> <span class="toc-text">字幕的分行显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#字幕的高亮显示"><span class="toc-number">2.2.</span> <span class="toc-text">字幕的高亮显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#格式检测"><span class="toc-number">2.3.</span> <span class="toc-text">格式检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拆轴合轴"><span class="toc-number">2.4.</span> <span class="toc-text">拆轴合轴</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#播放器"><span class="toc-number">3.</span> <span class="toc-text">播放器</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#优化一个已有项目的思路"><span class="toc-number">1.</span> <span class="toc-text">优化一个已有项目的思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#支持平稳退化"><span class="toc-number">2.</span> <span class="toc-text">支持平稳退化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#降低JavaScript和HTML的耦合度"><span class="toc-number">3.</span> <span class="toc-text">降低JavaScript和HTML的耦合度</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#检查点"><span class="toc-number">3.1.</span> <span class="toc-text">检查点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#改变行为"><span class="toc-number">3.2.</span> <span class="toc-text">改变行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#onload事件共享"><span class="toc-number">3.3.</span> <span class="toc-text">onload事件共享</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#减少先入为主的假设"><span class="toc-number">4.</span> <span class="toc-text">减少先入为主的假设</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码结构优化"><span class="toc-number">5.</span> <span class="toc-text">代码结构优化</span></a></li></ol>
  
   </div>
 
