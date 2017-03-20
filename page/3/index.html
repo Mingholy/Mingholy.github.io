@@ -148,6 +148,74 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/" title="大数据系统实验二Part1：MapReduce实践" itemprop="url">大数据系统实验二Part1：MapReduce实践</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-08T15:00:00.000Z" itemprop="datePublished"> 发表于 2016-05-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="Hadoop实现一个会话统计的MapReduce实例"><a href="#Hadoop实现一个会话统计的MapReduce实例" class="headerlink" title="Hadoop实现一个会话统计的MapReduce实例"></a>Hadoop实现一个会话统计的MapReduce实例</h2><h3 id="Mapper"><a href="#Mapper" class="headerlink" title="Mapper"></a>Mapper</h3><p>输入：<br><code>&lt;source&gt; &lt;destination&gt; &lt;time&gt;</code><br>可以表示一次电话或者网络访问会话。要求统计不同发起方到不同目标的会话次数和平均时间。<br>基本的思想是：</p>
+<ol>
+<li>对于Mapper，输入是的value是每一行的三个值，通过合法性检验后，作为一个字符串形成key。</li>
+<li>如果遇到不合法的输入，比如时间那一项不是个<code>Double</code>甚至根本不是个数而是个字符串，这一条数据就要丢弃，继续读取下一条。</li>
+<li>Mapper的输出格式是<code>&lt;Text, DoubleWritable&gt;</code>，它们是Hadoop内建的类型，在存储内容上可以理解为<code>String</code>和<code>Double</code>。输出的时候是以<code>&lt;source&gt; &lt;destination&gt;</code>这一整个字符串作为输出的key，以表示时间的<code>Double</code>作为输出的value。
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>►<a class="article-category-link" href="/categories/Java/Hadoop/">Hadoop</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Hadoop/">Hadoop</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/08/大数据系统实验二Part1：MapReduce实践/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/04/13/Emmet/" title="Emmet快捷键总结" itemprop="url">Emmet快捷键总结</a>
   </h1>
   <p class="article-author">By
@@ -685,76 +753,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/07/编写可维护的JavaScript-第一部分/" title="编写可维护的JavaScript:第一部分" itemprop="url">编写可维护的JavaScript:第一部分</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-07T11:03:54.000Z" itemprop="datePublished"> 发表于 2016-03-07</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="基本格式化"><a href="#基本格式化" class="headerlink" title="基本格式化"></a>基本格式化</h2><h3 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h3><p>4空格为一个缩进单位。</p>
-<h3 id="语句结尾"><a href="#语句结尾" class="headerlink" title="语句结尾"></a>语句结尾</h3><p>自动分号插入机制 ASI 会在大多数应该加分号的地方加分号但是这种自动机制可能会引起某些意外的错误。因此还是<strong>手动加分号</strong>，也不要省略分号。</p>
-<h3 id="行的长度"><a href="#行的长度" class="headerlink" title="行的长度"></a>行的长度</h3><p>一般是80个字符的限制。  </p>
-<h3 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h3><p>需要拆行的时候，在运算符后拆行，并且在拆行之后设置两个缩进。<br>如果是if语句这种，比如在判断条件语句拆行，它之后的执行主体只设置一个缩进。  </p>
-<blockquote>
-<p>例外:变量赋值时，第二行的位置应该和赋值运算符的位置保持对齐。  </p>
-</blockquote>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/07/编写可维护的JavaScript-第一部分/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/07/编写可维护的JavaScript-第一部分/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/07/编写可维护的JavaScript-第一部分/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -801,7 +799,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>12</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>13</sup></a></li>
 		  
 		
 		  
@@ -839,7 +837,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
@@ -849,7 +847,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>14</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>15</sup></a></li>
 			
 		
 			
