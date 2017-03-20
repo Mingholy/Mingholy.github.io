@@ -18,7 +18,7 @@
 <meta property="og:site_name" content="A Cup of Coffee">
 <meta property="og:description" content="这个系列旨在夯实自己JS基础。很多听过见过存疑的记不住的记住且重要的点都要找到答案，因为JS的点还是很多的，并不是写过就能够学好，反过来很多东西书上也没有，结合经验会记得更牢。每一章把这些点总结出来，备忘当做提升。">
 <meta property="og:image" content="http://ming-holy.space/2017/03/20/红宝书-chapter2&3/function-properties.png">
-<meta property="og:updated_time" content="2017-03-20T13:39:27.523Z">
+<meta property="og:updated_time" content="2017-03-20T14:11:07.202Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript 高级程序设计 第二三章-笔记">
 <meta name="twitter:description" content="这个系列旨在夯实自己JS基础。很多听过见过存疑的记不住的记住且重要的点都要找到答案，因为JS的点还是很多的，并不是写过就能够学好，反过来很多东西书上也没有，结合经验会记得更牢。每一章把这些点总结出来，备忘当做提升。">
@@ -105,8 +105,8 @@
 		<blockquote>
 <p>这个系列旨在夯实自己JS基础。很多听过见过存疑的记不住的记住且重要的点都要找到答案，因为JS的点还是很多的，并不是写过就能够学好，反过来很多东西书上也没有，结合经验会记得更牢。每一章把这些点总结出来，备忘当做提升。<br><a id="more"></a></p>
 </blockquote>
-<h1 id="第二章：在HTML中使用JavaScript"><a href="#第二章：在HTML中使用JavaScript" class="headerlink" title="第二章：在HTML中使用JavaScript"></a>第二章：在HTML中使用JavaScript</h1><h2 id="XHTML平稳退化hack"><a href="#XHTML平稳退化hack" class="headerlink" title="XHTML平稳退化hack"></a>XHTML平稳退化hack</h2><p>XHTML中使用内嵌脚本的hack，可以保证平稳退化，在各种浏览器中都可用<br>  <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">//&lt;![CDATA[</div><div class="line">  function()&#123;</div><div class="line">  ...</div><div class="line">  &#125;</div><div class="line">//]]</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h2 id="文档模式"><a href="#文档模式" class="headerlink" title="文档模式"></a>文档模式</h2><p>  主要影响CSS内容呈现和JavaScript执行。</p>
+<h1 id="第二章：在HTML中使用JavaScript"><a href="#第二章：在HTML中使用JavaScript" class="headerlink" title="第二章：在HTML中使用JavaScript"></a>第二章：在HTML中使用JavaScript</h1><h2 id="XHTML平稳退化hack"><a href="#XHTML平稳退化hack" class="headerlink" title="XHTML平稳退化hack"></a>XHTML平稳退化hack</h2><p>XHTML中使用内嵌脚本的hack，可以保证平稳退化，在各种浏览器中都可用<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></span></div><div class="line">//&lt;![CDATA[</div><div class="line">  function()&#123;</div><div class="line">  ...</div><div class="line">  &#125;</div><div class="line">//]]</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="文档模式"><a href="#文档模式" class="headerlink" title="文档模式"></a>文档模式</h2><p>主要影响CSS内容呈现和JavaScript执行。</p>
 <ul>
 <li><strong>混杂模式：</strong>未声明文档类型即进入混杂模式，不同浏览器差异巨大。</li>
 <li><strong>标准模式：</strong>行为接近标准规范<br>混杂模式实际上是浏览器厂商为了使新的浏览器同样兼容老旧站点而创立的，在激活混杂模式后，浏览器会模拟老旧浏览器的行为来呈现站点。</li>
