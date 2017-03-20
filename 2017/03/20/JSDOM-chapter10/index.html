@@ -4,26 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>学期初总结 | A Cup of Coffee</title>
+    <title>JavaScript DOM 编程艺术 笔记-第十章 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="学期初总结
-年后从家中狼狈地逃离，又回到这阴冷潮湿的地方。虽然成都的晴天极为稀少，但是只要它们存在，就有足够的理由期待。">
+    <meta name="description" content="JavaScript动画本章的主要内容是利用JavaScript添加一些简单的动画。
+这本书的很多内容从一开始提出到整本书写完，是贯穿始终的，比如平稳退化（优雅降级）和渐进增强。这一章使用前面给出的各种DOM方法，结合元素自身属性创建了一个轮播图样式的动画。这其中涉及到的一些细节，总结如下。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="学期初总结">
-<meta property="og:url" content="http://ming-holy.space/2017/02/19/week-summary-20170219/index.html">
+<meta property="og:title" content="JavaScript DOM 编程艺术 笔记-第十章">
+<meta property="og:url" content="http://ming-holy.space/2017/03/20/JSDOM-chapter10/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="学期初总结
-年后从家中狼狈地逃离，又回到这阴冷潮湿的地方。虽然成都的晴天极为稀少，但是只要它们存在，就有足够的理由期待。">
-<meta property="og:updated_time" content="2017-02-28T14:30:52.590Z">
+<meta property="og:description" content="JavaScript动画本章的主要内容是利用JavaScript添加一些简单的动画。
+这本书的很多内容从一开始提出到整本书写完，是贯穿始终的，比如平稳退化（优雅降级）和渐进增强。这一章使用前面给出的各种DOM方法，结合元素自身属性创建了一个轮播图样式的动画。这其中涉及到的一些细节，总结如下。">
+<meta property="og:updated_time" content="2017-03-20T08:20:12.734Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="学期初总结">
-<meta name="twitter:description" content="学期初总结
-年后从家中狼狈地逃离，又回到这阴冷潮湿的地方。虽然成都的晴天极为稀少，但是只要它们存在，就有足够的理由期待。">
+<meta name="twitter:title" content="JavaScript DOM 编程艺术 笔记-第十章">
+<meta name="twitter:description" content="JavaScript动画本章的主要内容是利用JavaScript添加一些简单的动画。
+这本书的很多内容从一开始提出到整本书写完，是贯穿始终的，比如平稳退化（优雅降级）和渐进增强。这一章使用前面给出的各种DOM方法，结合元素自身属性创建了一个轮播图样式的动画。这其中涉及到的一些细节，总结如下。">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -83,14 +83,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/02/19/week-summary-20170219/" title="学期初总结" itemprop="url">学期初总结</a>
+      <a href="/2017/03/20/JSDOM-chapter10/" title="JavaScript DOM 编程艺术 笔记-第十章" itemprop="url">JavaScript DOM 编程艺术 笔记-第十章</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2017-02-19T15:02:00.000Z" itemprop="datePublished"> 发表于 2017-02-19</time>
+    <time datetime="2017-03-20T06:06:00.000Z" itemprop="datePublished"> 发表于 2017-03-20</time>
     
   </p>
 </header>
@@ -99,39 +99,51 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#学期初总结"><span class="toc-number">1.</span> <span class="toc-text">学期初总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于学业"><span class="toc-number">1.1.</span> <span class="toc-text">关于学业</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于老板和老师们"><span class="toc-number">1.2.</span> <span class="toc-text">关于老板和老师们</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于工作"><span class="toc-number">1.3.</span> <span class="toc-text">关于工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于家和另一半"><span class="toc-number">1.4.</span> <span class="toc-text">关于家和另一半</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于接下来的四个月"><span class="toc-number">1.5.</span> <span class="toc-text">关于接下来的四个月</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript动画"><span class="toc-number">1.</span> <span class="toc-text">JavaScript动画</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注意setTimeout-的全局性与变量作用域"><span class="toc-number">1.1.</span> <span class="toc-text">注意setTimeout()的全局性与变量作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#轮播图的简单原理"><span class="toc-number">1.2.</span> <span class="toc-text">轮播图的简单原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#平稳退化"><span class="toc-number">1.3.</span> <span class="toc-text">平稳退化</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="学期初总结"><a href="#学期初总结" class="headerlink" title="学期初总结"></a>学期初总结</h2><blockquote>
-<p>年后从家中狼狈地逃离，又回到这阴冷潮湿的地方。虽然成都的晴天极为稀少，但是只要它们存在，就有足够的理由期待。</p>
-</blockquote>
-<a id="more"></a>
-<h3 id="关于学业"><a href="#关于学业" class="headerlink" title="关于学业"></a>关于学业</h3><p>转眼已经研二下半学期，毕业论文的题目也开完了，可是小论文的思路还没有。上半个学期给老板在他的学校帮忙，说好听一点是提高在导师那里的参与度，其实也只是跟导师表明态度而已：我不是个不听话的孩子，但是前提是你的话要对。</p>
-<p>半个学期的代课，虽然有点报酬，但是其实是不值得的。从成都到乐山虽然动车只要一个小时，但是耽误在行程上的时间至少有两个半小时。而且这种两地奔波是每周发生一次，要持续18周。这样的往返很消耗人。有时我也在想，如果以后真的频繁出差至如此，我是否真的能够承受得了。</p>
-<p>像这种给专科生上计算机基础课的活计，其实对我个人的知识储备而言，是没有好处的。我并没有在讲了一门C语言和一门MySQL之后获得更多的知识。但是不止一个人和我说过，其实当老师也是挺锻炼人的。实际讲下来我的感受有两个：第一是我的确干不了老师这个职业；第二是老师也的确锻炼人。</p>
-<p>干不了老师这个职业其实是因为它缺乏变化，从当老师那一天开始，到退休为止，可能一个人所干的事情，所处的生活状态都不会有太大改变。哪怕就算升职加薪，有一天不再站在一线教学岗位上，而是走向教务、科研等等管理岗位，那也是从一个教师走向了职工，更加清闲而已。而年轻人总想刺激，总想寻求变化。这种寻求变化其实并不是无端地不安分，其实这只是成长过程中花时间找到自己的舒适区而已。哪怕这个舒适区在别人眼里，或者事实上并没有那么“舒适”。</p>
-<p>而当老师锻炼人这个说法，其实存在于两个方面。一是外在的，比如当了老师，你在众人面前讲话的谈吐气质就会不一样。就算你面对的不再是学生的时候，你也会自动地找到给学生上课的那种状态，来和你的听众交流。你会不由自主地把腰杆挺直，你会声音洪亮吐字清晰并且尽量讲标准的普通话。你会更从容，会更自信，当所有人的眼睛都盯着你的时候你会更兴奋，而不是从前的慌张。二是内在的，在做类似Presentation这种工作的时候，会针对听众有选择地安排内容，预想到可能会被问到的问题，如何把控演讲的节奏和进程，什么时候该交流什么时候该带节奏，什么东西可以展开什么东西不必展开，以及如何在很短的时间内应对听众给出的各种反应，如何迅速地做出反应。随机应变其实远远不止是“随机”二字，充分准备才是最重要的。大庭广众之下如何把自己的想法通过语言传递给听众，让他们明白的同时还能解决他们的问题，这是一种功力。</p>
-<p>一个学期被两端的琐事消耗掉了。期间跟老师讨论过很多次开题的事情，最后从几个选择里挑了一个最难的。选择NLP可以说就是脑子一热。当时参与了字幕组的翻译工作，里面有很多人名、外号、地名和各种高科技名词带来的问题，比如标点符号，音译还是意译，简称还是全称等等。正好当时也在构思一个项目，希望用前端的东西来做一个在线的类似TimeMachine的字幕制作器，这个项目也是有实际需求的，因为TM不支持Mac，而组员又有很多人只有OSX这一个平台，也不太懂Mac上的虚拟机，更何况这东西还是要钱的。这项目要是能接一个命名实体识别的东西就太棒了。于是一拍脑子就入了NLP的坑。</p>
-<p>事实证明对我来说这也的确是个坑。我选择的题目是用LSTM做NER。写完开题报告第二天准备去找老师拍板的那一页里，是困到不行才睡着的。夜里眼睛就那么睁着，干涸而肿胀。翻了很多拿前端技术，比如AngularJS当做毕业设计的硕士论文。就在想，我为什么一直以来都选择的是困难模式。我选择了来电子科大读数学，而我自己数学又不好；我选择考研但是却2分落榜；我调剂到这里却选了一个我自己不太能Hold住的题目。全凭一腔热情吗？是的。现在光有热情够吗？不够。</p>
-<p>所以说年轻好啊，为什么？因为有时间有机会，有选择可以做出改变。</p>
-<p>现在基本上也知道LSTM这个东西是怎么运作的了，也知道一些可能用得到的技巧方法，现在要做的只是把这个工具迁移到我的题目上来用。至于效果如何，我们暂且报以期望。</p>
-<p>那么现在最需要的是哪些资源呢？时间。上个学期其实真正安下心来搞自己的东西的时间很少，多数时间都在疲于应付老师学校里的事情。每周在实验室的时间最多只有4天，除去必要的休息，还要准备课程、自学前端。如今大多数同学已经找到方向，开始着手论文，我面对的压力还是挺大的。</p>
-<p>不过话说回来，刚刚定题目的时候知道难为什么还定这个题目？我并不是一个理想大于理性的人，也知道自己上限在哪里，为什么会做出这种决定？可能是出于本能的对自己的相信吧。虽然我并不知道学术上这个课题是否可行，但是在工程上，做不好还做不赖嘛？况且那么多论文和实验已经有所成果。最不济写个综述类型的，总结前人工作提出可能方向也是好的。</p>
-<p>虽然成都的晴天极为稀少，但是只要它们存在，就有足够的理由期待。</p>
-<h3 id="关于老板和老师们"><a href="#关于老板和老师们" class="headerlink" title="关于老板和老师们"></a>关于老板和老师们</h3><p>2017-02-22 跟老板发了邮件申请回所干自己的事情</p>
-<h3 id="关于工作"><a href="#关于工作" class="headerlink" title="关于工作"></a>关于工作</h3><p>待更</p>
-<h3 id="关于家和另一半"><a href="#关于家和另一半" class="headerlink" title="关于家和另一半"></a>关于家和另一半</h3><p>待更</p>
-<h3 id="关于接下来的四个月"><a href="#关于接下来的四个月" class="headerlink" title="关于接下来的四个月"></a>关于接下来的四个月</h3>  
+		<h1 id="JavaScript动画"><a href="#JavaScript动画" class="headerlink" title="JavaScript动画"></a>JavaScript动画</h1><p>本章的主要内容是利用JavaScript添加一些简单的动画。</p>
+<p>这本书的很多内容从一开始提出到整本书写完，是贯穿始终的，比如平稳退化（优雅降级）和渐进增强。这一章使用前面给出的各种DOM方法，结合元素自身属性创建了一个轮播图样式的动画。这其中涉及到的一些细节，总结如下。<br><a id="more"></a></p>
+<h2 id="注意setTimeout-的全局性与变量作用域"><a href="#注意setTimeout-的全局性与变量作用域" class="headerlink" title="注意setTimeout()的全局性与变量作用域"></a>注意<code>setTimeout()</code>的全局性与变量作用域</h2><p>由于我们只关注其中值得注意的细节，所以只简单介绍一下应用场景。<br>我们要实现的是一个类似轮播图的组件，提供三个链接，在鼠标移到链接上时，轮播图滚动显示到相应链接对应的内容。我们用简单的方式来实现这个动画，其中使用了<code>setTimeout()</code>。</p>
+<p>动画的实现方式是简单的每隔若干ms移动一段距离。于是这里就使用了类似<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">moveMessage</span>(<span class="params"></span>) </span>&#123;</div><div class="line">...</div><div class="line">movement = setTimeout(<span class="string">"moveMessage()"</span>, <span class="number">10</span>);</div><div class="line">...</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>这样的间隔递归调用， 每隔10ms调用一次自己。但是可以发现这里的<code>movement</code>是个全局变量，当时这样声明是因为作为全局变量，它可以在任何位置被<code>clearTimeout()</code>停止。否则，每次鼠标移动到连接上，都会在事件队列种增加一个递归调用任务，会出现轮播图抽搐的效果。这是因为频繁激活了<code>onmouseover</code>绑定的函数，事件累积起来，它们会会试图把图片同时移动到两个不同的目的地。<br>虽然它是作为一个全局变量声明的，但是如果真的使用<code>cleartTimeout()</code>来停止它，我们并不能预先知道这一对函数究竟哪一个先运行，如果是<code>clearTimeout(movement)</code>先运行，就会报错，因为此时<code>movement</code>还未被定义。<br>另一种方式同样也行不通：将<code>movement</code>作为局部变量声明，因为其他上下文中的<code>clearTimeout()</code>将找不到<code>movement</code>而无法工作。</p>
+<p>解决的方式是用到<strong>“属性”</strong>。<br>我们为轮播图元素创建一个同名属性，将上面的<code>movement</code>赋值给它，然后每当使用<code>clearTimeout()</code>前都检测一下这个元素属性。这样在多个<code>onmouseover</code>事件被频繁激活时，新激活的事件执行的同时也会结束上一个事件的<code>setTimeout()</code> ，因此同时运行的也只有一个<code>setTimeout()</code>递归过程，不会出现抽搐。</p>
+<h2 id="轮播图的简单原理"><a href="#轮播图的简单原理" class="headerlink" title="轮播图的简单原理"></a>轮播图的简单原理</h2><p>最简单的如本例，实际上有点像一个CSS sprite，它把四幅图放在了一幅图中，通过设置父级元素的大小和<code>overflow</code>属性为<code>hidden</code>来固定窗口，然后JavaScript控制背景图的左右位置来实现轮播。<br>其他的轮播图思路，我想还有：</p>
+<ol>
+<li>多幅图重叠放置，控制不同图片的透明度</li>
+<li>同上，控制<code>z-index</code></li>
+<li>多幅图水平放置在一个容器中，控制容器的左右位置，将特定的内容显示在窗口中</li>
+</ol>
+<p>存在的问题：</p>
+<ol>
+<li>可扩展性：本例中的最简单的方法缺点是 可扩展性太差，使用CSS sprite类似的方法，在有新图片时得先处理出一个sprite图，每次内容有变化都得重新处理。</li>
+<li>无限循环的问题：最简单的窗口式轮播图比如12345，如果是按照一个方向滚动，滚动到5的时候再滚动到1就会出现倒滚，有时这种效果是不怎么好看的。网上看到的一个解决思路是，在12345前后各加一张图5和1组成5123451。当从左到右滚动到倒数第二个5时，无动画切换到最开始的5，也就是暗中将用户视角中的最后一幅幅图改成了页面逻辑中的第一幅图；当反向（从右到左）滚动到第一个5时，暗中改成倒数第二个5；对于两个图1，也是同理。</li>
+</ol>
+<h2 id="平稳退化"><a href="#平稳退化" class="headerlink" title="平稳退化"></a>平稳退化</h2><p>本章对于这一点同样提及很多，因为轮播图本身是与JavaScript耦合比较紧密的东西，如果JavaScript不可用，会对页面效果造成很大影响。基本上要遵守以下原则：</p>
+<ol>
+<li>添加安全检查，检查DOM方法是否存在，检查要操作的元素是否存在，检查元素属性是否已经被设置，如未被设置是否有默认值。</li>
+<li>让JavaScript对DOM的操作限制在JavaScript里。这一点个人感觉还是非常有必要的。逻辑是：<ul>
+<li>如果把所有JavaScript将要操作的元素都写在HTML里（书中称为硬编码），那么在JavaScript不可用时，这些HTML元素势必成为页面中多余的部分；</li>
+<li>如果JavaScript可用，那么就让JavaScript自己来生成这些HTML元素</li>
+</ul>
+</li>
+</ol>
+<p>这样做的好处是，在JavaScript可用的条件下，轮播图将正常显示；在JavaScript不可用的条件下，轮播图处可以静态显示，或者添加一些其他的效果或提示。这就保证了最基本的“可用性”，这一点是非常重要的。</p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/人民南路四段九号/">人民南路四段九号</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
 
 </div>
 
@@ -139,7 +151,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2017/02/19/week-summary-20170219/" data-title="学期初总结 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/03/20/JSDOM-chapter10/" data-title="JavaScript DOM 编程艺术 笔记-第十章 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -152,19 +164,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/02/23/JSDOM-chapter5/" title="JavaScript DOM 编程艺术 笔记-第五章">
-  <strong>上一篇：</strong><br/>
-  <span>
-  JavaScript DOM 编程艺术 笔记-第五章</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/02/16/JSDOM-chapter3&4/"  title="JavaScript DOM 编程艺术 笔记-第三章 第四章">
+<a href="/2017/03/17/JSDOM-chapter7/"  title="JavaScript DOM 编程艺术 笔记-第七章">
  <strong>下一篇：</strong><br/> 
- <span>JavaScript DOM 编程艺术 笔记-第三章 第四章
+ <span>JavaScript DOM 编程艺术 笔记-第七章
 </span>
 </a>
 </div>
@@ -173,7 +177,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/02/19/week-summary-20170219/" data-title="学期初总结" data-url="http://ming-holy.space/2017/02/19/week-summary-20170219/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/20/JSDOM-chapter10/" data-title="JavaScript DOM 编程艺术 笔记-第十章" data-url="http://ming-holy.space/2017/03/20/JSDOM-chapter10/"></div>
 </section>
 
 
@@ -183,7 +187,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#学期初总结"><span class="toc-number">1.</span> <span class="toc-text">学期初总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于学业"><span class="toc-number">1.1.</span> <span class="toc-text">关于学业</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于老板和老师们"><span class="toc-number">1.2.</span> <span class="toc-text">关于老板和老师们</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于工作"><span class="toc-number">1.3.</span> <span class="toc-text">关于工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于家和另一半"><span class="toc-number">1.4.</span> <span class="toc-text">关于家和另一半</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#关于接下来的四个月"><span class="toc-number">1.5.</span> <span class="toc-text">关于接下来的四个月</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript动画"><span class="toc-number">1.</span> <span class="toc-text">JavaScript动画</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#注意setTimeout-的全局性与变量作用域"><span class="toc-number">1.1.</span> <span class="toc-text">注意setTimeout()的全局性与变量作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#轮播图的简单原理"><span class="toc-number">1.2.</span> <span class="toc-text">轮播图的简单原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#平稳退化"><span class="toc-number">1.3.</span> <span class="toc-text">平稳退化</span></a></li></ol></li></ol>
  
   </div>
 
