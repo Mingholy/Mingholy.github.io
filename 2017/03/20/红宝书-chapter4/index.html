@@ -4,44 +4,26 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>IFE2017任务23-自定义checkbox和radio的样式 | A Cup of Coffee</title>
+    <title>JavaScript高级程序设计 第四章笔记 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="完成这个任务主要涉及的知识有：
-
-CSS的各种选择器
-伪元素和伪元素
-transform的scale和translate方法。
-CSS作圆与HTML特殊符号代码
-background-position的注意事项
-CSS sprites">
+    <meta name="description" content="第四章：变量、作用域和内存问题好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。其实它的第一个节标题是：
+基本类型和引用类型的值但是下一页马上出现复制变量值，忽然就想到了JavaScript的一个经典问题：深浅复制。（以及jQuery的extend()，待会总结一下）首先还是看基本类型和引用类型。基本类型就是上一个笔记中出现的六大数据类型中的前五个，其中两个单值类型Undefine">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IFE2017任务23-自定义checkbox和radio的样式">
-<meta property="og:url" content="http://ming-holy.space/2017/02/25/IFE2017-23/index.html">
+<meta property="og:title" content="JavaScript高级程序设计 第四章笔记">
+<meta property="og:url" content="http://ming-holy.space/2017/03/20/红宝书-chapter4/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="完成这个任务主要涉及的知识有：
-
-CSS的各种选择器
-伪元素和伪元素
-transform的scale和translate方法。
-CSS作圆与HTML特殊符号代码
-background-position的注意事项
-CSS sprites">
-<meta property="og:updated_time" content="2017-03-05T10:52:21.749Z">
+<meta property="og:description" content="第四章：变量、作用域和内存问题好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。其实它的第一个节标题是：
+基本类型和引用类型的值但是下一页马上出现复制变量值，忽然就想到了JavaScript的一个经典问题：深浅复制。（以及jQuery的extend()，待会总结一下）首先还是看基本类型和引用类型。基本类型就是上一个笔记中出现的六大数据类型中的前五个，其中两个单值类型Undefine">
+<meta property="og:updated_time" content="2017-03-21T14:48:55.263Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="IFE2017任务23-自定义checkbox和radio的样式">
-<meta name="twitter:description" content="完成这个任务主要涉及的知识有：
-
-CSS的各种选择器
-伪元素和伪元素
-transform的scale和translate方法。
-CSS作圆与HTML特殊符号代码
-background-position的注意事项
-CSS sprites">
+<meta name="twitter:title" content="JavaScript高级程序设计 第四章笔记">
+<meta name="twitter:description" content="第四章：变量、作用域和内存问题好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。其实它的第一个节标题是：
+基本类型和引用类型的值但是下一页马上出现复制变量值，忽然就想到了JavaScript的一个经典问题：深浅复制。（以及jQuery的extend()，待会总结一下）首先还是看基本类型和引用类型。基本类型就是上一个笔记中出现的六大数据类型中的前五个，其中两个单值类型Undefine">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -101,14 +83,14 @@ CSS sprites">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/02/25/IFE2017-23/" title="IFE2017任务23-自定义checkbox和radio的样式" itemprop="url">IFE2017任务23-自定义checkbox和radio的样式</a>
+      <a href="/2017/03/20/红宝书-chapter4/" title="JavaScript高级程序设计 第四章笔记" itemprop="url">JavaScript高级程序设计 第四章笔记</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2017-02-25T09:33:00.000Z" itemprop="datePublished"> 发表于 2017-02-25</time>
+    <time datetime="2017-03-20T14:16:00.000Z" itemprop="datePublished"> 发表于 2017-03-20</time>
     
   </p>
 </header>
@@ -117,59 +99,20 @@ CSS sprites">
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的各种选择器"><span class="toc-number">1.</span> <span class="toc-text">CSS的各种选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪元素和伪类"><span class="toc-number">2.</span> <span class="toc-text">伪元素和伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#transform的scale和translate方法"><span class="toc-number">3.</span> <span class="toc-text">transform的scale和translate方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS作圆与HTML特殊符号代码"><span class="toc-number">4.</span> <span class="toc-text">CSS作圆与HTML特殊符号代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#background-position注意事项"><span class="toc-number">5.</span> <span class="toc-text">background-position注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS-sprites"><span class="toc-number">6.</span> <span class="toc-text">CSS sprites</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#究竟哪种方式更好？"><span class="toc-number"></span> <span class="toc-text">究竟哪种方式更好？</span></a>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#第四章：变量、作用域和内存问题"><span class="toc-number">1.</span> <span class="toc-text">第四章：变量、作用域和内存问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本类型和引用类型的值"><span class="toc-number">1.1.</span> <span class="toc-text">基本类型和引用类型的值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于复制"><span class="toc-number">1.1.1.</span> <span class="toc-text">关于复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检测实例类型"><span class="toc-number">1.1.2.</span> <span class="toc-text">检测实例类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行上下文与作用域"><span class="toc-number">1.1.3.</span> <span class="toc-text">执行上下文与作用域</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<blockquote>
-<p>完成这个任务主要涉及的知识有：</p>
-<ul>
-<li>CSS的各种选择器</li>
-<li>伪元素和伪元素</li>
-<li><code>transform</code>的<code>scale</code>和<code>translate</code>方法。</li>
-<li>CSS作圆与HTML特殊符号代码</li>
-<li><code>background-position</code>的注意事项</li>
-<li>CSS sprites</li>
-</ul>
-</blockquote>
-<a id="more"></a>
-<p><a href="http://ife.baidu.com/course/detail/id/23" target="_blank" rel="external">任务23：自定义checkbox和radio样式</a><br><a href="http://ming-holy.space/2017/IFE-2017/23/index.html">Demo</a><br><a href="https://github.com/Mingholy/IFE-2017/tree/master/23" target="_blank" rel="external">Code</a></p>
-<h3 id="CSS的各种选择器"><a href="#CSS的各种选择器" class="headerlink" title="CSS的各种选择器"></a>CSS的各种选择器</h3><p>本例中我用到了<strong>相邻兄弟选择器</strong>、<strong>属性选择器</strong>以及<strong>伪类和伪元素选择器</strong>。<br>除了最基本的使用id、类和标签选择器外，要想实现题目要求的效果，需要更灵活地选择元素。<br>需要注意的是:</p>
+		<h1 id="第四章：变量、作用域和内存问题"><a href="#第四章：变量、作用域和内存问题" class="headerlink" title="第四章：变量、作用域和内存问题"></a>第四章：变量、作用域和内存问题</h1><p>好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。<br>其实它的第一个节标题是：</p>
+<h2 id="基本类型和引用类型的值"><a href="#基本类型和引用类型的值" class="headerlink" title="基本类型和引用类型的值"></a>基本类型和引用类型的值</h2><p>但是下一页马上出现复制变量值，忽然就想到了JavaScript的一个经典问题：深浅复制。（以及jQuery的<code>extend()</code>，待会总结一下）<br>首先还是看基本类型和引用类型。基本类型就是上一个笔记中出现的六大数据类型中的前五个，其中两个单值类型<code>Undefined</code>和<code>Null</code>，还有<code>Boolean</code>，<code>Number</code>和<code>String</code>。</p>
+<h3 id="关于复制"><a href="#关于复制" class="headerlink" title="关于复制"></a>关于复制</h3><p>基本数据类型，如<code>Number</code>的复制是值复制，而复杂数据类型如<code>Object</code>类的复制是引用复制。也就是说将一个<code>Object</code>类型的变量赋值给另一个变量，赋值的其实是同一个对象的指针（引用），它们指向堆内存中同一个对象。</p>
+<p>但是如果将对象作为参数传递给函数，这时一定是按值传递的，不可能出现按引用传递。书上的例子中：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">    obj.name = <span class="string">"Nicholas"</span>;</div><div class="line">    obj = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">    obj.name = <span class="string">"Greg"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">setName(person);</div><div class="line">alert(person.name);  <span class="comment">//"Nicholas"</span></div></pre></td></tr></table></figure><br>如果是按引用传递，即参数<code>obj</code>是指向<code>person</code>的指针，那么运行<code>setName</code>时，<code>obj.name</code>第一次被赋值成”Nicholas”，紧接<code>obj</code>就被赋值成为新对象了，也就是说它所指向的<code>person</code>对象就被赋值为新对象了，那么函数结束后得到的<code>person.name</code>属性应该是最后设置的”Greg”。然而结果并不是，因为当<code>person</code>作为对象参数传给该函数时，它的值复制给了<code>obj</code>，而<code>obj</code>就作为函数<code>setName</code>的局部变量被修改了，它的属性值最终是什么，其实已经与<code>person</code>无关了。</p>
+<h3 id="检测实例类型"><a href="#检测实例类型" class="headerlink" title="检测实例类型"></a>检测实例类型</h3><p>之前使用<code>typeof</code>操作符和其他方法，检测类型主要是在检测基本数据类型。现在我们要检测一个实例对象是否属于某个类，这就要使用<code>instanceof</code>操作符了。它有两个特点：</p>
 <ol>
-<li>相邻兄弟选择器的<code>+</code>会以前面的标签作为判定标准，而选择后面的标签。比如本例中<code>input + label</code>将选择前面存在<code>input</code>标签的<code>label</code>标签。</li>
-<li>使用<code>input[type=&quot;radio&quot;]</code>选择单选控件，同样修改<code>type</code>即可实现选择其他类型的控件。</li>
-<li>组合选择器<code>,</code>，后代选择器<code>就是空格</code>，儿子选择器<code>&gt;</code>。</li>
+<li>对任意基本数据类型的变量使用它，都会返回<code>false</code>，因为它们都不是对象。</li>
+<li>对任意引用类型如<code>Array</code>、<code>RegExp</code>、<code>Object</code>和<code>Function</code>使用<code>a instanceof Object</code>，都会返回<code>true</code>。它们都是<code>Object</code>的实例。</li>
 </ol>
-<h3 id="伪元素和伪类"><a href="#伪元素和伪类" class="headerlink" title="伪元素和伪类"></a>伪元素和伪类</h3><p>CSS中的伪元素有四种：</p>
-<ol>
-<li><code>::first-line</code><br>可以对文本的第一行应用样式。因此该伪元素只能被块级元素使用，因为内联元素并不存在第一行和其他行之分。</li>
-<li><code>::first-letter</code><br>可以对文本的首字母应用样式。该伪元素也只能用于块级元素，这就不知道有什么特别的原因了。</li>
-<li><code>::before</code><br>在元素内容前面插入新的内容，且该内容不是DOM对象，不占用DOM中的位置，它是虚拟元素。</li>
-<li><code>::after</code><br>同理，只是在后面插入新的内容。</li>
-</ol>
-<p>而伪类则是表示某一元素各种状态，而不是实际的类的“假的”类。<br>比如一个<code>a</code>标签，可能有四种状态：</p>
-<ol>
-<li><code>a:link</code>:未访问链接</li>
-<li><code>a:visited</code>:已访问链接</li>
-<li><code>a:hover</code>:鼠标指向的链接</li>
-<li><code>a:active</code>:选定的链接<br>本例中就结合了选择器和伪元素，实现了不使用静态图片的自定义样式。主要思路就是隐藏默认的控件样式，然后使用一个<code>label</code>来伪装成新的空间，对这个<code>label</code>进行各种样式定义，得到不同的效果。</li>
-</ol>
-<h3 id="transform的scale和translate方法"><a href="#transform的scale和translate方法" class="headerlink" title="transform的scale和translate方法"></a><code>transform</code>的<code>scale</code>和<code>translate</code>方法</h3><p>这两个方法在热身任务中就有使用到，是CSS3的新特性。<br><code>transform: scale(x, y)</code>主要是进行缩放，两个参数分别是x轴方向和y轴方向的缩放系数。<br><code>transform: translate(x, y)</code>主要是进行2D变换，目前我的理解就是定位，两个参数分别是x轴方向和y周方向的定位值，可以接收具体像素，也可以接收百分比。</p>
-<h3 id="CSS作圆与HTML特殊符号代码"><a href="#CSS作圆与HTML特殊符号代码" class="headerlink" title="CSS作圆与HTML特殊符号代码"></a>CSS作圆与HTML特殊符号代码</h3><p>其实这一块的内容就是为了实现单选控件里的那个圆形小点点。<br>CSS作圆的一个简单的方法就是，给一个正方形元素加上边框，并使其<code>border-radius</code>属性为50%。这样就可以得到一个圆形。通过控制正方形的大小来控制圆的大小。<br>它有一个缺点，在极端条件下，比如缩放比例极小的时候，我们还会明显地看到它作为正方形的本来面目，也就是说，它的圆角化效果会因为缩放比例变化而变得不稳定，部分情况下会失效。<br>另一种方法是使用HTML的特殊符号，比如&amp;copy将变成©。这种东西叫做HTML字符实体，有很多很多。比如<a href="http://tool.chinaz.com/Tools/HtmlChar.aspx" target="_blank" rel="external">HTML特殊符号对照表</a>和<a href="http://www.w3school.com.cn/html/html_entities.asp" target="_blank" rel="external">HTML字符实体</a>等。但是实际使用起来，单个字符小且不好定位，缩放容易失真，所以还是使用CSS画圆实现了。</p>
-<h3 id="background-position注意事项"><a href="#background-position注意事项" class="headerlink" title="background-position注意事项"></a><code>background-position</code>注意事项</h3><p>该属性接受<code>top</code>一族，百分比和<code>0px 0px, center</code>这种混合形式的参数。根据MDN的解释：<br><blockquote><p>With a value pair of ‘0% 0%’, the upper left corner of the image is aligned with the upper left corner of the box’s padding edge. A value pair of ‘100% 100%’ places the lower right corner of the image in the lower right corner of padding area. With a value pair of ‘14% 84%’, the point 14% across and 84% down the image is to be placed at the point 14% across and 84% down the padding area.</p>
-<footer><strong>MDN</strong><cite><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/background-position" target="_blank" rel="external">background-position</a></cite></footer></blockquote><br>可以知道，当接受<code>14% 84%</code>作为参数时，图片的14%@x和84%@y处将作为锚点，并将该锚点置于区域的14%@x和84%@y处。</p>
-<h3 id="CSS-sprites"><a href="#CSS-sprites" class="headerlink" title="CSS sprites"></a>CSS sprites</h3><p>其实就是把所有的图片都拼接在一张图片上。作用是体积小，减少HTTP请求。然后用css来控制位置，变化显示内容。</p>
-<h2 id="究竟哪种方式更好？"><a href="#究竟哪种方式更好？" class="headerlink" title="究竟哪种方式更好？"></a>究竟哪种方式更好？</h2><p>使用背景图：</p>
-<ul>
-<li>优点：代码量比较少，易于实现；如果需要修改样式，直接更换规格相同的精灵图即可，一定程度上做到了HTML元素与样式的解耦。</li>
-<li>缺点：背景图一般情况下都不是矢量图。极端情况下，比如缩放比例极大或者极小，失真是必然的。</li>
-</ul>
-<p>使用伪类和伪元素：</p>
-<ul>
-<li>优点：CSS实现的样式都是矢量的，不受缩放比例影响，至少单选框可以在任意比例正常工作，同时（可能）也会减少设计师的工作量</li>
-<li>缺点：代码量比较大，实现不如背景图简单；复选框在极端缩放条件下，里面的对号可能会跑出来。</li>
-</ul>
-<p>具体选择哪种方式实现，可能需要根据应用场景来确定。<br>背景图方法四平八稳，最主要的是实现简洁，适用于用量非常大，比如调查表单等的实际应用中，这样能够很好地复用同一张背景图，节约大量时间精力。<br>伪类方法则适用于整个页面对实现效果要求非常高，并且其呈现分辨率跨度非常大的情况下，比如从移动端到4k屏幕上，这也是利用了矢量图对战位图的绝对优势。</p>
+<h3 id="执行上下文与作用域"><a href="#执行上下文与作用域" class="headerlink" title="执行上下文与作用域"></a>执行上下文与作用域</h3><p>书上这一节中的例子有点小tricky。我按照自己的思路理解一下：<br>首先我们定义作用域：<br>  作用域实际上是一套获取代码执行上下文中的对象的规则。比如<code>function</code>对象所拥有的<code>arguments</code>对象，就存在于该<code>function</code>的执行上下文中，可以在该<code>function</code>的作用域中找到；全局变量存在于全局对象的执行上下文中，可以在全局作用域中找到。<br>然后定义作用域链：<br>  显然，一个全局对象里面可能包含多个函数对象，函数对象里又可能包含多个普通对象，这些普通对象里面可能还有多个属性值等等。这样，对于最内层对象，它所在的执行上下文就是它的父对象，可能是个函数，也可能是个键值对容器。按照传统的思路，每个对象应该都对外封闭，外面的操作不能随意访问或修改它内部的内容。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -177,13 +120,13 @@ CSS sprites">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/IFE2017/">IFE2017</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/HTML/">HTML</a><a href="/tags/CSS/">CSS</a>
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
   </div>
 
 </div>
@@ -192,7 +135,7 @@ CSS sprites">
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2017/02/25/IFE2017-23/" data-title="IFE2017任务23-自定义checkbox和radio的样式 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/03/20/红宝书-chapter4/" data-title="JavaScript高级程序设计 第四章笔记 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -205,19 +148,11 @@ CSS sprites">
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/02/28/IFE2017-9-92/" title="IFE2017任务92-HTML/CSS相关总结">
-  <strong>上一篇：</strong><br/>
-  <span>
-  IFE2017任务92-HTML/CSS相关总结</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/02/23/JSDOM-chapter5/"  title="JavaScript DOM 编程艺术 笔记-第五章">
+<a href="/2017/03/20/红宝书-chapter2&3/"  title="JavaScript 高级程序设计 第二三章笔记">
  <strong>下一篇：</strong><br/> 
- <span>JavaScript DOM 编程艺术 笔记-第五章
+ <span>JavaScript 高级程序设计 第二三章笔记
 </span>
 </a>
 </div>
@@ -226,7 +161,7 @@ CSS sprites">
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/02/25/IFE2017-23/" data-title="IFE2017任务23-自定义checkbox和radio的样式" data-url="http://ming-holy.space/2017/02/25/IFE2017-23/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/20/红宝书-chapter4/" data-title="JavaScript高级程序设计 第四章笔记" data-url="http://ming-holy.space/2017/03/20/红宝书-chapter4/"></div>
 </section>
 
 
@@ -236,7 +171,7 @@ CSS sprites">
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的各种选择器"><span class="toc-number">1.</span> <span class="toc-text">CSS的各种选择器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#伪元素和伪类"><span class="toc-number">2.</span> <span class="toc-text">伪元素和伪类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#transform的scale和translate方法"><span class="toc-number">3.</span> <span class="toc-text">transform的scale和translate方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS作圆与HTML特殊符号代码"><span class="toc-number">4.</span> <span class="toc-text">CSS作圆与HTML特殊符号代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#background-position注意事项"><span class="toc-number">5.</span> <span class="toc-text">background-position注意事项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS-sprites"><span class="toc-number">6.</span> <span class="toc-text">CSS sprites</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#究竟哪种方式更好？"><span class="toc-number"></span> <span class="toc-text">究竟哪种方式更好？</span></a>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#第四章：变量、作用域和内存问题"><span class="toc-number">1.</span> <span class="toc-text">第四章：变量、作用域和内存问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本类型和引用类型的值"><span class="toc-number">1.1.</span> <span class="toc-text">基本类型和引用类型的值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#关于复制"><span class="toc-number">1.1.1.</span> <span class="toc-text">关于复制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检测实例类型"><span class="toc-number">1.1.2.</span> <span class="toc-text">检测实例类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行上下文与作用域"><span class="toc-number">1.1.3.</span> <span class="toc-text">执行上下文与作用域</span></a></li></ol></li></ol></li></ol>
  
   </div>
 

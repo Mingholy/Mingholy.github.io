@@ -78,7 +78,79 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/20/红宝书-chapter2&3/" title="JavaScript 高级程序设计 第二三章-笔记" itemprop="url">JavaScript 高级程序设计 第二三章-笔记</a>
+      <a href="/2017/03/20/红宝书-chapter4/" title="JavaScript高级程序设计 第四章笔记" itemprop="url">JavaScript高级程序设计 第四章笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-20T14:16:00.000Z" itemprop="datePublished"> 发表于 2017-03-20</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="第四章：变量、作用域和内存问题"><a href="#第四章：变量、作用域和内存问题" class="headerlink" title="第四章：变量、作用域和内存问题"></a>第四章：变量、作用域和内存问题</h1><p>好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。<br>其实它的第一个节标题是：</p>
+<h2 id="基本类型和引用类型的值"><a href="#基本类型和引用类型的值" class="headerlink" title="基本类型和引用类型的值"></a>基本类型和引用类型的值</h2><p>但是下一页马上出现复制变量值，忽然就想到了JavaScript的一个经典问题：深浅复制。（以及jQuery的<code>extend()</code>，待会总结一下）<br>首先还是看基本类型和引用类型。基本类型就是上一个笔记中出现的六大数据类型中的前五个，其中两个单值类型<code>Undefined</code>和<code>Null</code>，还有<code>Boolean</code>，<code>Number</code>和<code>String</code>。</p>
+<h3 id="关于复制"><a href="#关于复制" class="headerlink" title="关于复制"></a>关于复制</h3><p>基本数据类型，如<code>Number</code>的复制是值复制，而复杂数据类型如<code>Object</code>类的复制是引用复制。也就是说将一个<code>Object</code>类型的变量赋值给另一个变量，赋值的其实是同一个对象的指针（引用），它们指向堆内存中同一个对象。</p>
+<p>但是如果将对象作为参数传递给函数，这时一定是按值传递的，不可能出现按引用传递。书上的例子中：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">    obj.name = <span class="string">"Nicholas"</span>;</div><div class="line">    obj = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">    obj.name = <span class="string">"Greg"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">setName(person);</div><div class="line">alert(person.name);  <span class="comment">//"Nicholas"</span></div></pre></td></tr></table></figure><br>如果是按引用传递，即参数<code>obj</code>是指向<code>person</code>的指针，那么运行<code>setName</code>时，<code>obj.name</code>第一次被赋值成”Nicholas”，紧接<code>obj</code>就被赋值成为新对象了，也就是说它所指向的<code>person</code>对象就被赋值为新对象了，那么函数结束后得到的<code>person.name</code>属性应该是最后设置的”Greg”。然而结果并不是，因为当<code>person</code>作为对象参数传给该函数时，它的值复制给了<code>obj</code>，而<code>obj</code>就作为函数<code>setName</code>的局部变量被修改了，它的属性值最终是什么，其实已经与<code>person</code>无关了。</p>
+<h3 id="检测实例类型"><a href="#检测实例类型" class="headerlink" title="检测实例类型"></a>检测实例类型</h3><p>之前使用<code>typeof</code>操作符和其他方法，检测类型主要是在检测基本数据类型。现在我们要检测一个实例对象是否属于某个类，这就要使用<code>instanceof</code>操作符了。它有两个特点：</p>
+<ol>
+<li>对任意基本数据类型的变量使用它，都会返回<code>false</code>，因为它们都不是对象。</li>
+<li>对任意引用类型如<code>Array</code>、<code>RegExp</code>、<code>Object</code>和<code>Function</code>使用<code>a instanceof Object</code>，都会返回<code>true</code>。它们都是<code>Object</code>的实例。</li>
+</ol>
+<h3 id="执行上下文与作用域"><a href="#执行上下文与作用域" class="headerlink" title="执行上下文与作用域"></a>执行上下文与作用域</h3><p>书上这一节中的例子有点小tricky。我按照自己的思路理解一下：<br>首先我们定义作用域：<br>  作用域实际上是一套获取代码执行上下文中的对象的规则。比如<code>function</code>对象所拥有的<code>arguments</code>对象，就存在于该<code>function</code>的执行上下文中，可以在该<code>function</code>的作用域中找到；全局变量存在于全局对象的执行上下文中，可以在全局作用域中找到。<br>然后定义作用域链：<br>  显然，一个全局对象里面可能包含多个函数对象，函数对象里又可能包含多个普通对象，这些普通对象里面可能还有多个属性值等等。这样，对于最内层对象，它所在的执行上下文就是它的父对象，可能是个函数，也可能是个键值对容器。按照传统的思路，每个对象应该都对外封闭，外面的操作不能随意访问或修改它内部的内容。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/20/红宝书-chapter4/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/20/红宝书-chapter4/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/20/红宝书-chapter2&3/" title="JavaScript 高级程序设计 第二三章笔记" itemprop="url">JavaScript 高级程序设计 第二三章笔记</a>
   </h1>
   <p class="article-author">By
        
@@ -684,80 +756,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/02/25/IFE2017-23/" title="IFE2017任务23-自定义checkbox和radio的样式" itemprop="url">IFE2017任务23-自定义checkbox和radio的样式</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-02-25T09:33:00.000Z" itemprop="datePublished"> 发表于 2017-02-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>完成这个任务主要涉及的知识有：</p>
-<ul>
-<li>CSS的各种选择器</li>
-<li>伪元素和伪元素</li>
-<li><code>transform</code>的<code>scale</code>和<code>translate</code>方法。</li>
-<li>CSS作圆与HTML特殊符号代码</li>
-<li><code>background-position</code>的注意事项</li>
-<li>CSS sprites</li>
-</ul>
-</blockquote>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/02/25/IFE2017-23/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/IFE2017/">IFE2017</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/HTML/">HTML</a><a href="/tags/CSS/">CSS</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/02/25/IFE2017-23/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/02/25/IFE2017-23/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -804,7 +802,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>13</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>14</sup></a></li>
 		  
 		
 		  
@@ -842,7 +840,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li></ul>
   </div>
 
 
@@ -852,7 +850,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>15</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>16</sup></a></li>
 			
 		
 			
