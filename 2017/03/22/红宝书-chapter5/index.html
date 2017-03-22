@@ -4,29 +4,35 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>IFE2017任务92-HTML/CSS相关总结 | A Cup of Coffee</title>
+    <title>JavaScript高级程序设计 第五章笔记 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="HMTL5语义化标签备忘录和92题CSS总结
+    <meta name="description" content="引用类型这一章有点像API手册了。
+ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号，IE7之前和Opera会报错。注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。
+Array关于这个类型，需要注意的点：
 
-怎么看待以前的div?还记得很久以前写HTML都是和JS和CSS混在一起，一个标签好长好长。那个时候并没有这种语义化的概念，也没有标签、样式、交互代码分离的概念。div在页面里横冲直撞，带着不同的id和class，样式也写得乱七八糟，只要页面看起来没问题就算过关了，殊不知那样的代码估计除了写的人不会有第二个人愿意去看。">
+length属性不是只读的，可以修">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IFE2017任务92-HTML/CSS相关总结">
-<meta property="og:url" content="http://ming-holy.space/2017/02/28/IFE2017-9-92/index.html">
+<meta property="og:title" content="JavaScript高级程序设计 第五章笔记">
+<meta property="og:url" content="http://ming-holy.space/2017/03/22/红宝书-chapter5/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="HMTL5语义化标签备忘录和92题CSS总结
+<meta property="og:description" content="引用类型这一章有点像API手册了。
+ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号，IE7之前和Opera会报错。注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。
+Array关于这个类型，需要注意的点：
 
-怎么看待以前的div?还记得很久以前写HTML都是和JS和CSS混在一起，一个标签好长好长。那个时候并没有这种语义化的概念，也没有标签、样式、交互代码分离的概念。div在页面里横冲直撞，带着不同的id和class，样式也写得乱七八糟，只要页面看起来没问题就算过关了，殊不知那样的代码估计除了写的人不会有第二个人愿意去看。">
-<meta property="og:updated_time" content="2017-03-05T10:52:27.968Z">
+length属性不是只读的，可以修">
+<meta property="og:updated_time" content="2017-03-22T07:55:15.461Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="IFE2017任务92-HTML/CSS相关总结">
-<meta name="twitter:description" content="HMTL5语义化标签备忘录和92题CSS总结
+<meta name="twitter:title" content="JavaScript高级程序设计 第五章笔记">
+<meta name="twitter:description" content="引用类型这一章有点像API手册了。
+ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号，IE7之前和Opera会报错。注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。
+Array关于这个类型，需要注意的点：
 
-怎么看待以前的div?还记得很久以前写HTML都是和JS和CSS混在一起，一个标签好长好长。那个时候并没有这种语义化的概念，也没有标签、样式、交互代码分离的概念。div在页面里横冲直撞，带着不同的id和class，样式也写得乱七八糟，只要页面看起来没问题就算过关了，殊不知那样的代码估计除了写的人不会有第二个人愿意去看。">
+length属性不是只读的，可以修">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -86,14 +92,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/02/28/IFE2017-9-92/" title="IFE2017任务92-HTML/CSS相关总结" itemprop="url">IFE2017任务92-HTML/CSS相关总结</a>
+      <a href="/2017/03/22/红宝书-chapter5/" title="JavaScript高级程序设计 第五章笔记" itemprop="url">JavaScript高级程序设计 第五章笔记</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2017-02-28T12:21:09.000Z" itemprop="datePublished"> 发表于 2017-02-28</time>
+    <time datetime="2017-03-22T07:08:00.000Z" itemprop="datePublished"> 发表于 2017-03-22</time>
     
   </p>
 </header>
@@ -102,62 +108,68 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#怎么看待以前的div"><span class="toc-number">1.</span> <span class="toc-text">怎么看待以前的div?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的大标签"><span class="toc-number">2.</span> <span class="toc-text">新的大标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的小标签"><span class="toc-number">3.</span> <span class="toc-text">新的小标签</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文本字体元素"><span class="toc-number">3.1.</span> <span class="toc-text">文本字体元素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分组元素标签"><span class="toc-number">3.2.</span> <span class="toc-text">分组元素标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他新标签"><span class="toc-number">3.3.</span> <span class="toc-text">其他新标签</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的总结"><span class="toc-number">4.</span> <span class="toc-text">CSS的总结</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#引用类型"><span class="toc-number">1.</span> <span class="toc-text">引用类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Object"><span class="toc-number">1.1.</span> <span class="toc-text">Object</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Array"><span class="toc-number">1.2.</span> <span class="toc-text">Array</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Date"><span class="toc-number">1.3.</span> <span class="toc-text">Date</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RegExp"><span class="toc-number">1.4.</span> <span class="toc-text">RegExp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Function"><span class="toc-number">1.5.</span> <span class="toc-text">Function</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<blockquote>
-<p>HMTL5语义化标签备忘录和92题CSS总结</p>
-</blockquote>
-<h3 id="怎么看待以前的div"><a href="#怎么看待以前的div" class="headerlink" title="怎么看待以前的div?"></a>怎么看待以前的<code>div</code>?</h3><p>还记得很久以前写HTML都是和JS和CSS混在一起，一个标签好长好长。那个时候并没有这种语义化的概念，也没有标签、样式、交互代码分离的概念。<br><code>div</code>在页面里横冲直撞，带着不同的id和class，样式也写得乱七八糟，只要页面看起来没问题就算过关了，殊不知那样的代码估计除了写的人不会有第二个人愿意去看。<br><a id="more"></a><br>语义化的目的就在于不再单一地使用一种标签，通过id和class标记它的作用和控制样式；而是直接从名字体现。<br>不过尽管上古时期的<code>div</code>到了现在很多都被一些带有明显语义的标签替代，但它仍然是有它自己的作用的，不能因为HTML5的浪潮拍来，就将它遗弃。</p>
-<h3 id="新的大标签"><a href="#新的大标签" class="headerlink" title="新的大标签"></a>新的<strong>大</strong>标签</h3><p><code>header</code>代表页眉。</p>
-<ul>
-<li>可以用在所有带有页眉或者头部的内容中。  </li>
-<li>经常和<code>hgroup</code>放在一起，或包含各种标题<code>h1-6</code>或包含搜索框导航条<code>nav</code>等。</li>
-</ul>
-<p><code>footer</code>代表页脚。<br><code>hgroup</code>代表标题组，主副标题作者时间等等。写到这里我就想回去改代码了…那个HTML基础代码完全没体现语义化嘛。<br><code>nav</code>代表导航栏、条、区。当然里面一般情况下都会包裹一个无序列表。<strong>注意:</strong>应该把它用在<strong>主要</strong>导航区上，这是一条规范。貌似不能随便使用。<br><code>aside</code>元素一般是侧边栏。不过它的用途是显示主要内容的附属部分，比如我博客里的这个侧边栏分类、归档等。（然而我去看了一下，它最外层仍然是一个<code>div</code>）。<br><code>section</code>元素代表一节或一段，或者你认为的一个页面的一大块部分。最初知道这个标签的时候是偶然碰到了一个优秀SPA站点的集合站，在里面逛了半天，见识到了很多非常漂亮的SPA。我就去挨个点开看代码，发现了这样的标签。（还记得当时看到<code>::after</code>等伪元素一脸懵逼地想这东西是啥。）<br><code>article</code>我觉得这个元素与<code>section</code>和<code>div</code>的最大区别是在使用的时候应该非常注意一点，就是里面的结构应该是一个典型的文章结构。有标题，有内容，有结尾署名，或许还有评论（嵌套<code>article</code>）。我觉得在使用它们时，考虑一下它所展示的内容和整个文档的关系即可。比如整篇文档只显示一篇文章，比如一篇很长的小说，那么就可以用<code>article</code>包裹多个<code>section</code>，每个<code>section</code>是一个章节；反之如果这篇文档显示的是多篇短篇小说，那么久可以用多个<code>section</code>包裹<code>article</code>。<br><code>address</code>这个标签我是第一次知道。见名知意了。一般出现在<code>footer</code>。</p>
-<h3 id="新的小标签"><a href="#新的小标签" class="headerlink" title="新的小标签"></a>新的小标签</h3><p>上面的那些标签都是用来包裹页面中相对较大的区块的，有利于对内容进行分割。（模块化？；-&gt;）<br>而一些小的标签，如文本元素等也经过了重新定义，这一块的内容就比较碎了，总结一下。（如果与以前的没有什么太大区别，并且非常常用，我就不写了。）</p>
-<h4 id="文本字体元素"><a href="#文本字体元素" class="headerlink" title="文本字体元素"></a>文本字体元素</h4><p>这一块有很多常用的标签，比如<code>a</code>，<code>p</code>等，这些就不再赘述。其他一些元素很大程度上是为了方便搜索引擎或者网络爬虫更好滴理解你的页面而存在的。这在以后可能很重要。需要注意的有：</p>
-<ul>
-<li>一些纯样式标签最好不要使用，因为样式应该由CSS来负责。比如：<code>em</code>,<code>strong</code>,<code>b</code>,<code>i</code>,<code>u</code>等。但是需要注意的是前两个存在一些语义的信息，这种“强调”的工作对于表现来说，可以通过CSS取代；对于SEO等需要理解语义的方面来说，就不能取代。目前我也不太知道是否有必要去使用它们。在确定的信息到来之前，我会持续关注。</li>
-<li>一些标签可能有特殊用途，比如：<code>code</code>,<code>q(uote)</code>,<code>cite</code>用来展示带有特性的文本。</li>
-<li><code>abbr</code>这种在显示上其实和不使用它时看不出差别，但是它能够在文档中告诉搜索引擎其中的内容是哪些词的缩写。</li>
-<li><code>span</code>没有意义，它只表示一定范围。与<code>div</code>类似，我认为应该尽量少用没有意义的标签，如果有其他语义化标签能够发挥作用，这些标签应该是最后选择的。</li>
-<li>还有其他的如<code>var</code>,<code>samp</code>,<code>kbd</code>,<code>wbr</code>等，目前还可能还没有投入使用。也不清楚用了之后会有什么好处。</li>
-<li><code>time</code>使用后会在其内容前后产生一些缩进，让里面的文字看起来是一个特殊的时间。它的使用方式是：<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">time</span> <span class="attr">datetime</span>=<span class="string">"2017-02-28T21:19:40+08:00"</span> <span class="attr">pubdate</span>&gt;</span>2017年2月28日21:19:40 UTC+8<span class="tag">&lt;/<span class="name">time</span>&gt;</span></div></pre></td></tr></table></figure>
-语义上需要注意的是如果它在一个<code>article</code>中，则代表的是文章发布时间；否则表示整个文档发布时间。</li>
-</ul>
-<h4 id="分组元素标签"><a href="#分组元素标签" class="headerlink" title="分组元素标签"></a>分组元素标签</h4><p>这一部分是我不太知道的。看了别人的代码发现图片与标题文字可以使用<code>dl</code> <code>dt</code> <code>dd</code>来组合，这里总结一下。</p>
-<ul>
-<li><code>dl</code>即definition list，它的使用方式类似<code>ul</code>（不知道这样理解对不对），是一个列表的最外边标签元素。</li>
-<li><code>dt</code>就像<code>li</code>，代表一个列表项，或者说项目标题。</li>
-<li><code>dd</code>就是对该项的解释和描述。它们的关系实际上类似<code>ul</code>和<code>table</code>的结合，就是以<code>th``td</code>的方式来展示一个<code>li</code>。</li>
-<li><code>ol</code>代表有序列表。需要注意两个属性<code>&lt;ol start=&quot;5&quot; reversed&gt;</code>表示从2开始降序计数。目前只有Chrome和Safari6支持<code>ol</code>元素的<code>reversed</code>属性。</li>
-<li><code>figure</code>与<code>figurecaption</code>结合使用可以展现类似latex中的图片样式，即上图下题，最多只能有一个<code>figurecaption</code>。</li>
-</ul>
-<h4 id="其他新标签"><a href="#其他新标签" class="headerlink" title="其他新标签"></a>其他新标签</h4><p>比如<code>audio</code>, <code>video</code>及其里面的<code>source</code>、<code>track</code>等元素，还有可以绘画的<code>canvas</code>元素等等，会在碰到的时候进行专题总结。</p>
-<h3 id="CSS的总结"><a href="#CSS的总结" class="headerlink" title="CSS的总结"></a>CSS的总结</h3><p>这里只总结一下样式属性的顺序。关于这些规范其实有很多种，比如<a href="http://nec.netease.com/standard" target="_blank" rel="external">网易的规范</a>和<a href="http://www.shejidaren.com/css-written-specifications.html" target="_blank" rel="external">推荐大家使用的CSS书写规范、顺序</a><br>CSS样式定义顺序：</p>
+		<h1 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h1><p>这一章有点像API手册了。</p>
+<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>JavaScript中的对象有点像Python中的<code>dict</code>。注意不能有尾逗号，IE7之前和Opera会报错。<br>注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。</p>
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><p>关于这个类型，需要注意的点：</p>
 <ol>
-<li>位置属性(position, top, right, z-index, display, float等)</li>
-<li>大小(width, height, padding, margin)</li>
-<li>文字系列(font, line-height, letter-spacing, color- text-align等)</li>
-<li>背景(background, border等)</li>
-<li>其他(animation, transition等)</li>
+<li><code>length</code>属性不是只读的，可以修改，但会同步到实例上。比如给一个长度为4的数组设置<code>length = 3</code>会移除最后一项；设置为5会添加一个<code>undefined</code>对象到数组里。</li>
+<li>元素个数上限：4294967295个</li>
+<li>检测数组类型可以用<code>instanceof Array</code>但需要注意<code>Array</code>的构造函数可能被修改，于是可能出现此<code>Array</code>非彼<code>Array</code>的情况。</li>
+<li>最好的办法是<code>Array.isArray()</code>。</li>
+<li>栈方法<code>push</code>、<code>pop</code>，队列方法<code>shift</code>、<code>unshift</code>返回修改后的数组长度；队列方法</li>
+<li>排序方法像Java、Python一样可以接受自定义比较器。</li>
+<li></li>
 </ol>
-  
+<ul>
+<li><code>slice()</code>：非破坏性切片方法，返回副本；负值+数组长度转化为正值计算。</li>
+<li><code>splice(operation_position, delete_times, add_element)</code>：破坏性切片方法，改变原数组。</li>
+</ul>
+<ol>
+<li><code>indexOf(element, start)</code>和<code>lastIndexOf(element, start)</code>，一个从前往后一个从后往前；</li>
+<li>迭代方法均为非破坏性方法：</li>
+</ol>
+<ul>
+<li>判定方法：<code>every(function)</code></li>
+<li>过滤方法：<code>filter(function)</code></li>
+<li>迭代方法：<code>forEach(function)</code></li>
+<li><code>map()</code></li>
+<li><code>some</code>：类似判定方法，只是有一个返回为<code>true</code>就返回<code>true</code>。</li>
+</ul>
+<ol>
+<li>归并方法：有<code>map</code>就应该有<code>reduce</code>和<code>reduceRight()</code>，它们的区别在于从前往后和从后往前。</li>
+</ol>
+<h2 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h2><p>说起Date想到了一个通过让CPU空转实现JavaScript中的<code>wait</code>的放法，就是获取当前时间记录下来，一直检测当前时间，发现当前时间是记录时间+5000ms的时候返回。</p>
+<p><code>Date.parse()</code>可以接受若干种形式的字符串解析为日期对象。</p>
+<h2 id="RegExp"><a href="#RegExp" class="headerlink" title="RegExp"></a>RegExp</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> expression = <span class="regexp">/ pattern /</span> flag；</div><div class="line"><span class="keyword">var</span> expression_1 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">"pattern"</span>, <span class="string">"flag"</span>)</div></pre></td></tr></table></figure>
+<p>flag包括：</p>
+<ul>
+<li><code>/g</code>：非贪心匹配</li>
+<li><code>/i</code>：不区分大小写</li>
+<li><code>/m</code>：多行匹配</li>
+</ul>
+<p>需要注意的是传入构造函数的元字符需要<strong>双重转义</strong>，比如要想匹配<code>[</code>，需要传入<code>\\[</code>。</p>
+<p><code>RegExp</code>实例方法包括：</p>
+<ul>
+<li><code>pattern.exec(text)</code>：有匹配返回匹配，类似Python里的<code>match</code>对象；无匹配返回<code>null</code>。分组信息也类似，第0项是整个匹配字符串，类似<code>group(0)</code>。</li>
+</ul>
+<h2 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h2>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/IFE2017/">IFE2017</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/HTML/">HTML</a><a href="/tags/CSS/">CSS</a>
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
   </div>
 
 </div>
@@ -166,7 +178,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2017/02/28/IFE2017-9-92/" data-title="IFE2017任务92-HTML/CSS相关总结 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/03/22/红宝书-chapter5/" data-title="JavaScript高级程序设计 第五章笔记 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -179,19 +191,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/03/03/Python学习笔记(三)/" title="Python学习笔记(三)-关于面向对象">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Python学习笔记(三)-关于面向对象</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/02/25/IFE2017-23/"  title="IFE2017任务23-自定义checkbox和radio的样式">
+<a href="/2017/03/20/红宝书-chapter4/"  title="JavaScript高级程序设计 第四章笔记">
  <strong>下一篇：</strong><br/> 
- <span>IFE2017任务23-自定义checkbox和radio的样式
+ <span>JavaScript高级程序设计 第四章笔记
 </span>
 </a>
 </div>
@@ -200,7 +204,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/02/28/IFE2017-9-92/" data-title="IFE2017任务92-HTML/CSS相关总结" data-url="http://ming-holy.space/2017/02/28/IFE2017-9-92/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/22/红宝书-chapter5/" data-title="JavaScript高级程序设计 第五章笔记" data-url="http://ming-holy.space/2017/03/22/红宝书-chapter5/"></div>
 </section>
 
 
@@ -210,7 +214,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#怎么看待以前的div"><span class="toc-number">1.</span> <span class="toc-text">怎么看待以前的div?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的大标签"><span class="toc-number">2.</span> <span class="toc-text">新的大标签</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#新的小标签"><span class="toc-number">3.</span> <span class="toc-text">新的小标签</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文本字体元素"><span class="toc-number">3.1.</span> <span class="toc-text">文本字体元素</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#分组元素标签"><span class="toc-number">3.2.</span> <span class="toc-text">分组元素标签</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他新标签"><span class="toc-number">3.3.</span> <span class="toc-text">其他新标签</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CSS的总结"><span class="toc-number">4.</span> <span class="toc-text">CSS的总结</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#引用类型"><span class="toc-number">1.</span> <span class="toc-text">引用类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Object"><span class="toc-number">1.1.</span> <span class="toc-text">Object</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Array"><span class="toc-number">1.2.</span> <span class="toc-text">Array</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Date"><span class="toc-number">1.3.</span> <span class="toc-text">Date</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RegExp"><span class="toc-number">1.4.</span> <span class="toc-text">RegExp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Function"><span class="toc-number">1.5.</span> <span class="toc-text">Function</span></a></li></ol></li></ol>
  
   </div>
 

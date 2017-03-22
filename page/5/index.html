@@ -78,68 +78,59 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/11/02/Linux Kernel-11-02/" title="Linux内核 11-02" itemprop="url">Linux内核 11-02</a>
+      <a href="/2015/11/04/Linux Kernel-11-04/" title="Linux内核 11-18" itemprop="url">Linux内核 11-18</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2015-11-02T12:30:00.000Z" itemprop="datePublished"> 发表于 2015-11-02</time>
+    <time datetime="2015-11-04T10:00:00.000Z" itemprop="datePublished"> 发表于 2015-11-04</time>
     
   </p>
 </header>
     <div class="article-content">
         
-        <h3 id="2015-11-2"><a href="#2015-11-2" class="headerlink" title="2015-11-2"></a>2015-11-2</h3><p>當前進程</p>
-<blockquote>
-<p>編程手冊:任務切換</p>
-</blockquote>
-<p>現場保護 保存段面</p>
-<p>進程0創建進程一 tss ljmp 實際含義 硬件操作 彈出進程一的tss1給cpu 其中重要的是eip</p>
-<p><strong>這個時候也需要保存現場，當前還是進程0，還需要恢復進程0的現場。執行跳轉的哪一個段面需要送到tss0</strong>，期間執行了多次壓棧。</p>
-<blockquote>
-<p>這與一般程序的壓棧過程不同。這裏是結構體，一般程序是棧。棧的規則是後進先出，而結構體應該有選擇哪個數據彈出的功能。整個保存西現場，恢復現場的工作都由一行代碼ljmp完成，其他工作由硬件電路完成。</p>
-</blockquote>
-<p>這一行執行完畢，將gdt中tss0彈出。此時ljmp是0特權級的代碼，操作的是內核資源。跳轉之後是3特權級代碼。<br>這一代碼並沒有寫出明確的特權級跳轉操作，然而實際上的確進行了跳轉。這就引出了<strong>門</strong>的概念，任務門，中斷門等等。</p>
-<p>首先為什麼要設定特權級？</p>
+        <h2 id="缓冲区-buffer"><a href="#缓冲区-buffer" class="headerlink" title="缓冲区 buffer"></a>缓冲区 buffer</h2><ul>
+<li>本质：一块内存</li>
+<li>目的：快</li>
+<li>限制：内存是有限的，不能无限制地划分缓冲区。</li>
+</ul>
+<p>为了获得最高的效率，已经进入缓冲区的数据在缓冲区保留的时间应该尽可能滴长。</p>
+<h3 id="buffer-head"><a href="#buffer-head" class="headerlink" title="buffer_head"></a>buffer_head</h3><p>通过buffer_head的数据结构定义知道，它采用了链式结构。</p>
+<ul>
+<li>指针b_data指向数据块。</li>
+<li>设备号b_blocknr和块号b_dev经常连用。一个块只有一个管理信息，存入的数据归属具有唯一性。</li>
+<li>整个硬盘空间，每个块都是独立并且唯一存在的，通过设备号和块号两个参数唯一确定。</li>
+<li>计数器b_count计数此时正在操作缓冲块的进程的个数。</li>
+<li>b_dirt脏位，表示块已经被写过。</li>
+<li>b_lock表示当前块正在被操作，读或者写。</li>
+<li>b_uptodate表示更新位。</li>
+</ul>
 <blockquote>
 <ul>
-<li>保護內核代碼，防止低特權級代碼篡改繫統關鍵信息</li>
-<li>創造特權壁壘，不論3特權級代碼如何設計，都不會進入繫統內核</li>
-<li>同時保證正常程序能夠進行繫統調用，使用內核代碼</li>
+<li>调度切换以机器指令为单位，不对操作进行原子化限制，可能出现数据错误。于是产生加锁的解决方法。然而加锁的方式会引发很多问题，一种是在加锁的瞬间进程被切换，另一种的一个典型就是死锁。</li>
+<li>两个以上的进程同时访问同一个共享数据区，只要至少一方发生写操作，它就叫临界区。出现三类问题：生产者消费者问题，理发师问题，哲学家就餐问题。</li>
 </ul>
 </blockquote>
-<h4 id="門"><a href="#門" class="headerlink" title="門"></a>門</h4><p>禁止的是跳轉的任意性/主動性，允許的是繫統指定的地方，跳轉到指定的目的，一切都是有既定規則/計劃的/被動的。</p>
-<p>中斷並不是一個任意的行為。是在繫統監督下，使用固定的繫統資源int80 idt system_call進行的繫統操作。</p>
+<p>这里的解决方式是加锁的同时关闭中断，此时中断还会发生但是不会引起进程切换。但是这样做也会关闭时钟中断，会使得进程切换点不够整齐。当前的切换方式只以时间为标准，不关心代码内容。所以才会发生一个操作没有做完就切换进程。另外一个影响是，关闭中断还会关闭外设中断。否则，当进程等待外设io操作的时候切换进程，中断操作会立即执行，而如果新进程所要操作的数据恰好是之前进程的数据，就引发了错误。(这里没太听清，也不太懂)</p>
+<p>隐含的问题：</p>
 <blockquote>
-<p>也就是說，特權級壁壘實際上是為了保護使用跳轉機制對繫統資源使用的正確性，使idt真實有效地管理繫統資源。跳轉機制是為了維護特權級壁壘的堅固，保證idt不被隨意篡改。</p>
+<p>这样的机制建立了资源操作的独占性，使得程序的并行执行模式由于资源有限强行变为串行模式，而资源永远是有限的，这有悖于操作系统的设计思路，使得程序执行效率降低。而要想获得高效率必须尽可能使程序并发执行。这是一个旷日持久的矛盾。</p>
 </blockquote>
-<p>然而這一行代碼是怎麼實現特權級切換的？</p>
+<p>由进程到缓冲区/缓冲块之间的关系，由buffer_head管理，由缓冲区到外设io的关系，由request项管理，有单独的一段程序实现。</p>
+<p>进程首先查询数据是否在缓冲区中存在。如果有就直接读。如果没有，看是否有空缓冲区，如果有建立缓冲块并与请求项建立关系。</p>
+<p>分开管理有利于获得高效率。</p>
+<p>前面已经提到，数据应该在缓冲区中存留得尽可能久。那么buffer_head中哪些东西和存留时间有关？<br><strong>设备号和块号</strong><br>一个缓冲块建立起来，就确定了设备号和块号。一定有一个进程，要么读要么写，建立了这个缓冲块。当这个进程结束操作之后，乃至它退出不再存在，b_count为0，缓冲块仍然存在而不撤销吗？<br><strong>不撤销。缓冲块只建立不撤销。以防还有后续进程前来读取。</strong></p>
 <blockquote>
-<p>tss存儲了一大堆寄存器信息，而特權級實際上是一種存儲的訪問控制機制，通過硬件的設置，來控制存儲的訪問權限。從tss一變，那麽寄存器中各種指針也相應地發生了變化，這樣段地址，指令地址都變了。而特權級是作用於段上的，段變了，特權級也就相應地變了。</p>
+<p>即使后续进程与建立缓冲块的进程没有任何关系，它仍然能够读取以前建立的缓冲块。<br>所以不论进程如何变化，在数据存在的期间保持不变的只有设备号和块号。</p>
 </blockquote>
-<p>硬件的設置，保證了一個跳轉，必須有當前段，即起跳段，和目標段。而這兩個段的地址CPU都已經知道了，並且允許這個跳轉/尋址執行，同時執行一個中斷。</p>
+<p><strong>那么缓冲区岂不是要被塞满？</strong></p>
+<p>这取决于引用计数b_count。由于缓冲区没有撤销废除机制，所以只能说b_count=0的缓冲块，可以被替换，但并不是必须且立即的。</p>
 <blockquote>
-<p>CPU對特權級的執行，體現在它對尋址過程的放行與否。它將通常的尋址禁止，而放行從特殊位置來的尋址請求。</p>
+<p>当一个进程需要新建缓冲块，且此时没有空缓冲区，这就需要查看哪些b_count=0，按照先后顺序将它分配给新的进程，更换设备号块号，变成一个新的缓冲块。<br>建立块的hash_table对快速找到所需要的块非常有帮助。</p>
 </blockquote>
-<p><strong>《Intel繫統編程手冊》</strong></p>
-<p>這一行執行之後，進入繫統中斷int80 system_call，就跳轉到地方執行了。那麽往下的半個函數的程序，什麼時候執行？</p>
-<blockquote>
-<p>當前是0進程，中斷先保護0的現場，彈出1的地址，本來函數中下一行代碼地址在eip中，由於中斷保護現場，它被存到了進程0的tss中，因此當進程0的現場恢復的時候，恢復了tss0，就會執行下一行。</p>
-</blockquote>
-<p>所以在下次schedule.switch_to時，就會恢復tss，於是接下來執行後半個函數。</p>
-<h3 id="ljmp后緩衝區的創建"><a href="#ljmp后緩衝區的創建" class="headerlink" title="ljmp后緩衝區的創建"></a>ljmp后緩衝區的創建</h3><h4 id="sys-setup函數與緩衝區"><a href="#sys-setup函數與緩衝區" class="headerlink" title="sys_setup函數與緩衝區"></a>sys_setup函數與緩衝區</h4><p>開始一大堆都是根文件繫統的初始化。</p>
-<p><strong>緩衝區</strong></p>
-<blockquote>
-<p>操作繫統對硬盤的操作，都是經過緩衝區（內存）的中轉。目的∶快。關鍵∶<strong>複用</strong>。並不是每個讀寫操作，都使用硬盤。而是將重複的內容寫入內存，需要的時候提供內存中的這個副本。內存的讀寫速度可比硬盤快太多了。緩衝區就相當於一塊高速虛擬盤。它以塊為單位。</p>
-</blockquote>
-<p>複用策略</p>
-<p>主動邀請，被動等待</p>
-<p>等待的代價是佔用內存。存的時間長，其他進程效率就低，短複用就少。需要平衡二者的矛盾。</p>
-<p>讀使用上述策略是可行的。那麽寫呢？</p>
-<p>考慮到寫的內容有可能多次更改，以及其他用戶併發地訪問，這樣就又涉及到非常多的讀操作。於是由讀操作的優勢，寫操作同樣也需要緩衝區。</p>
-<p>而什麼時候將緩衝區內容dump到硬盤呢？這由操作繫統的策略決定。</p>
+<p>在之后对缓冲区的操作都是使用设备号和块号作为参数。</p>
 
         
         
@@ -169,7 +160,7 @@
 <div class="comments-count">
 	
 	  	<span></span>
-		<a href="/2015/11/02/Linux Kernel-11-02/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/02/Linux Kernel-11-02/" data-count-type="comments">&nbsp;</a>
+		<a href="/2015/11/04/Linux Kernel-11-04/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/04/Linux Kernel-11-04/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -418,6 +409,117 @@
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/02/Linux Kernel-11-02/" title="Linux内核 11-02" itemprop="url">Linux内核 11-02</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-02T12:30:00.000Z" itemprop="datePublished"> 发表于 2015-11-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="2015-11-2"><a href="#2015-11-2" class="headerlink" title="2015-11-2"></a>2015-11-2</h3><p>當前進程</p>
+<blockquote>
+<p>編程手冊:任務切換</p>
+</blockquote>
+<p>現場保護 保存段面</p>
+<p>進程0創建進程一 tss ljmp 實際含義 硬件操作 彈出進程一的tss1給cpu 其中重要的是eip</p>
+<p><strong>這個時候也需要保存現場，當前還是進程0，還需要恢復進程0的現場。執行跳轉的哪一個段面需要送到tss0</strong>，期間執行了多次壓棧。</p>
+<blockquote>
+<p>這與一般程序的壓棧過程不同。這裏是結構體，一般程序是棧。棧的規則是後進先出，而結構體應該有選擇哪個數據彈出的功能。整個保存西現場，恢復現場的工作都由一行代碼ljmp完成，其他工作由硬件電路完成。</p>
+</blockquote>
+<p>這一行執行完畢，將gdt中tss0彈出。此時ljmp是0特權級的代碼，操作的是內核資源。跳轉之後是3特權級代碼。<br>這一代碼並沒有寫出明確的特權級跳轉操作，然而實際上的確進行了跳轉。這就引出了<strong>門</strong>的概念，任務門，中斷門等等。</p>
+<p>首先為什麼要設定特權級？</p>
+<blockquote>
+<ul>
+<li>保護內核代碼，防止低特權級代碼篡改繫統關鍵信息</li>
+<li>創造特權壁壘，不論3特權級代碼如何設計，都不會進入繫統內核</li>
+<li>同時保證正常程序能夠進行繫統調用，使用內核代碼</li>
+</ul>
+</blockquote>
+<h4 id="門"><a href="#門" class="headerlink" title="門"></a>門</h4><p>禁止的是跳轉的任意性/主動性，允許的是繫統指定的地方，跳轉到指定的目的，一切都是有既定規則/計劃的/被動的。</p>
+<p>中斷並不是一個任意的行為。是在繫統監督下，使用固定的繫統資源int80 idt system_call進行的繫統操作。</p>
+<blockquote>
+<p>也就是說，特權級壁壘實際上是為了保護使用跳轉機制對繫統資源使用的正確性，使idt真實有效地管理繫統資源。跳轉機制是為了維護特權級壁壘的堅固，保證idt不被隨意篡改。</p>
+</blockquote>
+<p>然而這一行代碼是怎麼實現特權級切換的？</p>
+<blockquote>
+<p>tss存儲了一大堆寄存器信息，而特權級實際上是一種存儲的訪問控制機制，通過硬件的設置，來控制存儲的訪問權限。從tss一變，那麽寄存器中各種指針也相應地發生了變化，這樣段地址，指令地址都變了。而特權級是作用於段上的，段變了，特權級也就相應地變了。</p>
+</blockquote>
+<p>硬件的設置，保證了一個跳轉，必須有當前段，即起跳段，和目標段。而這兩個段的地址CPU都已經知道了，並且允許這個跳轉/尋址執行，同時執行一個中斷。</p>
+<blockquote>
+<p>CPU對特權級的執行，體現在它對尋址過程的放行與否。它將通常的尋址禁止，而放行從特殊位置來的尋址請求。</p>
+</blockquote>
+<p><strong>《Intel繫統編程手冊》</strong></p>
+<p>這一行執行之後，進入繫統中斷int80 system_call，就跳轉到地方執行了。那麽往下的半個函數的程序，什麼時候執行？</p>
+<blockquote>
+<p>當前是0進程，中斷先保護0的現場，彈出1的地址，本來函數中下一行代碼地址在eip中，由於中斷保護現場，它被存到了進程0的tss中，因此當進程0的現場恢復的時候，恢復了tss0，就會執行下一行。</p>
+</blockquote>
+<p>所以在下次schedule.switch_to時，就會恢復tss，於是接下來執行後半個函數。</p>
+<h3 id="ljmp后緩衝區的創建"><a href="#ljmp后緩衝區的創建" class="headerlink" title="ljmp后緩衝區的創建"></a>ljmp后緩衝區的創建</h3><h4 id="sys-setup函數與緩衝區"><a href="#sys-setup函數與緩衝區" class="headerlink" title="sys_setup函數與緩衝區"></a>sys_setup函數與緩衝區</h4><p>開始一大堆都是根文件繫統的初始化。</p>
+<p><strong>緩衝區</strong></p>
+<blockquote>
+<p>操作繫統對硬盤的操作，都是經過緩衝區（內存）的中轉。目的∶快。關鍵∶<strong>複用</strong>。並不是每個讀寫操作，都使用硬盤。而是將重複的內容寫入內存，需要的時候提供內存中的這個副本。內存的讀寫速度可比硬盤快太多了。緩衝區就相當於一塊高速虛擬盤。它以塊為單位。</p>
+</blockquote>
+<p>複用策略</p>
+<p>主動邀請，被動等待</p>
+<p>等待的代價是佔用內存。存的時間長，其他進程效率就低，短複用就少。需要平衡二者的矛盾。</p>
+<p>讀使用上述策略是可行的。那麽寫呢？</p>
+<p>考慮到寫的內容有可能多次更改，以及其他用戶併發地訪問，這樣就又涉及到非常多的讀操作。於是由讀操作的優勢，寫操作同樣也需要緩衝區。</p>
+<p>而什麼時候將緩衝區內容dump到硬盤呢？這由操作繫統的策略決定。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/操作系统/">操作系统</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/11/02/Linux Kernel-11-02/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/02/Linux Kernel-11-02/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
@@ -464,7 +566,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>14</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>15</sup></a></li>
 		  
 		
 		  
@@ -502,7 +604,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -512,7 +614,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>16</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>17</sup></a></li>
 			
 		
 			
