@@ -1,0 +1,671 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>JavaScript高级程序设计 第六章笔记 | A Cup of Coffee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Mingholy">
+    
+
+    
+    <meta name="description" content="关于面向对象，已经在IFE2017-105的笔记中总结了一些。这里总结一下关于继承的问题。
+继承书中第一段提到了，一般的OO语言支持两种继承方式，一种是接口继承，另一种是实现继承。
+
+接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。
+实现继承：父类中定义并实现好方法，然后子类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript高级程序设计 第六章笔记">
+<meta property="og:url" content="http://ming-holy.space/2017/03/22/红宝书-chapter6/index.html">
+<meta property="og:site_name" content="A Cup of Coffee">
+<meta property="og:description" content="关于面向对象，已经在IFE2017-105的笔记中总结了一些。这里总结一下关于继承的问题。
+继承书中第一段提到了，一般的OO语言支持两种继承方式，一种是接口继承，另一种是实现继承。
+
+接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。
+实现继承：父类中定义并实现好方法，然后子类">
+<meta property="og:updated_time" content="2017-03-22T16:04:20.227Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript高级程序设计 第六章笔记">
+<meta name="twitter:description" content="关于面向对象，已经在IFE2017-105的笔记中总结了一些。这里总结一下关于继承的问题。
+继承书中第一段提到了，一般的OO语言支持两种继承方式，一种是接口继承，另一种是实现继承。
+
+接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。
+实现继承：父类中定义并实现好方法，然后子类">
+
+    
+    <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="A Cup of Coffee" title="A Cup of Coffee"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A Cup of Coffee">A Cup of Coffee</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:ming-holy.space">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/22/红宝书-chapter6/" title="JavaScript高级程序设计 第六章笔记" itemprop="url">JavaScript高级程序设计 第六章笔记</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-22T09:00:00.000Z" itemprop="datePublished"> 发表于 2017-03-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#继承"><span class="toc-number">1.</span> <span class="toc-text">继承</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#原型链"><span class="toc-number">1.1.</span> <span class="toc-text">原型链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#借用构造函数"><span class="toc-number">1.2.</span> <span class="toc-text">借用构造函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组合继承"><span class="toc-number">1.3.</span> <span class="toc-text">组合继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原型式继承"><span class="toc-number">1.4.</span> <span class="toc-text">原型式继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄生式继承"><span class="toc-number">1.5.</span> <span class="toc-text">寄生式继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄生组合式继承"><span class="toc-number">1.6.</span> <span class="toc-text">寄生组合式继承</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<p>关于面向对象，已经在<a href="http://ming-holy.space/2017/03/13/IFE2017-105/#数据持久化与面向对象">IFE2017-105的笔记</a>中总结了一些。这里总结一下关于继承的问题。</p>
+<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>书中第一段提到了，一般的OO语言支持两种继承方式，一种是接口继承，另一种是实现继承。</p>
+<ul>
+<li>接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。</li>
+<li>实现继承：父类中定义并实现好方法，然后子类在继承父类的同时也就继承了该方法的实现，可以直接拿来用。<br>JavaScript是没有函数签名的，像接口继承那种只继承方法特点，比如参数、名字等，就不能实现。只能通过原型链模式支持实现继承。<a id="more"></a>
+<h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2>首先复习一下原型。<br>构造函数和其原型对象之间，一定会存在一对互相指向对方的指针。其中原型对象中的<code>constructor</code>属性存储了指向构造函数的指针，而构造函数中的<code>prototype</code>指向了原型对象。<br>那么假如现在我们有两对原型对象与构造函数，命名为：</li>
+</ul>
+<ol>
+<li><code>子类构造函数</code>和<code>子类的原型对象</code></li>
+<li><code>父类构造函数</code>和<code>父类的原型对象</code><br>我们用父类构造函数来实例化一个对象并把它赋值给子类的原型对象，即：</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</div></pre></td></tr></table></figure>
+<p>注意此处的等号。这里的方式是，直接用父类<strong>实例</strong>替换（重写）子类的<strong>原型对象</strong>。父类的实例里一定有一个<code>prototype</code>属性指向<code>父类的原型对象</code>。现在子类的原型对象里就存在该指向父类原型对象的属性了。接着通过<code>子类构造函数</code>实例化出来的子类对象就会都拥有父类的属性和方法，包括：</p>
+<ol>
+<li>构造函数的指向：和它原型中的<code>constructor</code>指向一致。而因为它的原型是父类的实例，父类实例的<code>constructor</code>继承自它的原型对象，而它的原型对象是<code>父类原型对象</code>，于是就和<code>父类原型对象</code>中<code>constructor</code>的指向一致，</li>
+<li>原型对象的指向：一个父类的实例</li>
+</ol>
+<p>于是一个原型链就建立起来了。同作用域链非常类似，当我们想访问一个对象的属性时，先从对象本身的属性开始搜索，如果没有就寻找它原型的属性，一级一级向上查找，直到找到<code>Object.prototype</code>。</p>
+<p>原型链继承有两个问题：</p>
+<ol>
+<li>毕竟子类的原型是父类的一个实例，假如该实例继承了父类的某个引用类型值，则子类的每个实例对象都会共享该引用类型值，改一处所有实例的都被改。</li>
+<li>不能向父类构造函数传递参数（书中原话：<strong>没有办法在不影响所有对象实例的情况下，给超类型的构造函数传递参数。</strong>）</li>
+</ol>
+<p>关于第二个问题可以参考：<a href="https://segmentfault.com/q/1010000008512224?_ea=1678065" target="_blank" rel="external">javascript 里子类型的构造函数的实例为什么不能向父类型的构造函数实例传递参数？</a></p>
+<h2 id="借用构造函数"><a href="#借用构造函数" class="headerlink" title="借用构造函数"></a>借用构造函数</h2><p>上面的参考文献中，有个回答是这样的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name,age,job</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.age = age;</div><div class="line">    <span class="keyword">this</span>.job = job;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Man</span>(<span class="params">name,age,job,mustache</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.mustache = mustache;</div><div class="line">    <span class="comment">// 改成这句话</span></div><div class="line">    Person.call(<span class="keyword">this</span>, name,age,job)</div><div class="line">    Man.prototype = <span class="keyword">new</span> Person();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> Man(<span class="string">'Anthony'</span>,<span class="number">27</span>,<span class="string">'PE'</span>);</div><div class="line">m.name;<span class="comment">// Anthony</span></div></pre></td></tr></table></figure><br>实际上是以子类的新实例作为作用域调用父类的构造函数，这样父类的构造函数中的<code>this</code>就指向了该新实例，各种属性也就是新实例自己拥有的副本，而非类共享属性。</p>
+<ol>
+<li>需要注意的是：这时这些属性实际上是实例对象的属性，其实和类继承没啥太大关系了，就好像我<code>new</code>了一个<code>Object</code>然后手动给它添加各种属性，而把它当做一个类的对象看待，因为这个类的所有实例都有相同的属性</li>
+<li>所有的属性和方法，都是通过构造函数挂载到对象上去的，父类构造函数中的方法，子类是调用不了的，因为连它的属性<strong>事实上</strong>都不是继承来的，更不用提方法了。除非在子类构造函数里添加方法属性。这就有另外一个问题了：复用无从谈起。每个实例都有这些一模一样的函数副本。</li>
+</ol>
+<h2 id="组合继承"><a href="#组合继承" class="headerlink" title="组合继承"></a>组合继承</h2><p>和创建对象的方法类似，这里也有组合构造函数与原型的方法。通过原型链实现原型属性和方法的继承，通过构造函数实现实例属性的继承。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SuperType</span>(<span class="params">name</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.colors = [<span class="string">'red'</span>, <span class="string">'blue'</span>, <span class="string">'green'</span>];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//为父类原型添加原型方法</span></div><div class="line">SuperType.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.name);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">SubType</span>(<span class="params">name, age</span>) </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">//继承属性，其中name是原型属性</span></div><div class="line">    SuperType.call(<span class="keyword">this</span>, name);</div><div class="line"></div><div class="line">    <span class="comment">//子类实例属性</span></div><div class="line">    <span class="keyword">this</span>.age = age;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//继承方法</span></div><div class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</div><div class="line"></div><div class="line"><span class="comment">//修改构造函数指向</span></div><div class="line">SubType.prototype.constructor = SubType;</div><div class="line"></div><div class="line"><span class="comment">//重写原型之后为子类原型添加原型方法</span></div><div class="line">SubType.prototype.sayAge = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="keyword">this</span>.age);</div><div class="line">&#125;;</div></pre></td></tr></table></figure><br>实际上，上面代码中修改子类原型构造函数的代码并不是必须的，实验证明有没有这句都会得到正确结果。因为在调用<code>new SubType(somename, someage);</code>时，其实和当时<code>SubType.prototype</code>的构造函数没什么关系，<code>new</code>关键字的作用可以展开成：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> SubType(<span class="string">"nico"</span>, <span class="number">29</span>) = &#123;</div><div class="line">    <span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line">    obj.__proto__ = SubType.prototype;</div><div class="line">    </div><div class="line">    <span class="comment">/*</span></div><div class="line">     * 直接通过函数名称调用子类的构造函数</div><div class="line">     * 子类的构造函数中又调用了父类的构造函数，并把name传给它</div><div class="line">     */</div><div class="line">    <span class="keyword">var</span> result = SubType.call(obj, <span class="string">"name"</span>, <span class="string">"age"</span>);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> result === <span class="string">'Object'</span>? result : obj;</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>可以看到<code>new</code>关键字在寻找构造函数时并不是通过<code>prototype</code>中的<code>constructor</code>寻找，而是直接通过函数名。</p>
+<h2 id="原型式继承"><a href="#原型式继承" class="headerlink" title="原型式继承"></a>原型式继承</h2><p>刚刚在搜索<code>new</code>关键字是否真的调用<code>prototype</code>指向的<code>constructor</code>时，发现infoQ上的一篇文章，力劝大家停止使用<code>new</code>关键字转而使用Crockford提出的<code>Object.create()</code>。本节中提到的方法，实际上也是<a href="http://localhost:4000/2017/03/22/%E7%BA%A2%E5%AE%9D%E4%B9%A6-chapter6/#原型链" target="_blank" rel="external">原型链</a>这一节的<a href="https://segmentfault.com/q/1010000008512224?_ea=1678065" target="_blank" rel="external">参考文献</a>中有回答提到过的。</p>
+<p>首先，Crockford给出了一个函数：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">object</span>(<span class="params">o</span>) </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">    F.prototype = o;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> F();</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>先构造了一个空函数，将此空函数作为构造函数，形式上建立了一个自定义类型，然后将该自定义类型的原型指定为<code>o</code>，返回这个自定义类型的实例。</p>
+<blockquote>
+<p>从本质上讲，<code>object()</code>对传入其中的对象执行了一次浅复制。</p>
+</blockquote>
+<p>这句话应该怎么理解？<br>首先，JavaScript没有引用传参。在函数中<code>F.prototype = o;</code>这条语句实际上就把传进来的对象作为<code>F.prototype</code>的值了。也就是说，<code>F.prototype</code>指向了传进来的这个对象。这里的浅复制是指，调用<code>object(person)</code>后，<code>person</code>、<code>object()</code>函数里的<code>o</code>、返回对象<code>F</code>的原型对象，都指向了同一个对象。如果我们这时更改<code>person</code>的属性值，已经返回的对象里相应的属性值也会更改。例子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Nicholas"</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> instance = object(person);</div><div class="line">person.name = <span class="string">"Greg"</span>;</div><div class="line"><span class="built_in">console</span>.log(instance.name); <span class="comment">//"Greg"</span></div></pre></td></tr></table></figure><br>出现这种情况的两个原因：</p>
+<ol>
+<li><code>object(o)</code>函数对<code>o</code>进行了一次浅复制，函数外部对<code>person</code>的修改实际上就是对<code>F.prototype</code>的修改。</li>
+<li>原型具有动态性，原型对象一旦被修改，其实例也会发生变化。</li>
+</ol>
+<p>得到了实例对象后，就可以对实例对象的属性值进行修改了，比如此例中的<code>name</code>属性， 基本数据类型会直接复制得到副本，不会影响其他对象。但是如果<code>person</code>中定义了一个引用类型属性，比如<code>friends: [&quot;Tom&quot;, &quot;Jerry&quot;, &quot;Katie&quot;]</code>，如果对实例对象调用方法修改它的<code>friends</code>属性，比如添加一个元素，那么<code>person</code>的<code>friends</code>属性同样会被修改。正是因为浅复制，对象<code>o</code>中的引用类型属性的指针被复制给了<code>F.prototype</code>，而通过该原型对象实例化出的所有实例也都带有该指针。所以修改的就是所有实例共享的这个引用变量。</p>
+<p>ES5新增了<code>Object.create()</code>方法，作为规范化的原型式继承方法。Crockford的思想是，要想实现继承，必须现有一个对象作为新实例的基础。把现有的这个对象传给<code>object</code>函数实例化一个新对象，再对新对象做一些修改即可。<code>Object.create()</code>方法很好地贯彻了这个思想。它的第一个参数接受一个已有的对象，返回一个以该对象为原型的实例；它的第二个参数接受一个对象，作为对新实例对象的修改。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> person = &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"Nicholas"</span>,</div><div class="line">    <span class="attr">friends</span>: [<span class="string">"Shelby"</span>, <span class="string">"Court"</span>, <span class="string">"Van"</span>]</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> anotherPerson = <span class="built_in">Object</span>.create(person, &#123;</div><div class="line">    <span class="attr">name</span>: &#123;</div><div class="line">        <span class="attr">value</span>: <span class="string">"Greg"</span></div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure><br>该参数将覆盖原型对象上的同名属性。</p>
+<blockquote>
+<p>最重要的一点：包含引用类型值的属性始终都会共享相应的值。</p>
+</blockquote>
+<p>参考文献中力劝大家抛弃其他使用构造函数的继承方法，转而使用<code>Object.create</code>。</p>
+<p>首先，Crockford给出的<code>object</code>函数就作为了<code>Object.create()</code>的一个Polyfill方案，既然有必要为它制定Polyfill方案，那它肯定是大有用处的。</p>
+<p>其次，<code>new</code>关键字有不足之处：</p>
+<ol>
+<li>构造函数也是函数，如果一时疏忽忘记使用<code>new</code>就会造成很多麻烦</li>
+<li><code>new</code>有悖JavaScript作为原型式语言设计的初衷，完全是当年为了抱Java大腿让更多的人来用而做出的妥协</li>
+</ol>
+<p>最后文章提出了两种方案来实现JavaScript式的继承，一种是创建一个基类<code>Class</code>，并提供两个接口<code>Class.extend</code>和<code>Class.create</code>分别用来继承和实例化；另一种是在基本对象上绑定实例化方法，利用<code>Object.create()</code>来实现继承。这里就不在赘述了。</p>
+<h2 id="寄生式继承"><a href="#寄生式继承" class="headerlink" title="寄生式继承"></a>寄生式继承</h2><p>回忆一下创建对象中的寄生构造函数方法。实际上就是封装创建对象的语句。在一个函数中实例化一个特定类型的对象，然后对该对象进行增加方法、属性等操作，最后返回这个对象。</p>
+<p>寄生式继承也类似，它只封装继承代码：</p>
+<ol>
+<li>使用<code>object</code>函数创建一个基于某个对象的实例</li>
+<li>给这个实例增加属性、方法</li>
+<li>返回这个对象</li>
+</ol>
+<p>这个对象新增的属性、方法都由它私有。这种模式主要考虑创建符合要求的对象，而非自定义类型或构造函数。它的问题是：</p>
+<ol>
+<li>没有自定义类型</li>
+<li>实例方法不能复用</li>
+</ol>
+<p>实际上所有返回一个符合要求的对象的方法都属于此模式，甚至连<code>object</code>函数都不是必需的。然而我觉得这可能是假的继承。</p>
+<h2 id="寄生组合式继承"><a href="#寄生组合式继承" class="headerlink" title="寄生组合式继承"></a>寄生组合式继承</h2><p>明天再写！</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://ming-holy.space/2017/03/22/红宝书-chapter6/" data-title="JavaScript高级程序设计 第六章笔记 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/03/22/红宝书-chapter5/"  title="JavaScript高级程序设计 第五章笔记">
+ <strong>下一篇：</strong><br/> 
+ <span>JavaScript高级程序设计 第五章笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2017/03/22/红宝书-chapter6/" data-title="JavaScript高级程序设计 第六章笔记" data-url="http://ming-holy.space/2017/03/22/红宝书-chapter6/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#继承"><span class="toc-number">1.</span> <span class="toc-text">继承</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#原型链"><span class="toc-number">1.1.</span> <span class="toc-text">原型链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#借用构造函数"><span class="toc-number">1.2.</span> <span class="toc-text">借用构造函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组合继承"><span class="toc-number">1.3.</span> <span class="toc-text">组合继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原型式继承"><span class="toc-number">1.4.</span> <span class="toc-text">原型式继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄生式继承"><span class="toc-number">1.5.</span> <span class="toc-text">寄生式继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#寄生组合式继承"><span class="toc-number">1.6.</span> <span class="toc-text">寄生组合式继承</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C++">C++<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/Git/" title="Git">Git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IFE2017/" title="IFE2017">IFE2017<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>16</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>8</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/人民南路四段九号/" title="人民南路四段九号">人民南路四段九号<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/" title="数学">数学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+  </div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>18</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTML/" title="HTML">HTML<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编辑器/" title="编辑器">编辑器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Be a live-wire artist, <br/>
+			Do something amazing.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/mingholy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:liminghao15@mails.ucas.ac.cn" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Mingholy">Mingholy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mingholy"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<script src="https://s4.cnzz.com/z_stat.php?id=1261294969&web_id=1261294969" language="JavaScript"></script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

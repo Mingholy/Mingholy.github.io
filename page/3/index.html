@@ -78,6 +78,79 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/01/19/Python学习笔记(一)/" title="Python学习笔记(一)-关于基本语法和异常值类型" itemprop="url">Python学习笔记(一)-关于基本语法和异常值类型</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-01-19T12:00:00.000Z" itemprop="datePublished"> 发表于 2017-01-19</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="基础入门"><a href="#基础入门" class="headerlink" title="基础入门"></a>基础入门</h2><p>目前我最喜欢Python的一点是它具有一些非常方便易用的数据结构。</p>
+<ul>
+<li><code>list[]</code><ul>
+<li>list是一个有序集合，类似其他语言中的数组</li>
+<li>list中元素可以增删，可以追加元素到末尾</li>
+</ul>
+</li>
+<li><code>tuple()</code><ul>
+<li>tuple也是有序集合</li>
+<li><strong>初始化之后不可增删改</strong>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/01/19/Python学习笔记(一)/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Python/">Python</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Python/">Python</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/01/19/Python学习笔记(一)/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/01/19/Python学习笔记(一)/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/10/14/搭建VPN服务器/" title="在VPS上搭建Android/iOS双平台可用的梯子的解决方案" itemprop="url">在VPS上搭建Android/iOS双平台可用的梯子的解决方案</a>
   </h1>
   <p class="article-author">By
@@ -215,6 +288,74 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/" title="大数据系统实验二Part1：MapReduce实践" itemprop="url">大数据系统实验二Part1：MapReduce实践</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-08T15:00:00.000Z" itemprop="datePublished"> 发表于 2016-05-08</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="Hadoop实现一个会话统计的MapReduce实例"><a href="#Hadoop实现一个会话统计的MapReduce实例" class="headerlink" title="Hadoop实现一个会话统计的MapReduce实例"></a>Hadoop实现一个会话统计的MapReduce实例</h2><h3 id="Mapper"><a href="#Mapper" class="headerlink" title="Mapper"></a>Mapper</h3><p>输入：<br><code>&lt;source&gt; &lt;destination&gt; &lt;time&gt;</code><br>可以表示一次电话或者网络访问会话。要求统计不同发起方到不同目标的会话次数和平均时间。<br>基本的思想是：</p>
+<ol>
+<li>对于Mapper，输入是的value是每一行的三个值，通过合法性检验后，作为一个字符串形成key。</li>
+<li>如果遇到不合法的输入，比如时间那一项不是个<code>Double</code>甚至根本不是个数而是个字符串，这一条数据就要丢弃，继续读取下一条。</li>
+<li>Mapper的输出格式是<code>&lt;Text, DoubleWritable&gt;</code>，它们是Hadoop内建的类型，在存储内容上可以理解为<code>String</code>和<code>Double</code>。输出的时候是以<code>&lt;source&gt; &lt;destination&gt;</code>这一整个字符串作为输出的key，以表示时间的<code>Double</code>作为输出的value。
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>►<a class="article-category-link" href="/categories/Java/Hadoop/">Hadoop</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Hadoop/">Hadoop</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/08/大数据系统实验二Part1：MapReduce实践/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/05/08/大数据系统实验二Part2：Graphlite分布式图运算/" title="大数据系统实验二Part2：Graphlite分布式图运算" itemprop="url">大数据系统实验二Part2：Graphlite分布式图运算</a>
   </h1>
   <p class="article-author">By
@@ -266,74 +407,6 @@
 	
 	  	<span></span>
 		<a href="/2016/05/08/大数据系统实验二Part2：Graphlite分布式图运算/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/08/大数据系统实验二Part2：Graphlite分布式图运算/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/" title="大数据系统实验二Part1：MapReduce实践" itemprop="url">大数据系统实验二Part1：MapReduce实践</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2016-05-08T15:00:00.000Z" itemprop="datePublished"> 发表于 2016-05-08</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="Hadoop实现一个会话统计的MapReduce实例"><a href="#Hadoop实现一个会话统计的MapReduce实例" class="headerlink" title="Hadoop实现一个会话统计的MapReduce实例"></a>Hadoop实现一个会话统计的MapReduce实例</h2><h3 id="Mapper"><a href="#Mapper" class="headerlink" title="Mapper"></a>Mapper</h3><p>输入：<br><code>&lt;source&gt; &lt;destination&gt; &lt;time&gt;</code><br>可以表示一次电话或者网络访问会话。要求统计不同发起方到不同目标的会话次数和平均时间。<br>基本的思想是：</p>
-<ol>
-<li>对于Mapper，输入是的value是每一行的三个值，通过合法性检验后，作为一个字符串形成key。</li>
-<li>如果遇到不合法的输入，比如时间那一项不是个<code>Double</code>甚至根本不是个数而是个字符串，这一条数据就要丢弃，继续读取下一条。</li>
-<li>Mapper的输出格式是<code>&lt;Text, DoubleWritable&gt;</code>，它们是Hadoop内建的类型，在存储内容上可以理解为<code>String</code>和<code>Double</code>。输出的时候是以<code>&lt;source&gt; &lt;destination&gt;</code>这一整个字符串作为输出的key，以表示时间的<code>Double</code>作为输出的value。
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Java/">Java</a>►<a class="article-category-link" href="/categories/Java/Hadoop/">Hadoop</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Java/">Java</a><a href="/tags/Hadoop/">Hadoop</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/05/08/大数据系统实验二Part1：MapReduce实践/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/05/08/大数据系统实验二Part1：MapReduce实践/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -684,76 +757,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2016/03/15/编写可维护的JavaScript-第二部分-II/" title="编写可维护的JavaScript-第二部分-II" itemprop="url">编写可维护的JavaScript-第二部分-II</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2016-03-15T09:35:47.000Z" itemprop="datePublished"> 发表于 2016-03-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>这一部分的主题是编程实践。主要的内容包括：</p>
-<ul>
-<li>事件处理：同样是传递参数与应用逻辑的解耦</li>
-<li>避免“空比较”：即判定某一变量/对象是否是空，这里要分清各个对象的类型，不能混用</li>
-</ul>
-</blockquote>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2016/03/15/编写可维护的JavaScript-第二部分-II/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2016/03/15/编写可维护的JavaScript-第二部分-II/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/15/编写可维护的JavaScript-第二部分-II/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/2/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next<span></span></a>
@@ -800,7 +803,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>15</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>16</sup></a></li>
 		  
 		
 		  
@@ -838,7 +841,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -848,7 +851,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>17</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>18</sup></a></li>
 			
 		
 			
