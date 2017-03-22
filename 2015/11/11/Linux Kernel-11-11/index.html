@@ -4,23 +4,38 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Sublime Text 3 快捷键总结 | A Cup of Coffee</title>
+    <title>Linux内核 11-11 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="Sublime Text 3 快捷键总结选择类Ctrl+D 选中光标所占的文本，继续操作则会选中下一个相同的文本。Alt+F3 选中文本按下快捷键，即可一次性选择全部的相同文本进行同时编辑。举个栗子：快速选中并更改所有相同的变量名、函数名等。Ctrl+L 选中整行，继续操作则继续选择下一行，效果和Shift+↓效果一样。Ctrl+Shift+L 先选中多行，再按下快捷键，会在每行行尾插入光标，即可">
+    <meta name="description" content="光棍节快乐
+缓冲区为了防止意外刺激引发读入垃圾数据，需要使用uptodate缓冲块，从块读出后，更新uptodate位。
+同一缓冲块被多个进程共享，若某一时刻，一个缓冲块已由一个进程挂起，此时若新来一个进程，它并不知道自己是不是第一次读。此时需要判断bufferhead中的uptodate。
+写的情形：如果是第一次申请写一个块，需要不需要确认uptodate？
+
+假设该块是一个新文件，它对应的硬盘">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Sublime Text 3 快捷键总结">
-<meta property="og:url" content="http://ming-holy.space/2016/04/13/SublimeText3/index.html">
+<meta property="og:title" content="Linux内核 11-11">
+<meta property="og:url" content="http://ming-holy.space/2015/11/11/Linux Kernel-11-11/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="Sublime Text 3 快捷键总结选择类Ctrl+D 选中光标所占的文本，继续操作则会选中下一个相同的文本。Alt+F3 选中文本按下快捷键，即可一次性选择全部的相同文本进行同时编辑。举个栗子：快速选中并更改所有相同的变量名、函数名等。Ctrl+L 选中整行，继续操作则继续选择下一行，效果和Shift+↓效果一样。Ctrl+Shift+L 先选中多行，再按下快捷键，会在每行行尾插入光标，即可">
-<meta property="og:updated_time" content="2017-02-13T15:21:13.491Z">
+<meta property="og:description" content="光棍节快乐
+缓冲区为了防止意外刺激引发读入垃圾数据，需要使用uptodate缓冲块，从块读出后，更新uptodate位。
+同一缓冲块被多个进程共享，若某一时刻，一个缓冲块已由一个进程挂起，此时若新来一个进程，它并不知道自己是不是第一次读。此时需要判断bufferhead中的uptodate。
+写的情形：如果是第一次申请写一个块，需要不需要确认uptodate？
+
+假设该块是一个新文件，它对应的硬盘">
+<meta property="og:updated_time" content="2017-03-22T06:53:06.150Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Sublime Text 3 快捷键总结">
-<meta name="twitter:description" content="Sublime Text 3 快捷键总结选择类Ctrl+D 选中光标所占的文本，继续操作则会选中下一个相同的文本。Alt+F3 选中文本按下快捷键，即可一次性选择全部的相同文本进行同时编辑。举个栗子：快速选中并更改所有相同的变量名、函数名等。Ctrl+L 选中整行，继续操作则继续选择下一行，效果和Shift+↓效果一样。Ctrl+Shift+L 先选中多行，再按下快捷键，会在每行行尾插入光标，即可">
+<meta name="twitter:title" content="Linux内核 11-11">
+<meta name="twitter:description" content="光棍节快乐
+缓冲区为了防止意外刺激引发读入垃圾数据，需要使用uptodate缓冲块，从块读出后，更新uptodate位。
+同一缓冲块被多个进程共享，若某一时刻，一个缓冲块已由一个进程挂起，此时若新来一个进程，它并不知道自己是不是第一次读。此时需要判断bufferhead中的uptodate。
+写的情形：如果是第一次申请写一个块，需要不需要确认uptodate？
+
+假设该块是一个新文件，它对应的硬盘">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -80,14 +95,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/13/SublimeText3/" title="Sublime Text 3 快捷键总结" itemprop="url">Sublime Text 3 快捷键总结</a>
+      <a href="/2015/11/11/Linux Kernel-11-11/" title="Linux内核 11-11" itemprop="url">Linux内核 11-11</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-13T01:00:00.000Z" itemprop="datePublished"> 发表于 2016-04-13</time>
+    <time datetime="2015-11-11T09:00:00.000Z" itemprop="datePublished"> 发表于 2015-11-11</time>
     
   </p>
 </header>
@@ -96,14 +111,39 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sublime-Text-3-快捷键总结"><span class="toc-number">1.</span> <span class="toc-text">Sublime Text 3 快捷键总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择类"><span class="toc-number">2.</span> <span class="toc-text">选择类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编辑类"><span class="toc-number">3.</span> <span class="toc-text">编辑类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索类"><span class="toc-number">4.</span> <span class="toc-text">搜索类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显示类"><span class="toc-number">5.</span> <span class="toc-text">显示类</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓冲区"><span class="toc-number">1.</span> <span class="toc-text">缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程的加载与退出"><span class="toc-number">2.</span> <span class="toc-text">进程的加载与退出</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="Sublime-Text-3-快捷键总结"><a href="#Sublime-Text-3-快捷键总结" class="headerlink" title="Sublime Text 3 快捷键总结"></a>Sublime Text 3 快捷键总结</h2><h2 id="选择类"><a href="#选择类" class="headerlink" title="选择类"></a>选择类</h2><p><code>Ctrl+D</code> 选中光标所占的文本，继续操作则会选中下一个相同的文本。<br><code>Alt+F3</code> 选中文本按下快捷键，即可一次性选择全部的相同文本进行同时编辑。举个栗子：快速选中并更改所有相同的变量名、函数名等。<br><code>Ctrl+L</code> 选中整行，继续操作则继续选择下一行，效果和<code>Shift+↓</code>效果一样。<br><code>Ctrl+Shift+L</code> 先选中多行，再按下快捷键，会在每行行尾插入光标，即可同时编辑这些行。<br><code>Ctrl+Shift+M</code> 选择括号内的内容（继续选择父括号）。举个栗子：快速选中删除函数中的代码，重写函数体代码或重写括号内里的内容。<br><code>Ctrl+M</code> 光标移动至括号内结束或开始的位置。<br><a id="more"></a><br><code>Ctrl+Enter</code> 在下一行插入新行。举个栗子：即使光标不在行尾，也能快速向下插入一行。<br><code>Ctrl+Shift+Enter</code> 在上一行插入新行。举个栗子：即使光标不在行首，也能快速向上插入一行。<br><code>Ctrl+Shift+[</code> 选中代码，按下快捷键，折叠代码。<br><code>Ctrl+Shift+]</code> 选中代码，按下快捷键，展开代码。<br><code>Ctrl+K+0</code> 展开所有折叠代码。<br><code>Ctrl+←</code> 向左单位性地移动光标，快速移动光标。<br><code>Ctrl+→</code> 向右单位性地移动光标，快速移动光标。<br><code>Shift+↑</code> 向上选中多行。<br><code>Shift+↓</code> 向下选中多行。<br><code>Shift+←</code> 向左选中文本。<br><code>Shift+→</code> 向右选中文本。<br><code>Ctrl+Shift+←</code> 向左单位性地选中文本。<br><code>Ctrl+Shift+→</code> 向右单位性地选中文本。<br><code>Ctrl+Shift+↑</code> 将光标所在行和上一行代码互换（将光标所在行插入到上一行之前）。<br><code>Ctrl+Shift+↓</code> 将光标所在行和下一行代码互换（将光标所在行插入到下一行之后）。<br><code>Ctrl+Alt+↑</code> 向上添加多行光标，可同时编辑多行。<br><code>Ctrl+Alt+↓</code> 向下添加多行光标，可同时编辑多行。</p>
-<h2 id="编辑类"><a href="#编辑类" class="headerlink" title="编辑类"></a>编辑类</h2><p><code>Ctrl+J</code> 合并选中的多行代码为一行。举个栗子：将多行格式的CSS属性合并为一行。<br><code>Ctrl+Shift+D</code> 复制光标所在整行，插入到下一行。<br><code>Tab</code> 向右缩进。<br><code>Shift+Tab</code> 向左缩进。<br><code>Ctrl+K+K</code> 从光标处开始删除代码至行尾。<br><code>Ctrl+Shift+K</code> 删除整行。<br><code>Ctrl+/</code> 注释单行。<br><code>Ctrl+Shift+/</code> 注释多行。<br><code>Ctrl+K+U</code> 转换大写。<br><code>Ctrl+K+L</code> 转换小写。<br><code>Ctrl+Z</code> 撤销。<br><code>Ctrl+Y</code> 恢复撤销。<br><code>Strl+U</code> 软撤销，感觉和 Gtrl+Z 一样。<br><code>Strl+F2</code> 设置书签<br><code>Ctrl+T</code> 左右字母互换。<br><code>F6</code> 单词检测拼写</p>
-<h2 id="搜索类"><a href="#搜索类" class="headerlink" title="搜索类"></a>搜索类</h2><p><code>Ctrl+F</code> 打开底部搜索框，查找关键字。<br><code>Ctrl+shift+F</code> 在文件夹内查找，与普通编辑器不同的地方是sublime允许添加多个文件夹进行查找，略高端，未研究。<br><code>Ctrl+P</code> 打开搜索框。举个栗子：1、输入当前项目中的文件名，快速搜索文件，2、输入@和关键字，查找文件中函数名，3、输入：和数字，跳转到文件中该行代码，4、输入#和关键字，查找变量名。<br><code>Ctrl+G</code> 打开搜索框，自动带：，输入数字跳转到该行代码。举个栗子：在页面代码比较长的文件中快速定位。<br><code>Ctrl+R</code> 打开搜索框，自动带@，输入关键字，查找文件中的函数名。举个栗子：在函数较多的页面快速查找某个函数。<br><code>Ctrl+:</code> 打开搜索框，自动带#，输入关键字，查找文件中的变量名、属性名等。<br><code>Ctrl+Shift+P</code> 打开命令框。场景栗子：打开命名框，输入关键字，调用sublime text或插件的功能，例如使用package安装插件。<br><code>Esc</code> 退出光标多行选择，退出搜索框，命令框等。</p>
-<h2 id="显示类"><a href="#显示类" class="headerlink" title="显示类"></a>显示类</h2><p><code>Ctrl+Tab</code> 按文件浏览过的顺序，切换当前窗口的标签页。<br><code>Ctrl+PageDown</code> 向左切换当前窗口的标签页。<br><code>Ctrl+PageUp</code> 向右切换当前窗口的标签页。<br><code>Alt+Shift+1</code> 窗口分屏，恢复默认1屏（非小键盘的数字）<br><code>Alt+Shift+2</code> 左右分屏-2列<br><code>Alt+Shift+3</code> 左右分屏-3列<br><code>Alt+Shift+4</code> 左右分屏-4列<br><code>Alt+Shift+5</code> 等分4屏<br><code>Alt+Shift+8</code> 垂直分屏-2屏<br><code>Alt+Shift+9</code> 垂直分屏-3屏<br><code>Ctrl+K+B</code> 开启/关闭侧边栏。<br><code>F11</code> 全屏模式<br><code>Shift+F11</code> 免打扰模式</p>
+		<p><code>光棍节快乐</code></p>
+<h2 id="缓冲区"><a href="#缓冲区" class="headerlink" title="缓冲区"></a>缓冲区</h2><p>为了防止意外刺激引发读入垃圾数据，需要使用uptodate缓冲块，从块读出后，更新uptodate位。</p>
+<p>同一缓冲块被多个进程共享，若某一时刻，一个缓冲块已由一个进程挂起，此时若新来一个进程，它并不知道自己是不是第一次读。此时需要判断bufferhead中的uptodate。</p>
+<p>写的情形：如果是第一次申请写一个块，需要不需要确认uptodate？</p>
+<ul>
+<li>假设该块是一个新文件，它对应的硬盘块也是垃圾数据。操作系统已经明确该文件是新的，新建i节点，并且是写操作，此时不需要确认uptodate位，因为新建操作就是用垃圾数据覆盖垃圾数据（内存中实际上是被清零了的。）当进程–缓冲区-硬盘块建立联系之后，立即置uptodate为1。</li>
+<li>假设该缓冲块不是第一次写，而且可能也写不满一个缓冲块。那么就有一种情况，是后来的进程没有写满而该缓冲块还带着以前进程的数据，就产生了错误。</li>
+</ul>
+<p><strong>uptodate:保护数据正确性。</strong></p>
+<blockquote>
+<p>当一个进程写完了一个块，另一个进程马上又更改了这个块，何如？<br>重点：两个进程必须是共享该缓冲块。操作系统认定两个进程一定是对这个块具有同等的操作权限的。</p>
+<p>首先最重要的是设备号块号，缓冲区的核心是“复用”。一个使缓冲区失去意义的应用场景是，不存在复用</p>
+</blockquote>
+<p>补充：</p>
+<ul>
+<li>进程0第一次切换进程1，从0特权级切到3特权级。当时进程0是可中断等待状态，进程1是运行态。通过任务切换方式切换。为什么能够判断是切到3特权级？因为所有的关于段的信息，都写在tss里，它里面存储的就是恢复现场时寄存器里应该有的<strong>关于段的</strong>数据。而特权级是基于段的，所以tss信息确定了之后，特权级也就确定了。</li>
+<li>第二次是读引导块，进程0是可中断挂起状态，进程1是不可中断挂起。c=-1屏蔽了while中修改c和next的操作，使得switch_to参数强行是0，即切换到进程0，特殊之处在于此时<em>并没有运行态的进程</em>。</li>
+<li>第三次是进程0，切换到0。进程1是不可中断等待状态，因为它正在等待读盘，读完盘中断才能切回来恢复。switch_to中比较发现要切换的目标进程正式进程0本身。于是直接跳过中间好几行代码。直接到“1：”。</li>
+</ul>
+<h2 id="进程的加载与退出"><a href="#进程的加载与退出" class="headerlink" title="进程的加载与退出"></a>进程的加载与退出</h2><p>创建进程， 重要的东西是task_struct<br>fork=&gt;copy_proc</p>
+<blockquote>
+<p>进程0创建进程1以后代码自动就填充了。move_to_user_mode就地翻身，它的代码是写在内核中的，是系统程序员设计好的。</p>
+</blockquote>
+<p>一般的用户进程，开始执行后，首先就去fork来一套，创建进程框架。<br>某个用户进程，一定是由某个父进程创建的。linux为例，用户执行某一程序就是由shell创建的。windows gui只是封装了这一操作。（暂时这么理解。）</p>
+<blockquote>
+<p>创建进程之后，该父进程还要加载它。fork的时候还是3特权级，fork之后去往int80走系统调用进入内核态执行0特权级代码，中断回来之后又回到3特权级。<br>而子进程可以全程执行父进程的代码，它们可以一直共享资源。</p>
+</blockquote>
+<p><code>_syscall3</code>走3特权级</p>
+<p>根据文件系统分配代码和数据的的位置。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -111,13 +151,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Notes/">Notes</a>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/编辑器/">编辑器</a>
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/操作系统/">操作系统</a>
   </div>
 
 </div>
@@ -126,7 +166,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2016/04/13/SublimeText3/" data-title="Sublime Text 3 快捷键总结 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2015/11/11/Linux Kernel-11-11/" data-title="Linux内核 11-11 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -140,18 +180,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/13/Emmet/" title="Emmet快捷键总结">
+ <a href="/2015/11/16/Linux Kernel-11-16/" title="Linux内核 11-16">
   <strong>上一篇：</strong><br/>
   <span>
-  Emmet快捷键总结</span>
+  Linux内核 11-16</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/08/大数据系统实验一：实现分布式数据库系统Join运算/"  title="大数据系统实验一：实现分布式数据库系统Join运算">
+<a href="/2015/11/09/Linux Kernel-11-09/"  title="Linux内核 11-09">
  <strong>下一篇：</strong><br/> 
- <span>大数据系统实验一：实现分布式数据库系统Join运算
+ <span>Linux内核 11-09
 </span>
 </a>
 </div>
@@ -160,7 +200,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/04/13/SublimeText3/" data-title="Sublime Text 3 快捷键总结" data-url="http://ming-holy.space/2016/04/13/SublimeText3/"></div>
+	<div class="ds-thread" data-thread-key="2015/11/11/Linux Kernel-11-11/" data-title="Linux内核 11-11" data-url="http://ming-holy.space/2015/11/11/Linux Kernel-11-11/"></div>
 </section>
 
 
@@ -170,7 +210,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Sublime-Text-3-快捷键总结"><span class="toc-number">1.</span> <span class="toc-text">Sublime Text 3 快捷键总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择类"><span class="toc-number">2.</span> <span class="toc-text">选择类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编辑类"><span class="toc-number">3.</span> <span class="toc-text">编辑类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索类"><span class="toc-number">4.</span> <span class="toc-text">搜索类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#显示类"><span class="toc-number">5.</span> <span class="toc-text">显示类</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#缓冲区"><span class="toc-number">1.</span> <span class="toc-text">缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进程的加载与退出"><span class="toc-number">2.</span> <span class="toc-text">进程的加载与退出</span></a></li></ol>
  
   </div>
 

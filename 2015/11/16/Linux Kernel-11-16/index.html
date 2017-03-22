@@ -11,37 +11,34 @@
     
 
     
-    <meta name="description" content="##进程的加载与退出
-云里雾里
+    <meta name="description" content="进程的加载与退出云里雾里
 do_execve
 文件头：通过文件头确定文件类型。首先将文件头读取缓冲区，在缓冲区确认这个信息。
 现在我们要加载一个可执行文件。加载它就需要创建进程。父进程创建子进程之后，要么共享父进程的资源，包括代码，要么加载自身的代码。
 linux要求代码需要是只读的。防止被随意篡改。
 代码很短的时候，到不了一个页，应该怎么装？
-正是因为代码需要只读，而数据则是频繁变化的，因">
+正是因为代码需要只读，而数据则是频繁变化的，因此它们">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux内核 11-16">
 <meta property="og:url" content="http://ming-holy.space/2015/11/16/Linux Kernel-11-16/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="##进程的加载与退出
-云里雾里
+<meta property="og:description" content="进程的加载与退出云里雾里
 do_execve
 文件头：通过文件头确定文件类型。首先将文件头读取缓冲区，在缓冲区确认这个信息。
 现在我们要加载一个可执行文件。加载它就需要创建进程。父进程创建子进程之后，要么共享父进程的资源，包括代码，要么加载自身的代码。
 linux要求代码需要是只读的。防止被随意篡改。
 代码很短的时候，到不了一个页，应该怎么装？
-正是因为代码需要只读，而数据则是频繁变化的，因">
-<meta property="og:updated_time" content="2017-03-22T06:40:03.526Z">
+正是因为代码需要只读，而数据则是频繁变化的，因此它们">
+<meta property="og:updated_time" content="2017-03-22T06:53:28.965Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux内核 11-16">
-<meta name="twitter:description" content="##进程的加载与退出
-云里雾里
+<meta name="twitter:description" content="进程的加载与退出云里雾里
 do_execve
 文件头：通过文件头确定文件类型。首先将文件头读取缓冲区，在缓冲区确认这个信息。
 现在我们要加载一个可执行文件。加载它就需要创建进程。父进程创建子进程之后，要么共享父进程的资源，包括代码，要么加载自身的代码。
 linux要求代码需要是只读的。防止被随意篡改。
 代码很短的时候，到不了一个页，应该怎么装？
-正是因为代码需要只读，而数据则是频繁变化的，因">
+正是因为代码需要只读，而数据则是频繁变化的，因此它们">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -117,12 +114,11 @@ linux要求代码需要是只读的。防止被随意篡改。
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程的加载与退出"><span class="toc-number">1.</span> <span class="toc-text">进程的加载与退出</span></a></li></ol>
 		
 		</div>
 		
-		<p>##进程的加载与退出</p>
-<p><code>云里雾里</code></p>
+		<h2 id="进程的加载与退出"><a href="#进程的加载与退出" class="headerlink" title="进程的加载与退出"></a>进程的加载与退出</h2><p><code>云里雾里</code></p>
 <p><code>do_execve</code></p>
 <p><code>文件头</code>：通过文件头确定文件类型。首先将文件头读取缓冲区，在缓冲区确认这个信息。</p>
 <p>现在我们要加载一个可执行文件。加载它就需要创建进程。父进程创建子进程之后，要么共享父进程的资源，包括代码，要么加载自身的代码。</p>
@@ -205,9 +201,9 @@ linux要求代码需要是只读的。防止被随意篡改。
 
 
 <div class="next">
-<a href="/2015/11/02/Linux Kernel-11-02/"  title="Linux内核 11-02">
+<a href="/2015/11/11/Linux Kernel-11-11/"  title="Linux内核 11-11">
  <strong>下一篇：</strong><br/> 
- <span>Linux内核 11-02
+ <span>Linux内核 11-11
 </span>
 </a>
 </div>
@@ -226,7 +222,7 @@ linux要求代码需要是只读的。防止被随意篡改。
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#进程的加载与退出"><span class="toc-number">1.</span> <span class="toc-text">进程的加载与退出</span></a></li></ol>
  
   </div>
 
@@ -272,7 +268,7 @@ linux要求代码需要是只读的。防止被随意篡改。
 		  
 		
 		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>8</sup></a></li>
 		  
 		
 		  
@@ -306,7 +302,7 @@ linux要求代码需要是只读的。防止被随意篡改。
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">9</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -320,15 +316,15 @@ linux要求代码需要是只读的。防止被随意篡改。
 			
 		
 			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>8</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>7</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>4</sup></a></li>
 			
 		
 			
