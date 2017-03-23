@@ -78,6 +78,76 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/22/编写可维护的JavaScript-第二部分-III/" title="编写可维护的JavaScript-第二部分-III" itemprop="url">编写可维护的JavaScript-第二部分-III</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-22T12:01:08.000Z" itemprop="datePublished"> 发表于 2016-03-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>这一部分的主题是编程实践。主要的内容包括：</p>
+<ul>
+<li>配置数据分离：将配置数据从代码中抽离，不必在每次修改代码的同时再去修改配置</li>
+<li>抛出自定义错误：这是为了提高找到bug、纠正bug的效率</li>
+</ul>
+</blockquote>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/22/编写可维护的JavaScript-第二部分-III/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/22/编写可维护的JavaScript-第二部分-III/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/22/编写可维护的JavaScript-第二部分-III/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/15/编写可维护的JavaScript-第二部分-II/" title="编写可维护的JavaScript-第二部分-II" itemprop="url">编写可维护的JavaScript-第二部分-II</a>
   </h1>
   <p class="article-author">By
@@ -731,97 +801,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/11/Linux Kernel-11-11/" title="Linux内核 11-11" itemprop="url">Linux内核 11-11</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-11T09:00:00.000Z" itemprop="datePublished"> 发表于 2015-11-11</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p><code>光棍节快乐</code></p>
-<h2 id="缓冲区"><a href="#缓冲区" class="headerlink" title="缓冲区"></a>缓冲区</h2><p>为了防止意外刺激引发读入垃圾数据，需要使用uptodate缓冲块，从块读出后，更新uptodate位。</p>
-<p>同一缓冲块被多个进程共享，若某一时刻，一个缓冲块已由一个进程挂起，此时若新来一个进程，它并不知道自己是不是第一次读。此时需要判断bufferhead中的uptodate。</p>
-<p>写的情形：如果是第一次申请写一个块，需要不需要确认uptodate？</p>
-<ul>
-<li>假设该块是一个新文件，它对应的硬盘块也是垃圾数据。操作系统已经明确该文件是新的，新建i节点，并且是写操作，此时不需要确认uptodate位，因为新建操作就是用垃圾数据覆盖垃圾数据（内存中实际上是被清零了的。）当进程–缓冲区-硬盘块建立联系之后，立即置uptodate为1。</li>
-<li>假设该缓冲块不是第一次写，而且可能也写不满一个缓冲块。那么就有一种情况，是后来的进程没有写满而该缓冲块还带着以前进程的数据，就产生了错误。</li>
-</ul>
-<p><strong>uptodate:保护数据正确性。</strong></p>
-<blockquote>
-<p>当一个进程写完了一个块，另一个进程马上又更改了这个块，何如？<br>重点：两个进程必须是共享该缓冲块。操作系统认定两个进程一定是对这个块具有同等的操作权限的。</p>
-<p>首先最重要的是设备号块号，缓冲区的核心是“复用”。一个使缓冲区失去意义的应用场景是，不存在复用</p>
-</blockquote>
-<p>补充：</p>
-<ul>
-<li>进程0第一次切换进程1，从0特权级切到3特权级。当时进程0是可中断等待状态，进程1是运行态。通过任务切换方式切换。为什么能够判断是切到3特权级？因为所有的关于段的信息，都写在tss里，它里面存储的就是恢复现场时寄存器里应该有的<strong>关于段的</strong>数据。而特权级是基于段的，所以tss信息确定了之后，特权级也就确定了。</li>
-<li>第二次是读引导块，进程0是可中断挂起状态，进程1是不可中断挂起。c=-1屏蔽了while中修改c和next的操作，使得switch_to参数强行是0，即切换到进程0，特殊之处在于此时<em>并没有运行态的进程</em>。</li>
-<li>第三次是进程0，切换到0。进程1是不可中断等待状态，因为它正在等待读盘，读完盘中断才能切回来恢复。switch_to中比较发现要切换的目标进程正式进程0本身。于是直接跳过中间好几行代码。直接到“1：”。</li>
-</ul>
-<h2 id="进程的加载与退出"><a href="#进程的加载与退出" class="headerlink" title="进程的加载与退出"></a>进程的加载与退出</h2><p>创建进程， 重要的东西是task_struct<br>fork=&gt;copy_proc</p>
-<blockquote>
-<p>进程0创建进程1以后代码自动就填充了。move_to_user_mode就地翻身，它的代码是写在内核中的，是系统程序员设计好的。</p>
-</blockquote>
-<p>一般的用户进程，开始执行后，首先就去fork来一套，创建进程框架。<br>某个用户进程，一定是由某个父进程创建的。linux为例，用户执行某一程序就是由shell创建的。windows gui只是封装了这一操作。（暂时这么理解。）</p>
-<blockquote>
-<p>创建进程之后，该父进程还要加载它。fork的时候还是3特权级，fork之后去往int80走系统调用进入内核态执行0特权级代码，中断回来之后又回到3特权级。<br>而子进程可以全程执行父进程的代码，它们可以一直共享资源。</p>
-</blockquote>
-<p><code>_syscall3</code>走3特权级</p>
-<p>根据文件系统分配代码和数据的的位置。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/操作系统/">操作系统</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/11/11/Linux Kernel-11-11/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/11/Linux Kernel-11-11/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
@@ -868,7 +847,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>16</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>17</sup></a></li>
 		  
 		
 		  
@@ -906,7 +885,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -916,7 +895,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>18</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>19</sup></a></li>
 			
 		
 			
