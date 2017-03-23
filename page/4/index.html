@@ -78,6 +78,76 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/24/编写可维护的JavaScript-第二部分-IV/" title="编写可维护的JavaScript-第二部分-IV" itemprop="url">编写可维护的JavaScript-第二部分-IV</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-24T12:01:00.000Z" itemprop="datePublished"> 发表于 2016-03-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>这一部分的主题是编程实践。主要的内容包括：</p>
+<ul>
+<li>对象持久化：不是你的对象不要动，这里涉及到多个有关方法的原则，以及关于继承的处理</li>
+<li>浏览器嗅探：实际上这是不推荐的行为</li>
+</ul>
+</blockquote>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/24/编写可维护的JavaScript-第二部分-IV/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/24/编写可维护的JavaScript-第二部分-IV/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/24/编写可维护的JavaScript-第二部分-IV/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/03/22/编写可维护的JavaScript-第二部分-III/" title="编写可维护的JavaScript-第二部分-III" itemprop="url">编写可维护的JavaScript-第二部分-III</a>
   </h1>
   <p class="article-author">By
@@ -701,106 +771,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/16/Linux Kernel-11-16/" title="Linux内核 11-16" itemprop="url">Linux内核 11-16</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-16T12:30:00.000Z" itemprop="datePublished"> 发表于 2015-11-16</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="进程的加载与退出"><a href="#进程的加载与退出" class="headerlink" title="进程的加载与退出"></a>进程的加载与退出</h2><p><code>云里雾里</code></p>
-<p><code>do_execve</code></p>
-<p><code>文件头</code>：通过文件头确定文件类型。首先将文件头读取缓冲区，在缓冲区确认这个信息。</p>
-<p>现在我们要加载一个可执行文件。加载它就需要创建进程。父进程创建子进程之后，要么共享父进程的资源，包括代码，要么加载自身的代码。</p>
-<p>linux要求代码需要是只读的。防止被随意篡改。</p>
-<p>代码很短的时候，到不了一个页，应该怎么装？</p>
-<p>正是因为代码需要只读，而数据则是频繁变化的，因此它们一定要分头加载，装入两个不同的页中。<br>而这一“分头的”的操作并没有体现在代码上，原因在于<code>ZMAGIC</code>，魔数。</p>
-<blockquote>
-<p>内核在必要时从二进制文件中加载独立的页面，执行头部，代码段和数据段都被链接程序处理成多个页面大小的块。内核加载的代码页是只读的，数据段的页面是可写的。</p>
-</blockquote>
-<p>随后进行检验，拷贝环境变量。</p>
-<p>一个文件具有inode，它的路径有另一个文件的内容指向，而它本身的inode又有另一个文件指向。最终最后一个就是根inode.</p>
-<blockquote>
-<p>内存中的inode内容要比硬盘中的inode内容多一点。</p>
-</blockquote>
-<p>根据之前读到的文件头与进程关联。注意，此时并没有加载。</p>
-<p>加载之前首先要与父进程脱离关系。<br>首先就是清理。</p>
-<p>由当前进程脱钩。</p>
-<p><code>free_page_tables</code><br>清空页表项和页目录表，为何以ldt为标准？<br>因为结构都是线性的，按照线性吵结构清空即可。<br>要想脱离父进程，就把它的那份与父进程共享的代码和数据清空。</p>
-<blockquote>
-<p>注意：这里仅仅是把它的这份放掉，父进程自己还有一份，不受影响。</p>
-</blockquote>
-<p>接下来又要修改ldt。为什么要改它？<br>父子进程共享，线性并没有共享。<br><code>copy_process</code>之后的的<code>copy_mem</code>其中的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new_data_base = new_code_base - nr* 0x4000000</div></pre></td></tr></table></figure></p>
-<p>其中<code>nr</code>来自于<code>copy_process</code>，<code>find_empty_process</code>遍历<code>task</code>数组之后返回<code>nr</code>，父子进程<code>nr</code>不同，线性地址空间也不同。</p>
-<blockquote>
-<p>父子进程共享的时候，把限长也共享了。虽然每页有64MB，但并不需要把它全占满。原则：够用即可。卡到8MB，多了也不给。</p>
-</blockquote>
-<p>新的操作系统，一个进程占满4G线性地址空间，并且内核与用户共用。<br>特权级问题：代码能随便跳特权级吗？</p>
-<blockquote>
-<p>只考虑段，可以。特权级落实到内存上但是在CPU上动手。实际上是CPU寻址权限控制/访问权限控制。执行谁的代码就是谁的特权级。<br>实际上还是可以阻止这种做法。<code>分界。</code>内存分页的时候，卡到某一位置剩下的就不分配了，即使有线性地址也不能访问。无论是内核和用户，都要经过内存分页。<br>将用户段与内核段线性排列而非重合，可以吗？不可以。因为系统代码使得内核线性地址空间就16MB，也就是当时linus的机器的物理内存。内核的线性地址宽度至少要覆盖物理内存。必须要覆盖全部内存，为了获得最大寻址。用来管理内存分页。否则没有分页的内存不能用。</p>
-<p>段间跳转仅限于同特权级。内核不是通过线性地址来管理内存的，并不需要通过段间跳转来管理。但它仍然可以通过内存分页管理，直接动页物理地址。这时段的作用被淡化，内核线性地址顶两头。</p>
-</blockquote>
-<p><code>change_idt</code><br>父进程的线性地址，与子进程的线性地址并不共享。创建进程时<code>nr* 0x4000000</code>已经给了不同的基址，不变的就是限长。<br>证据：</p>
-<ul>
-<li><code>copy_mem</code>只设置了段基址，根本没有动限长。</li>
-<li>在它之前的<code>copy_process</code>也只是拷贝了ldt tss，其中限长直接继承了，而且没有改动过。</li>
-<li><code>copy_page_tables</code>接受的<code>data_page_limit</code>也是由<code>get_limit</code>获得的父进程的限长，没有更改过。</li>
-</ul>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/操作系统/">操作系统</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/11/16/Linux Kernel-11-16/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/16/Linux Kernel-11-16/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/3/"><span></span>Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next<span></span></a>
@@ -824,6 +794,10 @@
 		
 		  
 			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
@@ -885,7 +859,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -895,7 +869,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>19</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
 			
 		
 			
@@ -919,7 +893,11 @@
 			
 		
 			
-				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编辑器/" title="编辑器">编辑器<sup>2</sup></a></li>
 			
 		
 			
@@ -927,11 +905,7 @@
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/编辑器/" title="编辑器">编辑器<sup>2</sup></a></li>
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
 			
 		
 			
@@ -943,7 +917,7 @@
 			
 		
 			
-				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
 			
 		
 			
@@ -955,7 +929,11 @@
 			
 		
 			
-				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 			
 		
 		</ul>
