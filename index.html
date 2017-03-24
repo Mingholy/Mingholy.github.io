@@ -78,6 +78,255 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/03/24/HTTP-TCP-IP/" title="HTTP、TCP/UDP和IP" itemprop="url">HTTP、TCP/UDP和IP</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-24T03:35:00.000Z" itemprop="datePublished"> 发表于 2017-03-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><h2 id="通用头部"><a href="#通用头部" class="headerlink" title="通用头部"></a>通用头部</h2><p>Cache-Control<br>Connection<br>Date<br>Pragma<br>Transfer-Encoding<br>Upgrade<br>Via</p>
+<h2 id="XHR附加头部"><a href="#XHR附加头部" class="headerlink" title="XHR附加头部"></a>XHR附加头部</h2><p>Accept<br>Accept-Charset<br>Accept-Encoding<br>Accept-Language<br>Connection<br>Cookie<br>Host<br>Referer<br>User-Agent</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/网络/">网络</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/HTTP/">HTTP</a><a href="/tags/网络/">网络</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/24/HTTP-TCP-IP/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/24/HTTP-TCP-IP/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/24/CORS/" title="Ajax、Comet、Fetch与跨域" itemprop="url">Ajax、Comet、Fetch与跨域</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-24T02:39:00.000Z" itemprop="datePublished"> 发表于 2017-03-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>Ajax、跨域是学习前端过程中的一个痛点，也是我实际做东西的时候遇到的一个比较棘手的问题。</p>
+</blockquote>
+<h1 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h1><p>实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求。<br><a href="http://ming-holy.space/2017/03/17/JSDOM-chapter7/">JavaScriptDOM第七章笔记</a>中记录了一个小例子，这里详细解读一下。</p>
+<h2 id="XHR对象"><a href="#XHR对象" class="headerlink" title="XHR对象"></a>XHR对象</h2><p>这里需要注意的是IE的解法。IE对XHR的实现是通过MSXML库中的一个ActiveX对象实现的。所以我们在编写带有兼容性的代码时会有这样的情况：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getHTTPObject</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//检测是否存在XHR内置对象，如果没有就从MSXML库里找ActiveX的实现</span></div><div class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> XMLHttpRequest == <span class="string">"undefined"</span>) &#123;</div><div class="line">        <span class="comment">//注意这里建立的是全局对象</span></div><div class="line">        XMLHttpRequest = funciton() &#123;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ActiveXObject(<span class="string">"Msxml2.XMLHTTP.6.0"</span>);</div><div class="line">            &#125; <span class="keyword">catch</span> (e) &#123;&#125;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ActiveXObject(<span class="string">"Msxml2.XMLHTTP.3.0"</span>);</div><div class="line">            &#125; <span class="keyword">catch</span> (e) &#123;&#125;</div><div class="line">            <span class="keyword">try</span> &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">new</span> ActiveXObject(<span class="string">"Msxml2.XMLHTTP"</span>);</div><div class="line">            &#125; <span class="keyword">catch</span> (e) &#123;&#125;</div><div class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>所以IE早期版本（7之前）与其他浏览器的不同之处在于对XHR对象的实现方式。</p>
+<h3 id="使用XHR"><a href="#使用XHR" class="headerlink" title="使用XHR"></a>使用XHR</h3><p>使用XHR分为四个步骤：</p>
+<ol>
+<li>实例化，可以用上面的那个函数</li>
+<li><p>准备并发送请求，使用<code>open</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xhr.open(&quot;get&quot;, &quot;example.txt&quot;, false);</div></pre></td></tr></table></figure>
+<p>最后一个参数代表是否是异步请求。注意：</p>
+<ul>
+<li>URL是相对路径，也可使用绝对路径</li>
+<li><code>open</code>是准备请求，调用它并不会立即发送<br>3.监听对象状态并发送请求<br>由于上面的<code>open</code>方法确定了是同步请求，则它准备完毕后才能调用<code>send</code>发送请求。如果是异步请求，则需要一直判断请求的状态，以决定下一步该怎么做。所以在发送之前应该首先给监听器绑定一个处理方法：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span> (xhr.readystate === <span class="number">4</span>) &#123;</div><div class="line">        <span class="comment">//当这个请求完成时要做的处理</span></div><div class="line">    </div><div class="line">&#125;</div><div class="line"><span class="comment">//绑定好处理函数后再发送请求</span></div><div class="line">xhr.send(<span class="literal">null</span>);</div></pre></td></tr></table></figure>
+如果没有通过请求主体发送的数据，则必须传入<code>null</code>。<br>其中<code>readystate</code>属性代表请求本身的状态。前面的笔记也提到过：</li>
+<li>‘0’: 未初始化</li>
+<li>‘1’: 正在加载</li>
+<li>‘2’: 加载完毕</li>
+<li>‘3’: 正在交互</li>
+<li>‘4’: 完成</li>
+</ul>
+</li>
+<li>获取响应<br>首先看一下响应包含的内容：<ul>
+<li><code>responseText</code>：响应主体，无论何种类型都会保存在这里</li>
+<li><code>responseXML</code>：如果响应内容类型是XML则数据也会包含在该属性中，否则为空</li>
+<li><code>status</code>：响应的HTTP状态码</li>
+<li><code>statusText</code>：HTTP状态说明<br>比如监听响应状态为2xx/304时显示返回相应的内容：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (xhr.status &gt;= <span class="number">200</span> &amp;&amp; xhr.status &lt; <span class="number">300</span> || xhr.status == <span class="number">304</span>) &#123;</div><div class="line">    <span class="built_in">console</span>.log(xhr.responseText);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+最后可以使用<code>xhr.abort()</code>取消异步请求。</li>
+</ul>
+</li>
+</ol>
+<h3 id="设置XHR头部信息"><a href="#设置XHR头部信息" class="headerlink" title="设置XHR头部信息"></a>设置XHR头部信息</h3><p>发送XHR请求的同时在HTTP请求中附加的头部信息有：</p>
+<ul>
+<li>Accept：浏览器能够处理的内容类型</li>
+<li>Accept-Charset：浏览器能够显示的字符集</li>
+<li>Accept-Encoding：浏览器能够处理的压缩编码</li>
+<li>Accept-Language：浏览器当前语言</li>
+<li>Connection：浏览器与服务器间连接类型</li>
+<li>Cookie：当前页面的任何Cookie</li>
+<li>Host：发出请求页面所在域</li>
+<li>Referer：发出请求页面的URI</li>
+<li>User-Agent：浏览器代理字符串（浏览器嗅探用）</li>
+</ul>
+<p>可以用<code>setRequestHeader()</code>设置请求头部信息。必须在<code>open</code>之后，<code>send</code>之前。<br>各请求就不详述了，<code>GET</code>请求读，<code>POST</code>请求写。</p>
+<h3 id="XHR-level2"><a href="#XHR-level2" class="headerlink" title="XHR level2"></a>XHR level2</h3><h4 id="FormData"><a href="#FormData" class="headerlink" title="FormData"></a>FormData</h4><p>可以实例化一个<code>FormData</code>对象来存储表单。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> data = <span class="keyword">new</span> FormData();</div><div class="line">data.append(<span class="string">"key"</span>, <span class="string">"value"</span>);</div><div class="line"><span class="comment">//或者直接将表单元素填入构造函数</span></div><div class="line"><span class="keyword">var</span> data1 = <span class="keyword">new</span> FormData(<span class="built_in">document</span>.forms[<span class="number">0</span>]);</div><div class="line"><span class="comment">//最后发送它</span></div><div class="line">xhr.send(data1)</div></pre></td></tr></table></figure></p>
+<h4 id="Timeout"><a href="#Timeout" class="headerlink" title="Timeout"></a>Timeout</h4><p>可以设置一个响应时限（patient？），来处理超时的情况。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">xhr.timeout = <span class="number">1000</span>;</div><div class="line">xhr.ontimeout = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    aledrt(<span class="string">"Some alert!"</span>);</div><div class="line">&#125;</div><div class="line">xhr.send(<span class="literal">null</span>);</div></pre></td></tr></table></figure><br>记住：事件绑定要在发送之前！</p>
+<h4 id="OverideMimeType-方法"><a href="#OverideMimeType-方法" class="headerlink" title="OverideMimeType()方法"></a><code>OverideMimeType()</code>方法</h4><p>要修改MIME类型的注意了！你的<code>&lt;video&gt;</code>标签从本地导入视频后遇到的两个问题之一这里就能解决了！<br>默认的MIME类型是<code>text/plain</code>，只要类型不是<code>XML</code>，XHR对象里<code>responseXML</code>属性就是空。可以通过修改MIME类型来将相应当做XML。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">xhr.open(<span class="string">"get"</span>, <span class="string">"text.xml"</span>, <span class="literal">true</span>);</div><div class="line">xhr.overrideMimeType(<span class="string">"text/xml"</span>);</div><div class="line">xhr.send(<span class="literal">null</span>);</div></pre></td></tr></table></figure></p>
+<h3 id="进度事件"><a href="#进度事件" class="headerlink" title="进度事件"></a>进度事件</h3><p>看到有面试题说，要求用Ajax写一个文件上传组件，要求显示上传进度。这里可能就是关键。<br>XHR有6个进度事件：</p>
+<ul>
+<li>loadstart：开始接收相应的第一个字节触发</li>
+<li>progress：接收过程中不断触发</li>
+<li>error：请求发生错误时触发</li>
+<li>abort：调用<code>abort()</code>方法终止连接时触发</li>
+<li>load：接收到完整的相应数据时触发</li>
+<li>loadend：通信完成或者触发<code>error</code>、<code>abort</code>或者<code>load</code>事件后触发。</li>
+</ul>
+<h2 id="跨域！"><a href="#跨域！" class="headerlink" title="跨域！"></a><strong>跨域！</strong></h2><p>最难受的一个问题到来了。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>►<a class="article-category-link" href="/categories/JavaScript/ES6/">ES6</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/ES6/">ES6</a><a href="/tags/跨域/">跨域</a><a href="/tags/异步编程/">异步编程</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/24/CORS/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/24/CORS/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/24/XSS-CSRF/" title="XSS、CSRF与SQL注入" itemprop="url">XSS、CSRF与SQL注入</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-24T00:37:00.000Z" itemprop="datePublished"> 发表于 2017-03-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>关于Web安全的内容经常会被问到。前端主要关注的是XSS与CSRF，而以前曾经见过SQL注入，这里一并总结一下。仅为理解概念。</p>
+</blockquote>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/03/24/XSS-CSRF/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/前端安全/">前端安全</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/前端安全/">前端安全</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/24/XSS-CSRF/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/24/XSS-CSRF/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/03/23/ES6-intro/" title="ES6总结笔记" itemprop="url">ES6总结笔记</a>
   </h1>
   <p class="article-author">By
@@ -530,221 +779,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/17/JSDOM-chapter7/" title="JavaScript DOM 编程艺术 笔记-第七章" itemprop="url">JavaScript DOM 编程艺术 笔记-第七章</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-17T07:46:00.000Z" itemprop="datePublished"> 发表于 2017-03-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="动态创建标记"><a href="#动态创建标记" class="headerlink" title="动态创建标记"></a>动态创建标记</h1><blockquote>
-<p>很多内容都是关于曾经使用过的创建元素的方法，简单总结一下。</p>
-</blockquote>
-<h2 id="传统方法"><a href="#传统方法" class="headerlink" title="传统方法"></a>传统方法</h2><p>传统的插入元素的方法：</p>
-<ol>
-<li><code>document.write()</code>插入raw HTML代码</li>
-<li>为元素设置<code>innerHTML</code>属性；它并不是W3C标准中DOM的组成部分，但是HTML5支持它。</li>
-</ol>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/03/17/JSDOM-chapter7/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/17/JSDOM-chapter7/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/17/JSDOM-chapter7/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/17/JSDOM-chapter6/" title="JavaScript DOM 编程艺术 笔记-第六章" itemprop="url">JavaScript DOM 编程艺术 笔记-第六章</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-17T06:00:00.000Z" itemprop="datePublished"> 发表于 2017-03-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="优化一个已有项目的思路"><a href="#优化一个已有项目的思路" class="headerlink" title="优化一个已有项目的思路"></a>优化一个已有项目的思路</h2><p>这一章主要讲述的内容是如何优化一个已经完成了基本功能的项目。在这个思路里，优化存在于方方面面，基本要涉及到以下几个原则：</p>
-<ol>
-<li>支持平稳退化</li>
-<li>降低JavaScript与HTML的耦合度</li>
-<li>减少先入为主的假设</li>
-<li>代码结构优化
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/03/17/JSDOM-chapter6/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/17/JSDOM-chapter6/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/17/JSDOM-chapter6/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/13/IFE2017-105/" title="IFE2017任务105-可视化排序算法" itemprop="url">IFE2017任务105-可视化排序算法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-13T06:56:00.000Z" itemprop="datePublished"> 发表于 2017-03-13</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>这个任务实际上是跟之前的103基础JavaScript练习(一)一起总结的。这两个任务虽然说是基础任务，但是涉及到的点还是比较多并且非常重要的，可以说是逢面试必考。主要想到了的点有：</p>
-<ul>
-<li>事件绑定</li>
-<li>类型检测的trick</li>
-<li>闭包</li>
-<li><code>this</code>与作用域</li>
-<li>数据持久化与面向对象</li>
-<li>ES6</li>
-<li>响应式设计</li>
-</ul>
-</blockquote>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/03/13/IFE2017-105/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/IFE2017/">IFE2017</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/13/IFE2017-105/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/13/IFE2017-105/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -768,6 +802,10 @@
 		
 		  
 			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
@@ -795,7 +833,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>17</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>18</sup></a></li>
 		  
 		
 		  
@@ -819,11 +857,19 @@
 		  
 		
 		  
+			<li><a href="/categories/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/数学/" title="数学">数学<sup>2</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/数学/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/" title="网络">网络<sup>1</sup></a></li>
 		  
 		
 		</ul>
@@ -833,7 +879,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -843,7 +889,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>21</sup></a></li>
 			
 		
 			
@@ -883,7 +929,7 @@
 			
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
 			
 		
 			
@@ -891,15 +937,7 @@
 			
 		
 			
-				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
 			
 		
 			
@@ -907,7 +945,27 @@
 			
 		
 			
-				<li><a href="/tags/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/异步编程/" title="异步编程">异步编程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
 			
 		
 		</ul>

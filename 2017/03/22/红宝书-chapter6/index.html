@@ -25,7 +25,7 @@
 
 接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。
 实现继承：父类中定义并实现好方法，然后子类">
-<meta property="og:updated_time" content="2017-03-23T06:09:19.169Z">
+<meta property="og:updated_time" content="2017-03-24T02:25:20.082Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript高级程序设计 第六章笔记">
 <meta name="twitter:description" content="关于面向对象，已经在IFE2017-105的笔记中总结了一些。这里总结一下关于继承的问题。
@@ -136,7 +136,7 @@
 <li>不能向父类构造函数传递参数（书中原话：<strong>没有办法在不影响所有对象实例的情况下，给超类型的构造函数传递参数。</strong>）</li>
 </ol>
 <p>关于第二个问题可以参考：<a href="https://segmentfault.com/q/1010000008512224?_ea=1678065" target="_blank" rel="external">javascript 里子类型的构造函数的实例为什么不能向父类型的构造函数实例传递参数？</a></p>
-<h2 id="借用构造函数"><a href="#借用构造函数" class="headerlink" title="借用构造函数"></a>借用构造函数</h2><p>上面的参考文献中，有个回答是这样的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name,age,job</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.age = age;</div><div class="line">    <span class="keyword">this</span>.job = job;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Man</span>(<span class="params">name,age,job,mustache</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.mustache = mustache;</div><div class="line">    <span class="comment">// 改成这句话</span></div><div class="line">    Person.call(<span class="keyword">this</span>, name,age,job)</div><div class="line">    Man.prototype = <span class="keyword">new</span> Person();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> Man(<span class="string">'Anthony'</span>,<span class="number">27</span>,<span class="string">'PE'</span>);</div><div class="line">m.name;<span class="comment">// Anthony</span></div></pre></td></tr></table></figure><br>实际上是以子类的新实例作为作用域调用父类的构造函数，这样父类的构造函数中的<code>this</code>就指向了该新实例，各种属性也就是新实例自己拥有的副本，而非类共享属性。</p>
+<h2 id="借用构造函数"><a href="#借用构造函数" class="headerlink" title="借用构造函数"></a>借用构造函数</h2><p>上面的参考文献中，有个回答是这样的：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age, job</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.age = age;</div><div class="line">    <span class="keyword">this</span>.job = job;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Man</span>(<span class="params">name,age,job,mustache</span>)</span>&#123;</div><div class="line">    <span class="keyword">this</span>.mustache = mustache;</div><div class="line">    <span class="comment">// 改成这句话</span></div><div class="line">    Person.call(<span class="keyword">this</span>, name, age, job)</div><div class="line">    Man.prototype = <span class="keyword">new</span> Person();</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> m = <span class="keyword">new</span> Man(<span class="string">'Anthony'</span>,<span class="number">27</span>,<span class="string">'PE'</span>);</div><div class="line">m.name;<span class="comment">// Anthony</span></div></pre></td></tr></table></figure><br>实际上是以子类的新实例作为作用域调用父类的构造函数，这样父类的构造函数中的<code>this</code>就指向了该新实例，各种属性也就是新实例自己拥有的副本，而非类共享属性。</p>
 <ol>
 <li>需要注意的是：这时这些属性实际上是实例对象的属性，其实和类继承没啥太大关系了，就好像我<code>new</code>了一个<code>Object</code>然后手动给它添加各种属性，而把它当做一个类的对象看待，因为这个类的所有实例都有相同的属性</li>
 <li>所有的属性和方法，都是通过构造函数挂载到对象上去的，父类构造函数中的方法，子类是调用不了的，因为连它的属性<strong>事实上</strong>都不是继承来的，更不用提方法了。除非在子类构造函数里添加方法属性。这就有另外一个问题了：复用无从谈起。每个实例都有这些一模一样的函数副本。</li>
@@ -278,6 +278,10 @@
 		  
 		
 		  
+			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
@@ -302,7 +306,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>17</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>18</sup></a></li>
 		  
 		
 		  
@@ -326,11 +330,19 @@
 		  
 		
 		  
+			<li><a href="/categories/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/数学/" title="数学">数学<sup>2</sup></a></li>
 		  
 		
 		  
 			<li><a href="/categories/数学/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/" title="网络">网络<sup>1</sup></a></li>
 		  
 		
 		</ul>
@@ -340,7 +352,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">13</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -350,7 +362,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>21</sup></a></li>
 			
 		
 			
@@ -390,7 +402,7 @@
 			
 		
 			
-				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
 			
 		
 			
@@ -398,15 +410,7 @@
 			
 		
 			
-				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
 			
 		
 			
@@ -414,7 +418,27 @@
 			
 		
 			
-				<li><a href="/tags/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/异步编程/" title="异步编程">异步编程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
 			
 		
 		</ul>
