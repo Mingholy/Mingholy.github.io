@@ -19,7 +19,7 @@ HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法
 <meta property="og:site_name" content="A Cup of Coffee">
 <meta property="og:description" content="主要问题：
 HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法解决。 搜索了很久，HTML5播放视频的格式，取决于浏览器。多数主流浏览器都只支持MP4,WebM，播放avi需要很多其他的东西。第三方的播放器videojs，也是这里要使用的播放器库，有插件通过java来支持avi和其他媒体格式，但是这个作者在放出第一版不久就因为一些没办法解决的问题放弃更新了，致命的是这个jav">
-<meta property="og:updated_time" content="2017-02-13T15:22:17.565Z">
+<meta property="og:updated_time" content="2017-03-24T12:45:03.916Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dubtitler 初步设想">
 <meta name="twitter:description" content="主要问题：
@@ -134,7 +134,7 @@ HTML5支持的播放器仅支持H.264编码的MP4文件格式 这个问题没法
 </ol>
 <h3 id="拆轴合轴"><a href="#拆轴合轴" class="headerlink" title="拆轴合轴"></a>拆轴合轴</h3><p>对单行字幕进行拆轴时，用户分别指定英文行和中文行打拆轴点，然后按照英文行的拆轴点拆分时间段。将拆分出的两个时间轴作为两行单独字幕插入原位置。</p>
 <p>合轴即简单地将中英文字幕分别合成为一轴。</p>
-<h2 id="播放器"><a href="#播放器" class="headerlink" title="播放器"></a>播放器</h2><p>使用开源的HTML5播放器Video.js。<br>Angular可以很好的支持异步请求，只需要一个<code>$http</code>语句。那么这就为实时更新字幕创造了条件。但是需要考虑两个问题：  </p>
+<h2 id="播放器"><a href="#播放器" class="headerlink" title="播放器"></a>播放器</h2><p><del>使用开源的HTML5播放器Video.js。</del><br><del>Angular可以很好的支持异步请求，只需要一个<code>$http</code>语句。那么这就为实时更新字幕创造了条件。但是需要考虑两个问题：  </del><br>问题仍然存在：</p>
 <ol>
 <li>虽然这个App没有实际上的后端，但是用户的srt文件是不是需要上传到服务器缓存呢？这会不会给服务器带来过大压力？</li>
 <li>如何进行实时更新字幕？可以有两个思路：<br> a. 在每次用户点击播放器的播放按钮的时候，自动保存当前editor的内容作为字幕文件，然后发起http请求获取最新保存的字幕放到<code>&lt;track&gt;</code>元素中。<br> b. 新增一个保存按钮，当点击该按钮时才保存。但是每当用户点击播放器的播放按钮时都要重新请求<code>&lt;track&gt;</code>元素的路径。</li>
