@@ -4,23 +4,44 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>JavaScript高级程序设计 第七章笔记 | A Cup of Coffee</title>
+    <title>JavaScript函数与函数表达式 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="函数表达式函数提升的概念前面的总结已经提到过。">
+    <meta name="description" content="关键知识点
+
+闭包
+IIFE
+变量私有化
+
+
+函数表达式函数提升的概念前面的总结已经提到过。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript高级程序设计 第七章笔记">
+<meta property="og:title" content="JavaScript函数与函数表达式">
 <meta property="og:url" content="http://ming-holy.space/2017/03/23/红宝书-chapter7/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="函数表达式函数提升的概念前面的总结已经提到过。">
-<meta property="og:updated_time" content="2017-03-23T08:52:30.756Z">
+<meta property="og:description" content="关键知识点
+
+闭包
+IIFE
+变量私有化
+
+
+函数表达式函数提升的概念前面的总结已经提到过。">
+<meta property="og:updated_time" content="2017-03-26T05:13:08.242Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript高级程序设计 第七章笔记">
-<meta name="twitter:description" content="函数表达式函数提升的概念前面的总结已经提到过。">
+<meta name="twitter:title" content="JavaScript函数与函数表达式">
+<meta name="twitter:description" content="关键知识点
+
+闭包
+IIFE
+变量私有化
+
+
+函数表达式函数提升的概念前面的总结已经提到过。">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -80,7 +101,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/23/红宝书-chapter7/" title="JavaScript高级程序设计 第七章笔记" itemprop="url">JavaScript高级程序设计 第七章笔记</a>
+      <a href="/2017/03/23/红宝书-chapter7/" title="JavaScript函数与函数表达式" itemprop="url">JavaScript函数与函数表达式</a>
   </h1>
   <p class="article-author">By
        
@@ -100,7 +121,15 @@
 		
 		</div>
 		
-		<h1 id="函数表达式"><a href="#函数表达式" class="headerlink" title="函数表达式"></a>函数表达式</h1><p>函数提升的概念前面的总结已经提到过。</p>
+		<blockquote>
+<p>关键知识点</p>
+<ul>
+<li>闭包</li>
+<li>IIFE</li>
+<li>变量私有化</li>
+</ul>
+</blockquote>
+<h1 id="函数表达式"><a href="#函数表达式" class="headerlink" title="函数表达式"></a>函数表达式</h1><p>函数提升的概念前面的总结已经提到过。</p>
 <a id="more"></a>
 <h2 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h2><p>这里需要注意的一点是，我们一直以来都是通过函数名称来调用自身。但是经常会出现我们把函数作为对象赋值给另一个变量。该变量存储的仅仅是指向该函数的指针。之后如果我们执行对函数名赋值（就是把函数名作为一个变量，比如赋值成<code>null</code>），那么所有指向这个函数的变量都不能执行函数了。</p>
 <p><code>arugments.callee</code>指向当前执行的函数；<code>arugments.caller</code>指向函数调用方。严格模式下它们不能访问，可以使用命名函数表达式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> factorial = (<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">num</span>)</span>&#123;</div><div class="line">    <span class="keyword">if</span> (num &lt;= <span class="number">1</span>) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="number">1</span>;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span>  num * f(num - <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure></p>
@@ -170,7 +199,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2017/03/23/红宝书-chapter7/" data-title="JavaScript高级程序设计 第七章笔记 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/03/23/红宝书-chapter7/" data-title="JavaScript函数与函数表达式 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -193,9 +222,9 @@
 
 
 <div class="next">
-<a href="/2017/03/22/红宝书-chapter6/"  title="JavaScript高级程序设计 第六章笔记">
+<a href="/2017/03/22/红宝书-chapter6/"  title="JavaScript继承">
  <strong>下一篇：</strong><br/> 
- <span>JavaScript高级程序设计 第六章笔记
+ <span>JavaScript继承
 </span>
 </a>
 </div>
@@ -204,7 +233,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/03/23/红宝书-chapter7/" data-title="JavaScript高级程序设计 第七章笔记" data-url="http://ming-holy.space/2017/03/23/红宝书-chapter7/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/23/红宝书-chapter7/" data-title="JavaScript函数与函数表达式" data-url="http://ming-holy.space/2017/03/23/红宝书-chapter7/"></div>
 </section>
 
 

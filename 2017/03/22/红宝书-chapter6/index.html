@@ -4,35 +4,50 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>JavaScript高级程序设计 第六章笔记 | A Cup of Coffee</title>
+    <title>JavaScript继承 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="关于面向对象，已经在IFE2017-105的笔记中总结了一些。这里总结一下关于继承的问题。
+    <meta name="description" content="关键知识点
+
+继承的各种方式
+
+
+关于面向对象，已经在IFE2017-105的笔记中总结了一些。这里总结一下关于继承的问题。
 继承书中第一段提到了，一般的OO语言支持两种继承方式，一种是接口继承，另一种是实现继承。
 
 接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。
-实现继承：父类中定义并实现好方法，然后子类">
+实现继">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript高级程序设计 第六章笔记">
+<meta property="og:title" content="JavaScript继承">
 <meta property="og:url" content="http://ming-holy.space/2017/03/22/红宝书-chapter6/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="关于面向对象，已经在IFE2017-105的笔记中总结了一些。这里总结一下关于继承的问题。
+<meta property="og:description" content="关键知识点
+
+继承的各种方式
+
+
+关于面向对象，已经在IFE2017-105的笔记中总结了一些。这里总结一下关于继承的问题。
 继承书中第一段提到了，一般的OO语言支持两种继承方式，一种是接口继承，另一种是实现继承。
 
 接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。
-实现继承：父类中定义并实现好方法，然后子类">
-<meta property="og:updated_time" content="2017-03-24T02:25:20.082Z">
+实现继">
+<meta property="og:updated_time" content="2017-03-26T05:11:35.878Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript高级程序设计 第六章笔记">
-<meta name="twitter:description" content="关于面向对象，已经在IFE2017-105的笔记中总结了一些。这里总结一下关于继承的问题。
+<meta name="twitter:title" content="JavaScript继承">
+<meta name="twitter:description" content="关键知识点
+
+继承的各种方式
+
+
+关于面向对象，已经在IFE2017-105的笔记中总结了一些。这里总结一下关于继承的问题。
 继承书中第一段提到了，一般的OO语言支持两种继承方式，一种是接口继承，另一种是实现继承。
 
 接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。
-实现继承：父类中定义并实现好方法，然后子类">
+实现继">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -92,7 +107,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/22/红宝书-chapter6/" title="JavaScript高级程序设计 第六章笔记" itemprop="url">JavaScript高级程序设计 第六章笔记</a>
+      <a href="/2017/03/22/红宝书-chapter6/" title="JavaScript继承" itemprop="url">JavaScript继承</a>
   </h1>
   <p class="article-author">By
        
@@ -112,7 +127,13 @@
 		
 		</div>
 		
-		<p>关于面向对象，已经在<a href="http://ming-holy.space/2017/03/13/IFE2017-105/#数据持久化与面向对象">IFE2017-105的笔记</a>中总结了一些。这里总结一下关于继承的问题。</p>
+		<blockquote>
+<p>关键知识点</p>
+<ul>
+<li>继承的各种方式</li>
+</ul>
+</blockquote>
+<p>关于面向对象，已经在<a href="http://ming-holy.space/2017/03/13/IFE2017-105/#数据持久化与面向对象">IFE2017-105的笔记</a>中总结了一些。这里总结一下关于继承的问题。</p>
 <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>书中第一段提到了，一般的OO语言支持两种继承方式，一种是接口继承，另一种是实现继承。</p>
 <ul>
 <li>接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。</li>
@@ -212,7 +233,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2017/03/22/红宝书-chapter6/" data-title="JavaScript高级程序设计 第六章笔记 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/03/22/红宝书-chapter6/" data-title="JavaScript继承 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -226,18 +247,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/03/23/红宝书-chapter7/" title="JavaScript高级程序设计 第七章笔记">
+ <a href="/2017/03/23/红宝书-chapter7/" title="JavaScript函数与函数表达式">
   <strong>上一篇：</strong><br/>
   <span>
-  JavaScript高级程序设计 第七章笔记</span>
+  JavaScript函数与函数表达式</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/03/22/红宝书-chapter5/"  title="JavaScript高级程序设计 第五章笔记">
+<a href="/2017/03/22/红宝书-chapter5/"  title="JavaScript类型方法总结与函数实例方法">
  <strong>下一篇：</strong><br/> 
- <span>JavaScript高级程序设计 第五章笔记
+ <span>JavaScript类型方法总结与函数实例方法
 </span>
 </a>
 </div>
@@ -246,7 +267,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/03/22/红宝书-chapter6/" data-title="JavaScript高级程序设计 第六章笔记" data-url="http://ming-holy.space/2017/03/22/红宝书-chapter6/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/22/红宝书-chapter6/" data-title="JavaScript继承" data-url="http://ming-holy.space/2017/03/22/红宝书-chapter6/"></div>
 </section>
 
 

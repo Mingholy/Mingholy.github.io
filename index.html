@@ -342,7 +342,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/23/红宝书-chapter7/" title="JavaScript高级程序设计 第七章笔记" itemprop="url">JavaScript高级程序设计 第七章笔记</a>
+      <a href="/2017/03/23/红宝书-chapter7/" title="JavaScript函数与函数表达式" itemprop="url">JavaScript函数与函数表达式</a>
   </h1>
   <p class="article-author">By
        
@@ -355,7 +355,15 @@
 </header>
     <div class="article-content">
         
-        <h1 id="函数表达式"><a href="#函数表达式" class="headerlink" title="函数表达式"></a>函数表达式</h1><p>函数提升的概念前面的总结已经提到过。</p>
+        <blockquote>
+<p>关键知识点</p>
+<ul>
+<li>闭包</li>
+<li>IIFE</li>
+<li>变量私有化</li>
+</ul>
+</blockquote>
+<h1 id="函数表达式"><a href="#函数表达式" class="headerlink" title="函数表达式"></a>函数表达式</h1><p>函数提升的概念前面的总结已经提到过。</p>
         
         
         <p class="article-more-link">
@@ -406,7 +414,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/22/红宝书-chapter6/" title="JavaScript高级程序设计 第六章笔记" itemprop="url">JavaScript高级程序设计 第六章笔记</a>
+      <a href="/2017/03/22/红宝书-chapter6/" title="JavaScript继承" itemprop="url">JavaScript继承</a>
   </h1>
   <p class="article-author">By
        
@@ -419,7 +427,13 @@
 </header>
     <div class="article-content">
         
-        <p>关于面向对象，已经在<a href="http://ming-holy.space/2017/03/13/IFE2017-105/#数据持久化与面向对象">IFE2017-105的笔记</a>中总结了一些。这里总结一下关于继承的问题。</p>
+        <blockquote>
+<p>关键知识点</p>
+<ul>
+<li>继承的各种方式</li>
+</ul>
+</blockquote>
+<p>关于面向对象，已经在<a href="http://ming-holy.space/2017/03/13/IFE2017-105/#数据持久化与面向对象">IFE2017-105的笔记</a>中总结了一些。这里总结一下关于继承的问题。</p>
 <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>书中第一段提到了，一般的OO语言支持两种继承方式，一种是接口继承，另一种是实现继承。</p>
 <ul>
 <li>接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。</li>
@@ -474,7 +488,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/22/红宝书-chapter5/" title="JavaScript高级程序设计 第五章笔记" itemprop="url">JavaScript高级程序设计 第五章笔记</a>
+      <a href="/2017/03/22/红宝书-chapter5/" title="JavaScript类型方法总结与函数实例方法" itemprop="url">JavaScript类型方法总结与函数实例方法</a>
   </h1>
   <p class="article-author">By
        
@@ -487,7 +501,14 @@
 </header>
     <div class="article-content">
         
-        <h1 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h1><p>这一章有点像API手册了。</p>
+        <blockquote>
+<p>关键知识点</p>
+<ul>
+<li>类型方法</li>
+<li><code>call</code>、<code>apply</code>和<code>bind</code></li>
+</ul>
+</blockquote>
+<h1 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h1><p>这一章有点像API手册了。</p>
 <h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>JavaScript中的对象有点像Python中的<code>dict</code>。注意不能有尾逗号，IE7之前和Opera会报错。<br>注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。<br>
         
         
@@ -539,7 +560,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/20/红宝书-chapter4/" title="JavaScript高级程序设计 第四章笔记" itemprop="url">JavaScript高级程序设计 第四章笔记</a>
+      <a href="/2017/03/20/红宝书-chapter4/" title="JavaScript数据类型与变量作用域" itemprop="url">JavaScript数据类型与变量作用域</a>
   </h1>
   <p class="article-author">By
        
@@ -552,7 +573,16 @@
 </header>
     <div class="article-content">
         
-        <h1 id="第四章：变量、作用域和内存问题"><a href="#第四章：变量、作用域和内存问题" class="headerlink" title="第四章：变量、作用域和内存问题"></a>第四章：变量、作用域和内存问题</h1><p>好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。<br>
+        <blockquote>
+<p>关键知识点：</p>
+<ul>
+<li>数据类型</li>
+<li>作用域</li>
+<li>变量提升</li>
+<li>垃圾回收机制</li>
+</ul>
+</blockquote>
+<h1 id="第四章：变量、作用域和内存问题"><a href="#第四章：变量、作用域和内存问题" class="headerlink" title="第四章：变量、作用域和内存问题"></a>第四章：变量、作用域和内存问题</h1><p>好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。<br>
         
         
         <p class="article-more-link">
@@ -603,7 +633,7 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/20/红宝书-chapter2&3/" title="JavaScript 高级程序设计 第二三章笔记" itemprop="url">JavaScript 高级程序设计 第二三章笔记</a>
+      <a href="/2017/03/20/红宝书-chapter2&3/" title="JavaScript基础" itemprop="url">JavaScript基础</a>
   </h1>
   <p class="article-author">By
        
@@ -617,7 +647,12 @@
     <div class="article-content">
         
         <blockquote>
-<p>这个系列旨在夯实自己JS基础。很多听过见过存疑的记不住的记住且重要的点都要找到答案，因为JS的点还是很多的，并不是写过就能够学好，反过来很多东西书上也没有，结合经验会记得更牢。每一章把这些点总结出来，备忘当做提升。<br>
+<p>这个系列旨在夯实自己JS基础。很多听过见过存疑的记不住的记住且重要的点都要找到答案，因为JS的点还是很多的，并不是写过就能够学好，反过来很多东西书上也没有，结合经验会记得更牢。每一章把这些点总结出来，备忘当做提升。关键知识点：</p>
+<ul>
+<li>操作符</li>
+<li>函数对象的<code>arguments</code>属性</li>
+</ul>
+</blockquote>
         
         
         <p class="article-more-link">

@@ -4,23 +4,47 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>JavaScript高级程序设计 第四章笔记 | A Cup of Coffee</title>
+    <title>JavaScript数据类型与变量作用域 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="第四章：变量、作用域和内存问题好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。">
+    <meta name="description" content="关键知识点：
+
+数据类型
+作用域
+变量提升
+垃圾回收机制
+
+
+第四章：变量、作用域和内存问题好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript高级程序设计 第四章笔记">
+<meta property="og:title" content="JavaScript数据类型与变量作用域">
 <meta property="og:url" content="http://ming-holy.space/2017/03/20/红宝书-chapter4/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="第四章：变量、作用域和内存问题好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。">
-<meta property="og:updated_time" content="2017-03-22T16:05:57.683Z">
+<meta property="og:description" content="关键知识点：
+
+数据类型
+作用域
+变量提升
+垃圾回收机制
+
+
+第四章：变量、作用域和内存问题好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。">
+<meta property="og:updated_time" content="2017-03-26T05:10:51.952Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript高级程序设计 第四章笔记">
-<meta name="twitter:description" content="第四章：变量、作用域和内存问题好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。">
+<meta name="twitter:title" content="JavaScript数据类型与变量作用域">
+<meta name="twitter:description" content="关键知识点：
+
+数据类型
+作用域
+变量提升
+垃圾回收机制
+
+
+第四章：变量、作用域和内存问题好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -80,7 +104,7 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/20/红宝书-chapter4/" title="JavaScript高级程序设计 第四章笔记" itemprop="url">JavaScript高级程序设计 第四章笔记</a>
+      <a href="/2017/03/20/红宝书-chapter4/" title="JavaScript数据类型与变量作用域" itemprop="url">JavaScript数据类型与变量作用域</a>
   </h1>
   <p class="article-author">By
        
@@ -100,7 +124,16 @@
 		
 		</div>
 		
-		<h1 id="第四章：变量、作用域和内存问题"><a href="#第四章：变量、作用域和内存问题" class="headerlink" title="第四章：变量、作用域和内存问题"></a>第四章：变量、作用域和内存问题</h1><p>好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。<br><a id="more"></a><br>其实它的第一个节标题是：</p>
+		<blockquote>
+<p>关键知识点：</p>
+<ul>
+<li>数据类型</li>
+<li>作用域</li>
+<li>变量提升</li>
+<li>垃圾回收机制</li>
+</ul>
+</blockquote>
+<h1 id="第四章：变量、作用域和内存问题"><a href="#第四章：变量、作用域和内存问题" class="headerlink" title="第四章：变量、作用域和内存问题"></a>第四章：变量、作用域和内存问题</h1><p>好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。<br><a id="more"></a><br>其实它的第一个节标题是：</p>
 <h2 id="基本类型和引用类型的值"><a href="#基本类型和引用类型的值" class="headerlink" title="基本类型和引用类型的值"></a>基本类型和引用类型的值</h2><p>但是下一页马上出现复制变量值，忽然就想到了JavaScript的一个经典问题：深浅复制。（以及jQuery的<code>extend()</code>，待会总结一下，暂且标题党一下。）<br>首先还是看基本类型和引用类型。基本类型就是上一个笔记中出现的六大数据类型中的前五个，其中两个单值类型<code>Undefined</code>和<code>Null</code>，还有<code>Boolean</code>，<code>Number</code>和<code>String</code>。</p>
 <h3 id="关于复制"><a href="#关于复制" class="headerlink" title="关于复制"></a>关于复制</h3><p>基本数据类型，如<code>Number</code>的复制是值复制，而复杂数据类型如<code>Object</code>类的复制是引用复制。也就是说将一个<code>Object</code>类型的变量赋值给另一个变量，赋值的其实是同一个对象的指针（引用），它们指向堆内存中同一个对象。</p>
 <p>但是如果将对象作为参数传递给函数，这时一定是按值传递的，不可能出现按引用传递。书上的例子中：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">    obj.name = <span class="string">"Nicholas"</span>;</div><div class="line">    obj = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">    obj.name = <span class="string">"Greg"</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">setName(person);</div><div class="line">alert(person.name);  <span class="comment">//"Nicholas"</span></div></pre></td></tr></table></figure><br>如果是按引用传递，即参数<code>obj</code>是<code>person</code>的引用，那么运行<code>setName</code>时，<code>obj.name</code>第一次被赋值成”Nicholas”，紧接<code>obj</code>就被赋值成为新对象了，也就是说它所引用的<code>person</code>对象就被赋值为新对象了，那么函数结束后得到的<code>person.name</code>属性应该是最后设置的”Greg”。然而结果并不是，因为当<code>person</code>作为对象参数传给该函数时，它的值复制给了<code>obj</code>，而<code>obj</code>就作为函数<code>setName</code>的局部变量被修改了，它的属性值最终是什么，其实已经与<code>person</code>无关了。<br>实际上引用类型的传递也是按值传递，只是传递的值是指向该引用类型对象的指针。如下代码可以说明：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">setName</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">    obj.name = <span class="string">"Greg"</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> person = <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">person.name = <span class="string">"Nicholas"</span>;</div><div class="line">setName(person);</div><div class="line">alert(person.name); <span class="comment">//"Greg"</span></div></pre></td></tr></table></figure><br>这是因为局部变量<code>obj</code>和外部变量<code>person</code>都指向内存堆区的同一块空间，这块空间存储的内容相同。通过<code>.</code>操作符可以修改这块空间里存储的属性<code>name</code>的值。但上上个例子中，<code>obj = new Object();</code>修改了<code>obj</code>的值，它存储的就不是一个指向原来对象的指针了，它被赋值成一个新的对象了，这时它就与传入的<code>person</code>完全没有关系了，是两个独立的对象。即使更改它的属性，也不会影响到<code>person</code>对象。</p>
@@ -184,7 +217,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2017/03/20/红宝书-chapter4/" data-title="JavaScript高级程序设计 第四章笔记 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/03/20/红宝书-chapter4/" data-title="JavaScript数据类型与变量作用域 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -198,18 +231,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/03/22/红宝书-chapter5/" title="JavaScript高级程序设计 第五章笔记">
+ <a href="/2017/03/22/红宝书-chapter5/" title="JavaScript类型方法总结与函数实例方法">
   <strong>上一篇：</strong><br/>
   <span>
-  JavaScript高级程序设计 第五章笔记</span>
+  JavaScript类型方法总结与函数实例方法</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/03/20/红宝书-chapter2&3/"  title="JavaScript 高级程序设计 第二三章笔记">
+<a href="/2017/03/20/红宝书-chapter2&3/"  title="JavaScript基础">
  <strong>下一篇：</strong><br/> 
- <span>JavaScript 高级程序设计 第二三章笔记
+ <span>JavaScript基础
 </span>
 </a>
 </div>
@@ -218,7 +251,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/03/20/红宝书-chapter4/" data-title="JavaScript高级程序设计 第四章笔记" data-url="http://ming-holy.space/2017/03/20/红宝书-chapter4/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/20/红宝书-chapter4/" data-title="JavaScript数据类型与变量作用域" data-url="http://ming-holy.space/2017/03/20/红宝书-chapter4/"></div>
 </section>
 
 

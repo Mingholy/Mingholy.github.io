@@ -4,25 +4,43 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>JavaScript高级程序设计 第五章笔记 | A Cup of Coffee</title>
+    <title>JavaScript类型方法总结与函数实例方法 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="引用类型这一章有点像API手册了。
+    <meta name="description" content="关键知识点
+
+类型方法
+call、apply和bind
+
+
+引用类型这一章有点像API手册了。
 ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号，IE7之前和Opera会报错。注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JavaScript高级程序设计 第五章笔记">
+<meta property="og:title" content="JavaScript类型方法总结与函数实例方法">
 <meta property="og:url" content="http://ming-holy.space/2017/03/22/红宝书-chapter5/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="引用类型这一章有点像API手册了。
+<meta property="og:description" content="关键知识点
+
+类型方法
+call、apply和bind
+
+
+引用类型这一章有点像API手册了。
 ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号，IE7之前和Opera会报错。注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。">
-<meta property="og:updated_time" content="2017-03-22T09:00:18.139Z">
+<meta property="og:updated_time" content="2017-03-26T05:10:31.018Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript高级程序设计 第五章笔记">
-<meta name="twitter:description" content="引用类型这一章有点像API手册了。
+<meta name="twitter:title" content="JavaScript类型方法总结与函数实例方法">
+<meta name="twitter:description" content="关键知识点
+
+类型方法
+call、apply和bind
+
+
+引用类型这一章有点像API手册了。
 ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号，IE7之前和Opera会报错。注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。">
 
     
@@ -83,7 +101,7 @@ ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/22/红宝书-chapter5/" title="JavaScript高级程序设计 第五章笔记" itemprop="url">JavaScript高级程序设计 第五章笔记</a>
+      <a href="/2017/03/22/红宝书-chapter5/" title="JavaScript类型方法总结与函数实例方法" itemprop="url">JavaScript类型方法总结与函数实例方法</a>
   </h1>
   <p class="article-author">By
        
@@ -103,7 +121,14 @@ ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号
 		
 		</div>
 		
-		<h1 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h1><p>这一章有点像API手册了。</p>
+		<blockquote>
+<p>关键知识点</p>
+<ul>
+<li>类型方法</li>
+<li><code>call</code>、<code>apply</code>和<code>bind</code></li>
+</ul>
+</blockquote>
+<h1 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h1><p>这一章有点像API手册了。</p>
 <h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>JavaScript中的对象有点像Python中的<code>dict</code>。注意不能有尾逗号，IE7之前和Opera会报错。<br>注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。<br><a id="more"></a></p>
 <h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><p>关于这个类型，需要注意的点：</p>
 <ol>
@@ -198,7 +223,7 @@ ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2017/03/22/红宝书-chapter5/" data-title="JavaScript高级程序设计 第五章笔记 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/03/22/红宝书-chapter5/" data-title="JavaScript类型方法总结与函数实例方法 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -212,18 +237,18 @@ ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2017/03/22/红宝书-chapter6/" title="JavaScript高级程序设计 第六章笔记">
+ <a href="/2017/03/22/红宝书-chapter6/" title="JavaScript继承">
   <strong>上一篇：</strong><br/>
   <span>
-  JavaScript高级程序设计 第六章笔记</span>
+  JavaScript继承</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2017/03/20/红宝书-chapter4/"  title="JavaScript高级程序设计 第四章笔记">
+<a href="/2017/03/20/红宝书-chapter4/"  title="JavaScript数据类型与变量作用域">
  <strong>下一篇：</strong><br/> 
- <span>JavaScript高级程序设计 第四章笔记
+ <span>JavaScript数据类型与变量作用域
 </span>
 </a>
 </div>
@@ -232,7 +257,7 @@ ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/03/22/红宝书-chapter5/" data-title="JavaScript高级程序设计 第五章笔记" data-url="http://ming-holy.space/2017/03/22/红宝书-chapter5/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/22/红宝书-chapter5/" data-title="JavaScript类型方法总结与函数实例方法" data-url="http://ming-holy.space/2017/03/22/红宝书-chapter5/"></div>
 </section>
 
 
