@@ -35,7 +35,7 @@
 
 接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。
 实现继">
-<meta property="og:updated_time" content="2017-03-26T05:11:35.878Z">
+<meta property="og:updated_time" content="2017-03-27T01:16:14.618Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript继承">
 <meta name="twitter:description" content="关键知识点
@@ -138,14 +138,14 @@
 <ul>
 <li>接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。</li>
 <li>实现继承：父类中定义并实现好方法，然后子类在继承父类的同时也就继承了该方法的实现，可以直接拿来用。<br>JavaScript是没有函数签名的，像接口继承那种只继承方法特点，比如参数、名字等，就不能实现。只能通过原型链模式支持实现继承。<a id="more"></a>
-<h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2>首先复习一下原型。<br>构造函数和其原型对象之间，一定会存在一对互相指向对方的指针。其中原型对象中的<code>constructor</code>属性存储了指向构造函数的指针，而构造函数中的<code>prototype</code>指向了原型对象。<br>那么假如现在我们有两对原型对象与构造函数，命名为：</li>
+</li>
 </ul>
+<h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2><p>首先复习一下原型。<br>构造函数和其原型对象之间，一定会存在一对互相指向对方的指针。其中原型对象中的<code>constructor</code>属性存储了指向构造函数的指针，而构造函数中的<code>prototype</code>指向了原型对象。<br>那么假如现在我们有两对原型对象与构造函数，命名为：</p>
 <ol>
 <li><code>子类构造函数</code>和<code>子类的原型对象</code></li>
-<li><code>父类构造函数</code>和<code>父类的原型对象</code><br>我们用父类构造函数来实例化一个对象并把它赋值给子类的原型对象，即：</li>
+<li><code>父类构造函数</code>和<code>父类的原型对象</code></li>
 </ol>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</div></pre></td></tr></table></figure>
-<p>注意此处的等号。这里的方式是，直接用父类<strong>实例</strong>替换（重写）子类的<strong>原型对象</strong>。父类的实例里一定有一个<code>prototype</code>属性指向<code>父类的原型对象</code>。现在子类的原型对象里就存在该指向父类原型对象的属性了。接着通过<code>子类构造函数</code>实例化出来的子类对象就会都拥有父类的属性和方法，包括：</p>
+<p>我们用父类构造函数来实例化一个对象并把它赋值给子类的原型对象，即：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SubType.prototype = <span class="keyword">new</span> SuperType();</div></pre></td></tr></table></figure><br>注意此处的等号。这里的方式是，直接用父类<strong>实例</strong>替换（重写）子类的<strong>原型对象</strong>。父类的实例里一定有一个<code>prototype</code>属性指向<code>父类的原型对象</code>。现在子类的原型对象里就存在该指向父类原型对象的属性了。接着通过<code>子类构造函数</code>实例化出来的子类对象就会都拥有父类的属性和方法，包括：</p>
 <ol>
 <li>构造函数的指向：和它原型中的<code>constructor</code>指向一致。而因为它的原型是父类的实例，父类实例的<code>constructor</code>继承自它的原型对象，而它的原型对象是<code>父类原型对象</code>，于是就和<code>父类原型对象</code>中<code>constructor</code>的指向一致，</li>
 <li>原型对象的指向：一个父类的实例</li>

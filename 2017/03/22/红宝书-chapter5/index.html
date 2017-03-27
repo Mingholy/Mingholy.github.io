@@ -31,7 +31,7 @@ call、apply和bind
 
 引用类型这一章有点像API手册了。
 ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号，IE7之前和Opera会报错。注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。">
-<meta property="og:updated_time" content="2017-03-26T05:10:31.018Z">
+<meta property="og:updated_time" content="2017-03-27T01:15:24.612Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaScript类型方法总结与函数实例方法">
 <meta name="twitter:description" content="关键知识点
@@ -138,16 +138,15 @@ ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号
 <li>最好的办法是<code>Array.isArray()</code>。</li>
 <li>栈方法<code>push</code>、<code>pop</code>，队列方法<code>shift</code>、<code>unshift</code>返回修改后的数组长度；队列方法</li>
 <li>排序方法像Java、Python一样可以接受自定义比较器。</li>
-<li></li>
-</ol>
+<li><p>切片方法</p>
 <ul>
 <li><code>slice()</code>：非破坏性切片方法，返回副本；负值+数组长度转化为正值计算。</li>
 <li><code>splice(operation_position, delete_times, add_element)</code>：破坏性切片方法，改变原数组。</li>
 </ul>
-<ol>
-<li><code>indexOf(element, start)</code>和<code>lastIndexOf(element, start)</code>，一个从前往后一个从后往前；</li>
-<li>迭代方法均为非破坏性方法：</li>
-</ol>
+</li>
+<li><p><code>indexOf(element, start)</code>和<code>lastIndexOf(element, start)</code>，一个从前往后一个从后往前；</p>
+</li>
+<li><p>迭代方法均为非破坏性方法：</p>
 <ul>
 <li>判定方法：<code>every(function)</code></li>
 <li>过滤方法：<code>filter(function)</code></li>
@@ -155,8 +154,9 @@ ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号
 <li><code>map()</code></li>
 <li><code>some</code>：类似判定方法，只是有一个返回为<code>true</code>就返回<code>true</code>。</li>
 </ul>
-<ol>
-<li>归并方法：有<code>map</code>就应该有<code>reduce</code>和<code>reduceRight()</code>，它们的区别在于从前往后和从后往前。</li>
+</li>
+<li><p>归并方法：有<code>map</code>就应该有<code>reduce</code>和<code>reduceRight()</code>，它们的区别在于从前往后和从后往前。</p>
+</li>
 </ol>
 <h2 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h2><p>说起Date想到了一个通过让CPU空转实现JavaScript中的<code>wait</code>的放法，就是获取当前时间记录下来，一直检测当前时间，发现当前时间是记录时间+5000ms的时候返回。</p>
 <p><code>Date.parse()</code>可以接受若干种形式的字符串解析为日期对象。</p>
@@ -192,8 +192,9 @@ ObjectJavaScript中的对象有点像Python中的dict。注意不能有尾逗号
 <li><code>concat(string, str, ...)</code><br>非破坏性切片：  </li>
 <li><code>slice(start, end)</code>字符串版的切片</li>
 <li><code>substring(start, end)</code>正参数与上面行为相同，负参数全转为0</li>
-<li><code>substr(start, offset)</code>第一个负参数，加字符串长度；第二个转为0<br>位置：<br><code>indexOf(char, start)</code>和<code>lastIndexOf(char, start)</code>从前往后和从后往前的区别，可以传第二个参数标明起始搜索位置<br>Trim：<br><code>trim()</code>删除前后缀空格返回副本；类似的还有Chrome支持度 <code>trimLeft()</code>和<code>trimRight()</code>。<br>正则相关，参数可以为字符串或<code>RegExp</code>对象：<br><code>match(regexp)</code>返回匹配对象的数组<br><code>search(regexp)</code>返回匹配索引，无匹配返回-1<br><code>replace(regexp, text)</code>传入字符串不能全局替换，要想全局替换必须传入带<code>g</code>的正则。结果分组类似Sublimetext的$表示法。<br>其他还有大小写转换，<code>split</code>、<code>join</code>等，就不记了。</li>
+<li><code>substr(start, offset)</code>第一个负参数，加字符串长度；第二个转为0</li>
 </ul>
+<p>位置：<br><code>indexOf(char, start)</code>和<code>lastIndexOf(char, start)</code>从前往后和从后往前的区别，可以传第二个参数标明起始搜索位置<br>Trim：<br><code>trim()</code>删除前后缀空格返回副本；类似的还有Chrome支持度 <code>trimLeft()</code>和<code>trimRight()</code>。<br>正则相关，参数可以为字符串或<code>RegExp</code>对象：<br><code>match(regexp)</code>返回匹配对象的数组<br><code>search(regexp)</code>返回匹配索引，无匹配返回-1<br><code>replace(regexp, text)</code>传入字符串不能全局替换，要想全局替换必须传入带<code>g</code>的正则。结果分组类似Sublimetext的$表示法。<br>其他还有大小写转换，<code>split</code>、<code>join</code>等，就不记了。</p>
 <h2 id="单体内置对象"><a href="#单体内置对象" class="headerlink" title="单体内置对象"></a>单体内置对象</h2><p>关于<code>eval</code>：</p>
 <ul>
 <li>有点内联代码的意思/C语言中<code># define</code>的意思，解析器内的字符串，在解析时会替换成同内容的代码。</li>
