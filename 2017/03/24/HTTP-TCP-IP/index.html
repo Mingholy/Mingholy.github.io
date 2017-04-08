@@ -11,19 +11,31 @@
     
 
     
-    <meta name="description" content="HTTP通用头部Cache-ControlConnectionDatePragmaTransfer-EncodingUpgradeVia
-XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCookieHostRefererUser-Agent">
+    <meta name="description" content="HTTPHTTP协议是一种无连接、无状态的网络传输协议。
+
+无连接：每次连接只处理一个请求。服务器处理请求，得到客户端应答后，即断开连接，无需更多程序，可以节省时间。
+无状态：个人理解：没有上下文。有好处也有坏处，好处是各独立的请求应答速度快；坏处是对于存在上下文的请求，需要把上下文也传输过去，单次请求传输数据量大。
+
+URI与URL软件工程里曾经各种提及的URI叫“通用资源标识符”，是在一个软件">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP、TCP/UDP和IP">
 <meta property="og:url" content="http://ming-holy.space/2017/03/24/HTTP-TCP-IP/index.html">
 <meta property="og:site_name" content="A Cup of Coffee">
-<meta property="og:description" content="HTTP通用头部Cache-ControlConnectionDatePragmaTransfer-EncodingUpgradeVia
-XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCookieHostRefererUser-Agent">
-<meta property="og:updated_time" content="2017-03-24T07:34:24.603Z">
+<meta property="og:description" content="HTTPHTTP协议是一种无连接、无状态的网络传输协议。
+
+无连接：每次连接只处理一个请求。服务器处理请求，得到客户端应答后，即断开连接，无需更多程序，可以节省时间。
+无状态：个人理解：没有上下文。有好处也有坏处，好处是各独立的请求应答速度快；坏处是对于存在上下文的请求，需要把上下文也传输过去，单次请求传输数据量大。
+
+URI与URL软件工程里曾经各种提及的URI叫“通用资源标识符”，是在一个软件">
+<meta property="og:updated_time" content="2017-04-08T07:23:43.602Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP、TCP/UDP和IP">
-<meta name="twitter:description" content="HTTP通用头部Cache-ControlConnectionDatePragmaTransfer-EncodingUpgradeVia
-XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCookieHostRefererUser-Agent">
+<meta name="twitter:description" content="HTTPHTTP协议是一种无连接、无状态的网络传输协议。
+
+无连接：每次连接只处理一个请求。服务器处理请求，得到客户端应答后，即断开连接，无需更多程序，可以节省时间。
+无状态：个人理解：没有上下文。有好处也有坏处，好处是各独立的请求应答速度快；坏处是对于存在上下文的请求，需要把上下文也传输过去，单次请求传输数据量大。
+
+URI与URL软件工程里曾经各种提及的URI叫“通用资源标识符”，是在一个软件">
 
     
     <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
@@ -99,12 +111,63 @@ XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCooki
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP"><span class="toc-number">1.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#通用头部"><span class="toc-number">1.1.</span> <span class="toc-text">通用头部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XHR附加头部"><span class="toc-number">1.2.</span> <span class="toc-text">XHR附加头部</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP"><span class="toc-number">1.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#URI与URL"><span class="toc-number">1.1.</span> <span class="toc-text">URI与URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP请求"><span class="toc-number">1.2.</span> <span class="toc-text">HTTP请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP请求行"><span class="toc-number">1.3.</span> <span class="toc-text">HTTP请求行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP响应行"><span class="toc-number">1.4.</span> <span class="toc-text">HTTP响应行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP消息报头"><span class="toc-number">1.5.</span> <span class="toc-text">HTTP消息报头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通用头部"><span class="toc-number">1.5.1.</span> <span class="toc-text">通用头部</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请求报头"><span class="toc-number">1.6.</span> <span class="toc-text">请求报头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#响应报头"><span class="toc-number">1.7.</span> <span class="toc-text">响应报头</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><h2 id="通用头部"><a href="#通用头部" class="headerlink" title="通用头部"></a>通用头部</h2><p>Cache-Control<br>Connection<br>Date<br>Pragma<br>Transfer-Encoding<br>Upgrade<br>Via</p>
-<h2 id="XHR附加头部"><a href="#XHR附加头部" class="headerlink" title="XHR附加头部"></a>XHR附加头部</h2><p>Accept<br>Accept-Charset<br>Accept-Encoding<br>Accept-Language<br>Connection<br>Cookie<br>Host<br>Referer<br>User-Agent</p>
+		<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><p>HTTP协议是一种<strong>无连接</strong>、<strong>无状态</strong>的网络传输协议。</p>
+<ul>
+<li>无连接：每次连接只处理一个请求。服务器处理请求，得到客户端应答后，即断开连接，无需更多程序，可以节省时间。</li>
+<li>无状态：个人理解：没有上下文。有好处也有坏处，好处是各独立的请求应答速度快；坏处是对于存在上下文的请求，需要把上下文也传输过去，单次请求传输数据量大。</li>
+</ul>
+<h2 id="URI与URL"><a href="#URI与URL" class="headerlink" title="URI与URL"></a>URI与URL</h2><p>软件工程里曾经各种提及的URI叫“通用资源标识符”，是在一个软件系统里标记资源访问方式\位置的字符串。<br>URL是一种特殊URI，在网络请求中要求具有特定的格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://host[&quot;:&quot;port][abs_path]</div></pre></td></tr></table></figure></p>
+<p>其中<code>port</code>默认为80端口。</p>
+<h2 id="HTTP请求"><a href="#HTTP请求" class="headerlink" title="HTTP请求"></a>HTTP请求</h2><p>三部分组成</p>
+<ul>
+<li>请求行</li>
+<li>消息报头</li>
+<li>请求正文</li>
+</ul>
+<h2 id="HTTP请求行"><a href="#HTTP请求行" class="headerlink" title="HTTP请求行"></a>HTTP请求行</h2><p>请求格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[Method] [Request-URI] [HTTP-version] CRLF</div></pre></td></tr></table></figure></p>
+<p>请求方法包括：</p>
+<ul>
+<li>GET:请求URI标识的资源</li>
+<li>POST:在Request-URI所标识的资源后附加新的数据</li>
+<li>HEAD:请求获取由Request-URI所标识的资源的相应消息报头</li>
+<li>PUT:请求服务存储一个资源，并以Request-URI作为其标识</li>
+<li>DELETE</li>
+<li>TRACE</li>
+<li>CONNECT</li>
+<li>OPTIONS<br>它们的用途从名称上就能知道大概。</li>
+</ul>
+<p>HTTP的请求行和响应行存在一些不同，因此分开总结；而请求和响应的消息报头则类似，因此后面单独一节总结。响应正文跟应用场景和业务有关，不做介绍。</p>
+<h2 id="HTTP响应行"><a href="#HTTP响应行" class="headerlink" title="HTTP响应行"></a>HTTP响应行</h2><p>响应格式为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[HTTP-Version] [Status-Code] [Reason-Phrase] CRLF</div></pre></td></tr></table></figure></p>
+<p>其中<code>Status-Code</code>就是所谓的状态码，后面的<code>Reason-Phrase</code>就是对该状态的文本描述。<br>重要的HTTP响应状态码有：<br>200<br>301<br>302<br>304<br>400<br>401<br>403<br>404<br>500<br>502<br>503</p>
+<h2 id="HTTP消息报头"><a href="#HTTP消息报头" class="headerlink" title="HTTP消息报头"></a>HTTP消息报头</h2><h3 id="通用头部"><a href="#通用头部" class="headerlink" title="通用头部"></a>通用头部</h3><p><code>Cache-Control</code>和<code>Pragma</code>:指定缓存指令；<code>Pragma</code>是HTTP1.0的缓存指令报头。可能值包括：</p>
+<ul>
+<li>请求缓存指令：<ul>
+<li><code>no-chache</code></li>
+<li><code>no-store</code>(据说会影响性能)</li>
+<li><code>max-age</code></li>
+<li><code>max-stale</code></li>
+<li><code>min-fresh</code></li>
+<li><code>only-if-cached</code></li>
+</ul>
+</li>
+<li>响应缓存指令：<ul>
+<li><code>public</code></li>
+<li><code>private</code></li>
+<li><code>no-cache</code></li>
+<li><code>no-store</code></li>
+<li><code>no-transform</code></li>
+<li><code>must-revalidate</code></li>
+<li><code>proxy-revalidate</code></li>
+<li><code>max-age</code></li>
+<li><code>s-maxage</code><br><code>Connection</code>:连接选项，保持连续或者通信完毕后关闭等<br><code>Date</code>:表示消息产生的日期和时间<br><code>Transfer-Encoding</code><br><code>Upgrade</code><br><code>Via</code><h2 id="请求报头"><a href="#请求报头" class="headerlink" title="请求报头"></a>请求报头</h2><code>Accept</code>:指明接受哪种类型的信息<br><code>Accept-Charset</code>:指明接受的字符集。未设置该域时，默认是所有字符集都接受<br><code>Accept-Encoding</code>:编码集，同上<br><code>Accept-Language</code>:自然语言，同上<br><code>Authorization</code>:权限验证报头，如果收到服务器响应401未授权，可以发送一个包含该报头域的请求要求验证。<br><code>Host</code>:指定被亲求资源的Internet主机和端口号。一般这一信息包含在了请求的URL里。<br><code>Connection</code><br><code>Cookie</code><br><code>Referer</code><br><code>User-Agent</code>:该报头域包含了用户浏览器信息。</li>
+</ul>
+</li>
+</ul>
+<h2 id="响应报头"><a href="#响应报头" class="headerlink" title="响应报头"></a>响应报头</h2><p>响应报头中包含了一些请求报头中不能附加的信息，比如服务器的回应、对请求访问的资源下一步访问的信息。<br><code>Location</code>:用于重定向接受者到一个新的位置，比如更换域名时<br><code>Server</code>:包含服务器的一些信息，与<code>User-Agent</code>对应  </p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -140,6 +203,14 @@ XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCooki
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2017/03/25/loadEventRelated/" title="`load`与`DOMContentLoaded`事件">
+  <strong>上一篇：</strong><br/>
+  <span>
+  `load`与`DOMContentLoaded`事件</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2017/03/24/CORS/"  title="Ajax、Comet、Fetch与跨域">
@@ -163,7 +234,7 @@ XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCooki
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP"><span class="toc-number">1.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#通用头部"><span class="toc-number">1.1.</span> <span class="toc-text">通用头部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XHR附加头部"><span class="toc-number">1.2.</span> <span class="toc-text">XHR附加头部</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HTTP"><span class="toc-number">1.</span> <span class="toc-text">HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#URI与URL"><span class="toc-number">1.1.</span> <span class="toc-text">URI与URL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP请求"><span class="toc-number">1.2.</span> <span class="toc-text">HTTP请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP请求行"><span class="toc-number">1.3.</span> <span class="toc-text">HTTP请求行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP响应行"><span class="toc-number">1.4.</span> <span class="toc-text">HTTP响应行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTTP消息报头"><span class="toc-number">1.5.</span> <span class="toc-text">HTTP消息报头</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通用头部"><span class="toc-number">1.5.1.</span> <span class="toc-text">通用头部</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请求报头"><span class="toc-number">1.6.</span> <span class="toc-text">请求报头</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#响应报头"><span class="toc-number">1.7.</span> <span class="toc-text">响应报头</span></a></li></ol></li></ol>
  
   </div>
 
@@ -213,7 +284,7 @@ XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCooki
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>18</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>19</sup></a></li>
 		  
 		
 		  
@@ -259,7 +330,7 @@ XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCooki
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -269,7 +340,7 @@ XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCooki
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>21</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>22</sup></a></li>
 			
 		
 			
@@ -293,7 +364,7 @@ XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCooki
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
 			
 		
 			
@@ -305,39 +376,11 @@ XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCooki
 			
 		
 			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
 			
 		
 			
@@ -346,6 +389,34 @@ XHR附加头部AcceptAccept-CharsetAccept-EncodingAccept-LanguageConnectionCooki
 		
 			
 				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
 			
 		
 		</ul>

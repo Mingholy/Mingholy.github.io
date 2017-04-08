@@ -78,6 +78,70 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/01/15/证明-sqrt-2-是无理数/" title="证明根号2是无理数" itemprop="url">证明根号2是无理数</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-01-15T14:53:40.000Z" itemprop="datePublished"> 发表于 2016-01-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>设$\sqrt{2}$是有理数，则可表示成$\frac{n}{m}$，$m,n$均为有理数且互质。<br>于是$ n=\sqrt{2}m\Rightarrow n^2=2m^2 $，于是$n^2$为偶数，它又是个有理数，那么必有<br>$ n^2=(2n_1)^2=4n_{1}^{2} $。于是$ n^2=m^2=4n_{1}^{2} $，则有$ m^2=2n_{1}^{2} $，同理可知$m$也是偶数。<br>那么$m,n$必有公约数2，这与它们互质矛盾。<br>这样就证明了$\sqrt{2}$是无理数。</p>
+<p>$\sqrt{3}$也类似。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/数学/">数学</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/上帝之语/">上帝之语</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/01/15/证明-sqrt-2-是无理数/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/01/15/证明-sqrt-2-是无理数/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/01/07/贪心算法证真/" title="贪心算法证真" itemprop="url">贪心算法证真</a>
   </h1>
   <p class="article-author">By
@@ -665,6 +729,117 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/02/Linux Kernel-11-02/" title="Linux内核 11-02" itemprop="url">Linux内核 11-02</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-02T12:30:00.000Z" itemprop="datePublished"> 发表于 2015-11-02</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h3 id="2015-11-2"><a href="#2015-11-2" class="headerlink" title="2015-11-2"></a>2015-11-2</h3><p>當前進程</p>
+<blockquote>
+<p>編程手冊:任務切換</p>
+</blockquote>
+<p>現場保護 保存段面</p>
+<p>進程0創建進程一 tss ljmp 實際含義 硬件操作 彈出進程一的tss1給cpu 其中重要的是eip</p>
+<p><strong>這個時候也需要保存現場，當前還是進程0，還需要恢復進程0的現場。執行跳轉的哪一個段面需要送到tss0</strong>，期間執行了多次壓棧。</p>
+<blockquote>
+<p>這與一般程序的壓棧過程不同。這裏是結構體，一般程序是棧。棧的規則是後進先出，而結構體應該有選擇哪個數據彈出的功能。整個保存西現場，恢復現場的工作都由一行代碼ljmp完成，其他工作由硬件電路完成。</p>
+</blockquote>
+<p>這一行執行完畢，將gdt中tss0彈出。此時ljmp是0特權級的代碼，操作的是內核資源。跳轉之後是3特權級代碼。<br>這一代碼並沒有寫出明確的特權級跳轉操作，然而實際上的確進行了跳轉。這就引出了<strong>門</strong>的概念，任務門，中斷門等等。</p>
+<p>首先為什麼要設定特權級？</p>
+<blockquote>
+<ul>
+<li>保護內核代碼，防止低特權級代碼篡改繫統關鍵信息</li>
+<li>創造特權壁壘，不論3特權級代碼如何設計，都不會進入繫統內核</li>
+<li>同時保證正常程序能夠進行繫統調用，使用內核代碼</li>
+</ul>
+</blockquote>
+<h4 id="門"><a href="#門" class="headerlink" title="門"></a>門</h4><p>禁止的是跳轉的任意性/主動性，允許的是繫統指定的地方，跳轉到指定的目的，一切都是有既定規則/計劃的/被動的。</p>
+<p>中斷並不是一個任意的行為。是在繫統監督下，使用固定的繫統資源int80 idt system_call進行的繫統操作。</p>
+<blockquote>
+<p>也就是說，特權級壁壘實際上是為了保護使用跳轉機制對繫統資源使用的正確性，使idt真實有效地管理繫統資源。跳轉機制是為了維護特權級壁壘的堅固，保證idt不被隨意篡改。</p>
+</blockquote>
+<p>然而這一行代碼是怎麼實現特權級切換的？</p>
+<blockquote>
+<p>tss存儲了一大堆寄存器信息，而特權級實際上是一種存儲的訪問控制機制，通過硬件的設置，來控制存儲的訪問權限。從tss一變，那麽寄存器中各種指針也相應地發生了變化，這樣段地址，指令地址都變了。而特權級是作用於段上的，段變了，特權級也就相應地變了。</p>
+</blockquote>
+<p>硬件的設置，保證了一個跳轉，必須有當前段，即起跳段，和目標段。而這兩個段的地址CPU都已經知道了，並且允許這個跳轉/尋址執行，同時執行一個中斷。</p>
+<blockquote>
+<p>CPU對特權級的執行，體現在它對尋址過程的放行與否。它將通常的尋址禁止，而放行從特殊位置來的尋址請求。</p>
+</blockquote>
+<p><strong>《Intel繫統編程手冊》</strong></p>
+<p>這一行執行之後，進入繫統中斷int80 system_call，就跳轉到地方執行了。那麽往下的半個函數的程序，什麼時候執行？</p>
+<blockquote>
+<p>當前是0進程，中斷先保護0的現場，彈出1的地址，本來函數中下一行代碼地址在eip中，由於中斷保護現場，它被存到了進程0的tss中，因此當進程0的現場恢復的時候，恢復了tss0，就會執行下一行。</p>
+</blockquote>
+<p>所以在下次schedule.switch_to時，就會恢復tss，於是接下來執行後半個函數。</p>
+<h3 id="ljmp后緩衝區的創建"><a href="#ljmp后緩衝區的創建" class="headerlink" title="ljmp后緩衝區的創建"></a>ljmp后緩衝區的創建</h3><h4 id="sys-setup函數與緩衝區"><a href="#sys-setup函數與緩衝區" class="headerlink" title="sys_setup函數與緩衝區"></a>sys_setup函數與緩衝區</h4><p>開始一大堆都是根文件繫統的初始化。</p>
+<p><strong>緩衝區</strong></p>
+<blockquote>
+<p>操作繫統對硬盤的操作，都是經過緩衝區（內存）的中轉。目的∶快。關鍵∶<strong>複用</strong>。並不是每個讀寫操作，都使用硬盤。而是將重複的內容寫入內存，需要的時候提供內存中的這個副本。內存的讀寫速度可比硬盤快太多了。緩衝區就相當於一塊高速虛擬盤。它以塊為單位。</p>
+</blockquote>
+<p>複用策略</p>
+<p>主動邀請，被動等待</p>
+<p>等待的代價是佔用內存。存的時間長，其他進程效率就低，短複用就少。需要平衡二者的矛盾。</p>
+<p>讀使用上述策略是可行的。那麽寫呢？</p>
+<p>考慮到寫的內容有可能多次更改，以及其他用戶併發地訪問，這樣就又涉及到非常多的讀操作。於是由讀操作的優勢，寫操作同樣也需要緩衝區。</p>
+<p>而什麼時候將緩衝區內容dump到硬盤呢？這由操作繫統的策略決定。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/操作系统/">操作系统</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/11/02/Linux Kernel-11-02/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/02/Linux Kernel-11-02/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/02/Linux Kernel-problems/" title="Linux内核 思考题" itemprop="url">Linux内核 思考题</a>
   </h1>
   <p class="article-author">By
@@ -894,117 +1069,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/02/Linux Kernel-11-02/" title="Linux内核 11-02" itemprop="url">Linux内核 11-02</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-02T12:30:00.000Z" itemprop="datePublished"> 发表于 2015-11-02</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="2015-11-2"><a href="#2015-11-2" class="headerlink" title="2015-11-2"></a>2015-11-2</h3><p>當前進程</p>
-<blockquote>
-<p>編程手冊:任務切換</p>
-</blockquote>
-<p>現場保護 保存段面</p>
-<p>進程0創建進程一 tss ljmp 實際含義 硬件操作 彈出進程一的tss1給cpu 其中重要的是eip</p>
-<p><strong>這個時候也需要保存現場，當前還是進程0，還需要恢復進程0的現場。執行跳轉的哪一個段面需要送到tss0</strong>，期間執行了多次壓棧。</p>
-<blockquote>
-<p>這與一般程序的壓棧過程不同。這裏是結構體，一般程序是棧。棧的規則是後進先出，而結構體應該有選擇哪個數據彈出的功能。整個保存西現場，恢復現場的工作都由一行代碼ljmp完成，其他工作由硬件電路完成。</p>
-</blockquote>
-<p>這一行執行完畢，將gdt中tss0彈出。此時ljmp是0特權級的代碼，操作的是內核資源。跳轉之後是3特權級代碼。<br>這一代碼並沒有寫出明確的特權級跳轉操作，然而實際上的確進行了跳轉。這就引出了<strong>門</strong>的概念，任務門，中斷門等等。</p>
-<p>首先為什麼要設定特權級？</p>
-<blockquote>
-<ul>
-<li>保護內核代碼，防止低特權級代碼篡改繫統關鍵信息</li>
-<li>創造特權壁壘，不論3特權級代碼如何設計，都不會進入繫統內核</li>
-<li>同時保證正常程序能夠進行繫統調用，使用內核代碼</li>
-</ul>
-</blockquote>
-<h4 id="門"><a href="#門" class="headerlink" title="門"></a>門</h4><p>禁止的是跳轉的任意性/主動性，允許的是繫統指定的地方，跳轉到指定的目的，一切都是有既定規則/計劃的/被動的。</p>
-<p>中斷並不是一個任意的行為。是在繫統監督下，使用固定的繫統資源int80 idt system_call進行的繫統操作。</p>
-<blockquote>
-<p>也就是說，特權級壁壘實際上是為了保護使用跳轉機制對繫統資源使用的正確性，使idt真實有效地管理繫統資源。跳轉機制是為了維護特權級壁壘的堅固，保證idt不被隨意篡改。</p>
-</blockquote>
-<p>然而這一行代碼是怎麼實現特權級切換的？</p>
-<blockquote>
-<p>tss存儲了一大堆寄存器信息，而特權級實際上是一種存儲的訪問控制機制，通過硬件的設置，來控制存儲的訪問權限。從tss一變，那麽寄存器中各種指針也相應地發生了變化，這樣段地址，指令地址都變了。而特權級是作用於段上的，段變了，特權級也就相應地變了。</p>
-</blockquote>
-<p>硬件的設置，保證了一個跳轉，必須有當前段，即起跳段，和目標段。而這兩個段的地址CPU都已經知道了，並且允許這個跳轉/尋址執行，同時執行一個中斷。</p>
-<blockquote>
-<p>CPU對特權級的執行，體現在它對尋址過程的放行與否。它將通常的尋址禁止，而放行從特殊位置來的尋址請求。</p>
-</blockquote>
-<p><strong>《Intel繫統編程手冊》</strong></p>
-<p>這一行執行之後，進入繫統中斷int80 system_call，就跳轉到地方執行了。那麽往下的半個函數的程序，什麼時候執行？</p>
-<blockquote>
-<p>當前是0進程，中斷先保護0的現場，彈出1的地址，本來函數中下一行代碼地址在eip中，由於中斷保護現場，它被存到了進程0的tss中，因此當進程0的現場恢復的時候，恢復了tss0，就會執行下一行。</p>
-</blockquote>
-<p>所以在下次schedule.switch_to時，就會恢復tss，於是接下來執行後半個函數。</p>
-<h3 id="ljmp后緩衝區的創建"><a href="#ljmp后緩衝區的創建" class="headerlink" title="ljmp后緩衝區的創建"></a>ljmp后緩衝區的創建</h3><h4 id="sys-setup函數與緩衝區"><a href="#sys-setup函數與緩衝區" class="headerlink" title="sys_setup函數與緩衝區"></a>sys_setup函數與緩衝區</h4><p>開始一大堆都是根文件繫統的初始化。</p>
-<p><strong>緩衝區</strong></p>
-<blockquote>
-<p>操作繫統對硬盤的操作，都是經過緩衝區（內存）的中轉。目的∶快。關鍵∶<strong>複用</strong>。並不是每個讀寫操作，都使用硬盤。而是將重複的內容寫入內存，需要的時候提供內存中的這個副本。內存的讀寫速度可比硬盤快太多了。緩衝區就相當於一塊高速虛擬盤。它以塊為單位。</p>
-</blockquote>
-<p>複用策略</p>
-<p>主動邀請，被動等待</p>
-<p>等待的代價是佔用內存。存的時間長，其他進程效率就低，短複用就少。需要平衡二者的矛盾。</p>
-<p>讀使用上述策略是可行的。那麽寫呢？</p>
-<p>考慮到寫的內容有可能多次更改，以及其他用戶併發地訪問，這樣就又涉及到非常多的讀操作。於是由讀操作的優勢，寫操作同樣也需要緩衝區。</p>
-<p>而什麼時候將緩衝區內容dump到硬盤呢？這由操作繫統的策略決定。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/操作系统/">操作系统</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/11/02/Linux Kernel-11-02/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/02/Linux Kernel-11-02/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
@@ -1059,7 +1123,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>18</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>19</sup></a></li>
 		  
 		
 		  
@@ -1105,7 +1169,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -1115,7 +1179,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>21</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>22</sup></a></li>
 			
 		
 			
@@ -1139,7 +1203,7 @@
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
 			
 		
 			
@@ -1151,39 +1215,11 @@
 			
 		
 			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
 			
 		
 			
@@ -1192,6 +1228,34 @@
 		
 			
 				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
 			
 		
 		</ul>

@@ -21,7 +21,7 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
 <meta property="og:description" content="Ajax、跨域是学习前端过程中的一个痛点，也是我实际做东西的时候遇到的一个比较棘手的问题。
 
 Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求。JavaScriptDOM第七章笔记中记录了一个小例子，这里详细解读一下。">
-<meta property="og:updated_time" content="2017-03-26T03:49:49.950Z">
+<meta property="og:updated_time" content="2017-03-31T01:36:08.440Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ajax、Comet、Fetch与跨域">
 <meta name="twitter:description" content="Ajax、跨域是学习前端过程中的一个痛点，也是我实际做东西的时候遇到的一个比较棘手的问题。
@@ -102,7 +102,7 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ajax"><span class="toc-number">1.</span> <span class="toc-text">Ajax</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#XHR对象"><span class="toc-number">1.1.</span> <span class="toc-text">XHR对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用XHR"><span class="toc-number">1.1.1.</span> <span class="toc-text">使用XHR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置XHR头部信息"><span class="toc-number">1.1.2.</span> <span class="toc-text">设置XHR头部信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XHR-level2"><span class="toc-number">2.</span> <span class="toc-text">XHR level2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FormData"><span class="toc-number">2.1.</span> <span class="toc-text">FormData</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Timeout"><span class="toc-number">2.2.</span> <span class="toc-text">Timeout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OverideMimeType-方法"><span class="toc-number">2.3.</span> <span class="toc-text">OverideMimeType()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进度事件"><span class="toc-number">2.4.</span> <span class="toc-text">进度事件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#跨域！"><span class="toc-number">3.</span> <span class="toc-text">跨域！</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是跨域？"><span class="toc-number">3.1.</span> <span class="toc-text">什么是跨域？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单向跨域"><span class="toc-number">3.2.</span> <span class="toc-text">单向跨域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一：JSONP"><span class="toc-number">3.2.1.</span> <span class="toc-text">方法一：JSONP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双向跨域"><span class="toc-number">3.3.</span> <span class="toc-text">双向跨域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一：document-domain"><span class="toc-number">3.3.1.</span> <span class="toc-text">方法一：document.domain</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二：location-hash"><span class="toc-number">3.3.2.</span> <span class="toc-text">方法二：location.hash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法三：HTML5-postMessage-方法"><span class="toc-number">3.3.3.</span> <span class="toc-text">方法三：HTML5 postMessage()方法</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ajax"><span class="toc-number">1.</span> <span class="toc-text">Ajax</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#XHR对象"><span class="toc-number">1.1.</span> <span class="toc-text">XHR对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用XHR"><span class="toc-number">1.1.1.</span> <span class="toc-text">使用XHR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置XHR头部信息"><span class="toc-number">1.1.2.</span> <span class="toc-text">设置XHR头部信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XHR-level2"><span class="toc-number">2.</span> <span class="toc-text">XHR level2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FormData"><span class="toc-number">2.1.</span> <span class="toc-text">FormData</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Timeout"><span class="toc-number">2.2.</span> <span class="toc-text">Timeout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OverideMimeType-方法"><span class="toc-number">2.3.</span> <span class="toc-text">OverideMimeType()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进度事件"><span class="toc-number">2.4.</span> <span class="toc-text">进度事件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#跨域！"><span class="toc-number">3.</span> <span class="toc-text">跨域！</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是跨域？"><span class="toc-number">3.1.</span> <span class="toc-text">什么是跨域？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单向跨域"><span class="toc-number">3.2.</span> <span class="toc-text">单向跨域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一：JSONP"><span class="toc-number">3.2.1.</span> <span class="toc-text">方法一：JSONP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二：window-name"><span class="toc-number">3.2.2.</span> <span class="toc-text">方法二：window.name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法三：服务器代理"><span class="toc-number">3.2.3.</span> <span class="toc-text">方法三：服务器代理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双向跨域"><span class="toc-number">3.3.</span> <span class="toc-text">双向跨域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一：document-domain"><span class="toc-number">3.3.1.</span> <span class="toc-text">方法一：document.domain</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二：location-hash"><span class="toc-number">3.3.2.</span> <span class="toc-text">方法二：location.hash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法三：HTML5-postMessage-方法"><span class="toc-number">3.3.3.</span> <span class="toc-text">方法三：HTML5 postMessage()方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他方法"><span class="toc-number">3.4.</span> <span class="toc-text">其他方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Preflighted-Requests"><span class="toc-number">3.4.1.</span> <span class="toc-text">Preflighted Requests</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跨浏览器的CORS"><span class="toc-number">3.4.2.</span> <span class="toc-text">跨浏览器的CORS</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
@@ -126,7 +126,7 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
 <li>‘1’: 正在加载</li>
 <li>‘2’: 加载完毕</li>
 <li>‘3’: 正在交互</li>
-<li>‘4’: 完成</li>
+<li>‘4’: 完成  </li>
 </ul>
 </li>
 <li>获取响应<br>首先看一下响应包含的内容：<ul>
@@ -197,10 +197,16 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
 <p>其次上面指定的那个回调函数，在请求得到响应后会被执行，响应传回来的数据会自动作为参数传入到该回调函数中，我们就可以进行一些处理了。</p>
 <p>那么最后一个问题来了，如何发送请求呢？考虑第一条，动态的<code>&lt;script&gt;</code>可以不受限制地从其他域加载资源，比如引用google的某些js库，CDN上的jQuery等等；我们同样可以通过创建一个<code>&lt;script&gt;</code>，发出加载跨域脚本的请求。而该跨域脚本实际上就是向另外一个域发出一个请求，然后获得一个json并把它传给我们定义好的回调函数。于是这个例子就可以实现了：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleResponse</span>(<span class="params">response</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"You're at IP address "</span> + response.ip + <span class="string">", which is in "</span> + response.city + <span class="string">", "</span> + response.region_name);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//动态创建脚本</span></div><div class="line"><span class="keyword">var</span> script = <span class="built_in">document</span>.createElement(<span class="string">"script"</span>);</div><div class="line">script.src = <span class="string">"http://freegeoip.net/json/?callback=handleResponse"</span>;</div><div class="line"></div><div class="line"><span class="comment">//插入脚本</span></div><div class="line"><span class="built_in">document</span>.body.insertBefore(script, <span class="built_in">document</span>.body.firstChild);</div></pre></td></tr></table></figure><br>当然这种方式也有问题：</p>
 <ol>
-<li>从其他域加载来的东西，可能夹杂恶意代码，这种情况作为请求发起方是没办法控制的。除非放弃JSONP调用。</li>
+<li>只支持<code>GET</code>请求，不支持<code>POST</code>等</li>
+<li>从其他域加载来的东西，可能夹杂恶意代码，这种情况作为请求发起方是没办法控制的。除非放弃JSONP调用。因此要求通信双方都是可信的。</li>
 <li>请求状态难以检测，我们除了能创建一个计时器来检测请求是否超时之外，能做的并不多。并且设置计时器也不妥当，因为获取相应所需的时间可能因人因网而异。</li>
 </ol>
-<h2 id="双向跨域"><a href="#双向跨域" class="headerlink" title="双向跨域"></a>双向跨域</h2><p>主要是一个页面包含一个<code>iframe</code>元素的情况。也有在两个页面之间传递消息的方法。</p>
+<h3 id="方法二：window-name"><a href="#方法二：window-name" class="headerlink" title="方法二：window.name"></a>方法二：<code>window.name</code></h3><p>原理是利用了<code>window.name</code>的不变性。如果<code>window.location</code>改变了，刷新后<code>window.name</code>也会保持不变。具体步骤是：</p>
+<ol>
+<li>在页面A中<code>iframe</code>加载B，现在要跨域获取B的数据，就先在B中把数据赋值给B的<code>window.name</code></li>
+<li>在A中将B的<code>window</code>对象地址改成与A同域的一个地址，这样就可以获取<code>window.name</code>了。即使此时<code>iframe</code>刷新，原来的B不在了，也可以获得之前它传来的值。</li>
+</ol>
+<h3 id="方法三：服务器代理"><a href="#方法三：服务器代理" class="headerlink" title="方法三：服务器代理"></a>方法三：服务器代理</h3><h2 id="双向跨域"><a href="#双向跨域" class="headerlink" title="双向跨域"></a>双向跨域</h2><p>主要是一个页面包含一个<code>iframe</code>元素的情况。也有在两个页面之间传递消息的方法。</p>
 <h3 id="方法一：document-domain"><a href="#方法一：document-domain" class="headerlink" title="方法一：document.domain"></a>方法一：<code>document.domain</code></h3><p>简单来说就是，既然不同域名下不能通信，那么就手动设置对象的域名为相同的即可。<br>比如把主页面和<code>iframe</code>中的<code>document.domain</code>属性都设为同一域名：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.domain = <span class="string">"a.com"</span>;</div></pre></td></tr></table></figure><br>缺点是：</p>
 <ol>
 <li>所有子页面对象都要设置成相同域名</li>
@@ -219,9 +225,10 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
 <ul>
 <li><code>data</code>：消息字符串</li>
 <li><code>origin</code>：发送方所在域</li>
-<li><code>source</code>：发送消息的文档的<code>window</code>对象的代理。用于在上一条消息的发送方窗口中调用<code>postMessage()</code>方法，发消息验证发送成功。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(<span class="built_in">window</span>, <span class="string">"message"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">    </div><div class="line">    <span class="comment">//检测发送方的域是指定已知的域</span></div><div class="line">    <span class="keyword">if</span>(event.origin === <span class="string">"http://www.wrox.com"</span>) &#123;</div><div class="line">        processMessage(event.data);</div><div class="line">        </div><div class="line">        <span class="comment">//发送确认回执</span></div><div class="line">        event.source.postMessage(<span class="string">"Received!"</span>, <span class="string">"http://p2p.wrox.com"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></li>
+<li><code>source</code>：发送消息的文档的<code>window</code>对象的代理。用于在上一条消息的发送方窗口中调用<code>postMessage()</code>方法，发消息验证发送成功。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">EventUtil.addHandler(<span class="built_in">window</span>, <span class="string">"message"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">    </div><div class="line">    <span class="comment">//检测发送方的域是指定已知的域</span></div><div class="line">    <span class="keyword">if</span>(event.origin === <span class="string">"http://www.wrox.com"</span>) &#123;</div><div class="line">        processMessage(event.data);</div><div class="line">        </div><div class="line">        <span class="comment">//发送确认回执</span></div><div class="line">        event.source.postMessage(<span class="string">"Received!"</span>, <span class="string">"http://p2p.wrox.com"</span>);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
 </ul>
-  
+<h2 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h2><h3 id="Preflighted-Requests"><a href="#Preflighted-Requests" class="headerlink" title="Preflighted Requests"></a>Preflighted Requests</h3><h3 id="跨浏览器的CORS"><a href="#跨浏览器的CORS" class="headerlink" title="跨浏览器的CORS"></a>跨浏览器的CORS</h3>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -234,7 +241,7 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/ES6/">ES6</a><a href="/tags/跨域/">跨域</a><a href="/tags/异步编程/">异步编程</a>
+  <span></span> <a href="/tags/跨域/">跨域</a><a href="/tags/异步编程/">异步编程</a><a href="/tags/ES6/">ES6</a>
   </div>
 
 </div>
@@ -287,7 +294,7 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ajax"><span class="toc-number">1.</span> <span class="toc-text">Ajax</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#XHR对象"><span class="toc-number">1.1.</span> <span class="toc-text">XHR对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用XHR"><span class="toc-number">1.1.1.</span> <span class="toc-text">使用XHR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置XHR头部信息"><span class="toc-number">1.1.2.</span> <span class="toc-text">设置XHR头部信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XHR-level2"><span class="toc-number">2.</span> <span class="toc-text">XHR level2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FormData"><span class="toc-number">2.1.</span> <span class="toc-text">FormData</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Timeout"><span class="toc-number">2.2.</span> <span class="toc-text">Timeout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OverideMimeType-方法"><span class="toc-number">2.3.</span> <span class="toc-text">OverideMimeType()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进度事件"><span class="toc-number">2.4.</span> <span class="toc-text">进度事件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#跨域！"><span class="toc-number">3.</span> <span class="toc-text">跨域！</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是跨域？"><span class="toc-number">3.1.</span> <span class="toc-text">什么是跨域？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单向跨域"><span class="toc-number">3.2.</span> <span class="toc-text">单向跨域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一：JSONP"><span class="toc-number">3.2.1.</span> <span class="toc-text">方法一：JSONP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双向跨域"><span class="toc-number">3.3.</span> <span class="toc-text">双向跨域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一：document-domain"><span class="toc-number">3.3.1.</span> <span class="toc-text">方法一：document.domain</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二：location-hash"><span class="toc-number">3.3.2.</span> <span class="toc-text">方法二：location.hash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法三：HTML5-postMessage-方法"><span class="toc-number">3.3.3.</span> <span class="toc-text">方法三：HTML5 postMessage()方法</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Ajax"><span class="toc-number">1.</span> <span class="toc-text">Ajax</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#XHR对象"><span class="toc-number">1.1.</span> <span class="toc-text">XHR对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用XHR"><span class="toc-number">1.1.1.</span> <span class="toc-text">使用XHR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置XHR头部信息"><span class="toc-number">1.1.2.</span> <span class="toc-text">设置XHR头部信息</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#XHR-level2"><span class="toc-number">2.</span> <span class="toc-text">XHR level2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FormData"><span class="toc-number">2.1.</span> <span class="toc-text">FormData</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Timeout"><span class="toc-number">2.2.</span> <span class="toc-text">Timeout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OverideMimeType-方法"><span class="toc-number">2.3.</span> <span class="toc-text">OverideMimeType()方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进度事件"><span class="toc-number">2.4.</span> <span class="toc-text">进度事件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#跨域！"><span class="toc-number">3.</span> <span class="toc-text">跨域！</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是跨域？"><span class="toc-number">3.1.</span> <span class="toc-text">什么是跨域？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单向跨域"><span class="toc-number">3.2.</span> <span class="toc-text">单向跨域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一：JSONP"><span class="toc-number">3.2.1.</span> <span class="toc-text">方法一：JSONP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二：window-name"><span class="toc-number">3.2.2.</span> <span class="toc-text">方法二：window.name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法三：服务器代理"><span class="toc-number">3.2.3.</span> <span class="toc-text">方法三：服务器代理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#双向跨域"><span class="toc-number">3.3.</span> <span class="toc-text">双向跨域</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#方法一：document-domain"><span class="toc-number">3.3.1.</span> <span class="toc-text">方法一：document.domain</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法二：location-hash"><span class="toc-number">3.3.2.</span> <span class="toc-text">方法二：location.hash</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#方法三：HTML5-postMessage-方法"><span class="toc-number">3.3.3.</span> <span class="toc-text">方法三：HTML5 postMessage()方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他方法"><span class="toc-number">3.4.</span> <span class="toc-text">其他方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Preflighted-Requests"><span class="toc-number">3.4.1.</span> <span class="toc-text">Preflighted Requests</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#跨浏览器的CORS"><span class="toc-number">3.4.2.</span> <span class="toc-text">跨浏览器的CORS</span></a></li></ol></li></ol></li></ol>
  
   </div>
 
@@ -337,7 +344,7 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>18</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>19</sup></a></li>
 		  
 		
 		  
@@ -383,7 +390,7 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -393,7 +400,7 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>21</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>22</sup></a></li>
 			
 		
 			
@@ -417,7 +424,7 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
 			
 		
 			
-				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
 			
 		
 			
@@ -429,39 +436,11 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
 			
 		
 			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/算法/" title="算法">算法<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
 			
 		
 			
@@ -470,6 +449,34 @@ Ajax实际上是借助内建的XMLHttpRequest（XHR）对象实现异步请求�
 		
 			
 				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
 			
 		
 		</ul>
