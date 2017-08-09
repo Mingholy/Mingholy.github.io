@@ -78,6 +78,113 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/08/09/平铺式桌面管理器awesome/" title="平铺式桌面管理器AwesomeWM" itemprop="url">平铺式桌面管理器AwesomeWM</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-08-09T09:35:06.580Z" itemprop="datePublished"> 发表于 2017-08-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="平铺式桌面管理器awesomewm"><a href="#平铺式桌面管理器awesomewm" class="headerlink" title="平铺式桌面管理器awesomewm"></a>平铺式桌面管理器awesomewm</h1><p>第一篇就来写一写我很早就想记录下来的一些东西，一个目前我很喜欢的window manager：awesome。</p>
+<h2 id="目的：“纯粹”"><a href="#目的：“纯粹”" class="headerlink" title="目的：“纯粹”"></a>目的：“纯粹”</h2><p>把博客从Hexo迁移回github的一个原因就是“纯粹”，换句话说就是简单易用，满足所有需求的最轻量选择。</p>
+<p>我从刚一开始Ubuntu的Unity折腾到Gnome，又从Gnome折腾到awesomewm，倒是没有使用过几个不同的桌面环境，但是到了awesome这里我在“酷炫桌面”这个主题上的折腾之心就收敛了，因为到了这里我对“好用又好看的桌面”的要求被很好地满足了。</p>
+<h2 id="特性：“高效”"><a href="#特性：“高效”" class="headerlink" title="特性：“高效”"></a>特性：“高效”</h2><p>起初是看到隔壁的前辈在用这个wm，毕竟人家一手HHKB，总要物尽其用：所有的桌面切换操作都使用键盘来完成——我自己就是一个键盘党，恨不得抛弃鼠标，包括在浏览网页时（这个的确可以实现，最后会提及）。</p>
+<p>Awesomewm能够将所有切换桌面、控制窗口（client）的操作映射为指定的快捷键，并且具有高度的可配置性。</p>
+<p>我个人的需求非常简单：</p>
+<ol>
+<li>同屏可显示的信息尽可能多，屏幕空间应尽可能显示信息而非无用内容</li>
+<li>单一屏幕空间足够大，多窗口不至于过于凌乱</li>
+<li>可以方便地控制显示位置、工作区和屏幕</li>
+</ol>
+<p>其中需求1和2实际上是存在冲突的，显示的信息越多，意味着窗口或者tab就越多，相应地就存在越大可能使整个屏幕看起来非常混乱，窗口到处都是又彼此重叠，切换还要记忆顺序按好几次快捷键（如果有快捷键的话，没错说的就是Windows)，这样极大地影响了用户体验。</p>
+<p>Awesomewm能够在尽量满足1\2的同时，也提供了众多快捷键来增强用户对桌面显示内容的控制，这一点简直不能更好。</p>
+<h2 id="使用：“无他，唯手熟尔”"><a href="#使用：“无他，唯手熟尔”" class="headerlink" title="使用：“无他，唯手熟尔”"></a>使用：“无他，唯手熟尔”</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>参考：<a href="https://www.reddit.com/r/awesomewm/comments/66qiue/awesomewm_41_install_on_ubuntu_1704/" target="_blank" rel="external">AwesomeWM 4.1 install on Ubuntu 17.04</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># Get awesome</div><div class="line">wget https://github.com/awesomeWM/awesome-releases/raw/master/awesome-4.1.tar.bz2</div><div class="line"></div><div class="line"># Extract Awesome</div><div class="line">tar xvjf awesome-4.1.tar.bz2</div><div class="line">cd awesome-4.1</div><div class="line"></div><div class="line"># Install Dependencies</div><div class="line">sudo apt install cmake libgdk-pixbuf2.0-dev libcairo2-dev libxcb-cursor-dev libxcb-randr0-dev libxcb-xtest0-dev libxcb-xinerama0-dev libxcb-shape0-dev libxcb-util-dev libxcb-keysyms1-dev libxcb-icccm4-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libstartup-notification0-dev libxdg-basedir-dev libxcb-xrm-dev lua5.2 liblua5.2-dev lua-lgi-dev</div><div class="line"></div><div class="line"># Make awesome</div><div class="line">make</div><div class="line"></div><div class="line"># Install awesome</div><div class="line">sudo make install</div></pre></td></tr></table></figure></p>
+<p>在安装依赖的过程中，可能会遇到一个包<code>libxcb-xrm-dev</code>找不到的情况，导致安装的Awesome不可用。</p>
+<p>这里使用<a href="https://unix.stackexchange.com/questions/338628/no-package-xcb-xrm-found" target="_blank" rel="external">No package ‘xcb-xrm’ found</a>的解决方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:aguignard/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install xcb-util-xrm</div></pre></td></tr></table></figure></p>
+<p>就可以正确安装依赖。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>AwesomeWM的配置文件位于<code>~/.config/awesome/rc.lua</code>，这个文件可以在<code>/etc/xdg/awesome/</code>下找到，如果没有，那么可以自己新建一个，按照官方文档进行配置。</p>
+<p>但是从头开始配置一个完整的<code>rc.lua</code>实在太耗时，本着快速上手越快越好的原则，我使用了<a href="https://github.com/copycat-killer/awesome-copycats" target="_blank" rel="external">awesome-copycats</a>提供的配置文件和主题。</p>
+<p>下面是一些我根据自己的情况修改的配置项，有些通用的选项还是比较有必要的：<br>以主题<code>multicolor</code>为例：</p>
+<h4 id="设置常用项："><a href="#设置常用项：" class="headerlink" title="设置常用项："></a>设置常用项：</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">local</span> editor       = <span class="string">"vim"</span></div><div class="line"><span class="keyword">local</span> browser      = <span class="string">"google-chrome"</span></div><div class="line"><span class="keyword">local</span> terminal     = <span class="string">"gnome-terminal"</span></div></pre></td></tr></table></figure>
+<p>由于我的系统原来使用的是Gnome，所以比较习惯原来的terminal，当然你也可以换成其他的xterm之类的。</p>
+<h4 id="布局-layouts-："><a href="#布局-layouts-：" class="headerlink" title="布局(layouts)："></a>布局(layouts)：</h4><p>这里建议只保留<code>tile</code>类别下的各个布局。毕竟我们安装这个东西就是为了平铺布局。<br>我的设置是：<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">awful.layout.layouts = &#123;</div><div class="line">    awful.layout.suit.tile,</div><div class="line">    awful.layout.suit.tile,</div><div class="line">    awful.layout.suit.tile.left,</div><div class="line">    awful.layout.suit.tile.bottom,</div><div class="line">    awful.layout.suit.tile.top,</div><div class="line">    awful.layout.suit.corner.nw,</div><div class="line">    awful.layout.suit.corner.ne,</div><div class="line">    awful.layout.suit.corner.sw,</div><div class="line">    awful.layout.suit.corner.se,</div><div class="line">    lain.layout.cascade,</div><div class="line">    lain.layout.cascade.tile,</div><div class="line">    lain.layout.centerwork,</div><div class="line">    lain.layout.centerwork.horizontal,</div><div class="line">    lain.layout.termfair,</div><div class="line">    lain.layout.termfair.center,</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4 id="图标大小"><a href="#图标大小" class="headerlink" title="图标大小"></a>图标大小</h4><p>以我的屏幕分辨率(2560x1440)感觉，12还算可以。可以在文件中搜索数字，来选择替换。</p>
+<h4 id="菜单"><a href="#菜单" class="headerlink" title="菜单"></a>菜单</h4><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">local</span> myawesomemenu = &#123;</div><div class="line">    &#123; <span class="string">"&gt;&gt;___Reboot___&lt;&lt;"</span>, <span class="string">"reboot"</span>&#125;,</div><div class="line">    &#123; <span class="string">"&gt;&gt;__ Shutdown__&lt;&lt;"</span>, <span class="string">"shutdown -h now"</span>&#125;,</div><div class="line">    &#123; <span class="string">"Hotkeys"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> <span class="keyword">return</span> <span class="keyword">false</span>, hotkeys_popup.show_help <span class="keyword">end</span> &#125;,</div><div class="line">    &#123; <span class="string">"Manual"</span>, terminal .. <span class="string">" -e man awesome"</span> &#125;,</div><div class="line">    &#123; <span class="string">"Config"</span>, <span class="built_in">string</span>.format(<span class="string">"%s -e %s %s"</span>, terminal, editor, awesome.conffile) &#125;,</div><div class="line">    &#123; <span class="string">"Restart"</span>, awesome.restart &#125;,</div><div class="line">    &#123; <span class="string">"Quit"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> awesome.quit() <span class="keyword">end</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">local</span> appmenu = freedesktop.menu.build(&#123;</div><div class="line">    icon_size = beautiful.menu_height <span class="keyword">or</span> <span class="number">12</span>,</div><div class="line">&#125;)</div><div class="line"></div><div class="line">awful.util.mymainmenu = freedesktop.menu.build(&#123;</div><div class="line">    icon_size = beautiful.menu_height <span class="keyword">or</span> <span class="number">12</span>,</div><div class="line">    before = &#123;</div><div class="line">        &#123; <span class="string">"VSCode"</span>, <span class="string">"code"</span> &#125;,</div><div class="line">        &#123; <span class="string">"Awesome"</span>, myawesomemenu, beautiful.awesome_icon &#125;,</div><div class="line">    &#125;,</div><div class="line">    after = &#123;</div><div class="line">        &#123; <span class="string">"Lock"</span>, <span class="string">"gnome-screensaver-command -l"</span> &#125;,</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>这里我在一级菜单(<code>mymainmenu</code>)下添加了编辑器、awesome菜单和锁屏选项；在awesome这个一级菜单项下添加了重启和关机这两个二级菜单选项。</p>
+<h4 id="规则-Rules"><a href="#规则-Rules" class="headerlink" title="规则(Rules)"></a>规则(Rules)</h4><p>这里主要是控制窗口行为的一些规则。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">awful.rules.rules = &#123;</div><div class="line">    <span class="comment">-- All clients will match this rule.</span></div><div class="line">    &#123; rule = &#123; &#125;,</div><div class="line">      properties = &#123; border_width = beautiful.border_width,</div><div class="line">                     border_color = beautiful.border_normal,</div><div class="line">                     focus = awful.client.focus.filter,</div><div class="line">                     raise = <span class="keyword">true</span>,</div><div class="line">                     keys = clientkeys,</div><div class="line">                     buttons = clientbuttons,</div><div class="line">                     screen = awful.screen.preferred,</div><div class="line">                     placement = awful.placement.no_overlap+awful.placement.no_offscreen,</div><div class="line">                     size_hints_honor = <span class="keyword">false</span></div><div class="line">     &#125;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="comment">-- Titlebars</span></div><div class="line">    &#123; rule_any = &#123; <span class="built_in">type</span> = &#123; <span class="string">"dialog"</span>, <span class="string">"normal"</span> &#125; &#125;,</div><div class="line">      properties = &#123; titlebars_enabled = <span class="keyword">true</span> &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"shadowsocks-qt5"</span> &#125;,</div><div class="line">      properties = &#123; screen = <span class="number">1</span>, tag = screen[<span class="number">1</span>].tags[<span class="number">5</span>] &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"Gimp"</span>, role = <span class="string">"gimp-image-window"</span> &#125;,</div><div class="line">      properties = &#123; maximized = <span class="keyword">true</span> &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"Google-chrome"</span> &#125;,</div><div class="line">      properties = &#123; floating = <span class="keyword">false</span>,</div><div class="line">                     maximized = <span class="keyword">false</span>,</div><div class="line">                     maximized_vertical = <span class="keyword">false</span>,</div><div class="line">                     maximized_horizontal = <span class="keyword">false</span>, &#125; &#125;,</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这些选项的主要目的是：</p>
+<ol>
+<li>新建窗口时，新窗口的默认样式和行为</li>
+<li>按照程序(窗口类别)设置新窗口样式和行为</li>
+</ol>
+<p>比如这里我设置ss-qt5客户端自启动后显示在屏幕1的标签5中。<br>另一个必要的设置是：</p>
+<blockquote>
+<p>让Chrome新窗口默认不处于最大化状态，禁用浮动。这个设置可以在Chrome窗口存在的情况下，和其他窗口平铺。否则新建一个窗口，如终端窗口，会盖在Chrome上方，Chrome会自动被设置为浮动窗口，而不能正常平铺。</p>
+</blockquote>
+<h4 id="声音调整"><a href="#声音调整" class="headerlink" title="声音调整"></a>声音调整</h4><p>使用下列设置可以将<code>alt + ↑</code>、<code>alt + ↓</code>和<code>alt + m</code>映射成音量加、音量减和切换静音。<br>注意：这些设置需要在<code>Key bindings</code>下修改，可以搜索”ALSA volume control”来修改原有的声音设置。<br><figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"Up"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 5%+"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"Down"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 5%-"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"m"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 1+ toggle"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div></pre></td></tr></table></figure></p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>使用AwesomeWM需要在<code>.xprofile</code>中进行相关设置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/sh</div><div class="line">xrandr --output HDMI-2 --above eDP-1</div><div class="line">#fcitx need</div><div class="line">export XMODIFIERS=@im=fcitx</div><div class="line">export QT_IM_MODULE=fcitx</div><div class="line">export GTK_IM_MODULE=fcitx</div><div class="line">fcitx-autostart</div><div class="line"></div><div class="line">gnome-settings-daemon &amp;</div><div class="line">gnome-power-manager &amp;</div><div class="line">gnome-screensaver &amp;</div><div class="line">xcompmgr -c &amp;</div><div class="line">nm-applet --sm-disable &amp;</div><div class="line">update-notifier &amp;</div><div class="line">sh /home/mingholy/Downloads/start.sh &amp;</div><div class="line">ss-qt5 &amp;</div><div class="line"></div><div class="line">exec awesome</div></pre></td></tr></table></figure></p>
+<p>所有的准备工作和自启动项都要放在<code>exec awesome</code>之前。<br>其中第一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xrandr --output HDMI-2 --above eDP-1</div></pre></td></tr></table></figure></p>
+<p>是上下双屏排布的命令，如果是左右排布的，可以<code>--left-of</code>或<code>--right-of</code>，外加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xrandr --output eDP-1 --pos [笔记本屏幕左上角的x轴坐标]x[y轴坐标]</div></pre></td></tr></table></figure></p>
+<p>来调整两个屏幕的相对位置。</p>
+<h2 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h2><p>通过<code>Mod4</code>键组合得到的各种切换窗口、切屏功能完全满足了我在浏览器、vim、vscode和终端之间切换的需求，切换窗口、工作上下文的成本得到了极大的降低，能够很好地提高工作效率。配合Chrome的插件<code>vimium</code>基本可以做到不用鼠标。</p>
+<blockquote>
+<p><code>vimium</code>可以将页面上的所有链接转化为快捷键，在页面上点击f键，可以看到每个可点击链接的快捷键，接下来输入快捷键会自动聚焦点击该链接或区域。</p>
+</blockquote>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/awesomewm/">awesomewm</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/08/09/平铺式桌面管理器awesome/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/08/09/平铺式桌面管理器awesome/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/08/09/定制化Popover的实现思路/" title="定制化Popover的实现思路" itemprop="url">定制化Popover的实现思路</a>
   </h1>
   <p class="article-author">By
@@ -212,129 +319,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/08/09/平铺式桌面管理器awesome/" title="平铺式桌面管理器AwesomeWM" itemprop="url">平铺式桌面管理器AwesomeWM</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-08-09T09:19:58.355Z" itemprop="datePublished"> 发表于 2017-08-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="平铺式桌面管理器awesomewm"><a href="#平铺式桌面管理器awesomewm" class="headerlink" title="平铺式桌面管理器awesomewm"></a>平铺式桌面管理器awesomewm</h1><p>第一篇就来写一写我很早就想记录下来的一些东西，一个目前我很喜欢的window manager：awesome。</p>
-<h2 id="目的：“纯粹”"><a href="#目的：“纯粹”" class="headerlink" title="目的：“纯粹”"></a>目的：“纯粹”</h2><p>把博客从Hexo迁移回github的一个原因就是“纯粹”，换句话说就是简单易用，满足所有需求的最轻量选择。</p>
-<p>我从刚一开始Ubuntu的Unity折腾到Gnome，又从Gnome折腾到awesomewm，倒是没有使用过几个不同的桌面环境，但是到了awesome这里我在“酷炫桌面”这个主题上的折腾之心就收敛了，因为到了这里我对“好用又好看的桌面”的要求被很好地满足了。</p>
-<h2 id="特性：“高效”"><a href="#特性：“高效”" class="headerlink" title="特性：“高效”"></a>特性：“高效”</h2><p>起初是看到隔壁的前辈在用这个wm，毕竟人家一手HHKB，总要物尽其用：所有的桌面切换操作都使用键盘来完成——我自己就是一个键盘党，恨不得抛弃鼠标，包括在浏览网页时（这个的确可以实现，最后会提及）。</p>
-<p>Awesomewm能够将所有切换桌面、控制窗口（client）的操作映射为指定的快捷键，并且具有高度的可配置性。</p>
-<p>我个人的需求非常简单：</p>
-<ol>
-<li>同屏可显示的信息尽可能多，屏幕空间应尽可能显示信息而非无用内容</li>
-<li>单一屏幕空间足够大，多窗口不至于过于凌乱</li>
-<li>可以方便地控制显示位置、工作区和屏幕</li>
-</ol>
-<p>其中需求1和2实际上是存在冲突的，显示的信息越多，意味着窗口或者tab就越多，相应地就存在越大可能使整个屏幕看起来非常混乱，窗口到处都是又彼此重叠，切换还要记忆顺序按好几次快捷键（如果有快捷键的话，没错说的就是Windows)，这样极大地影响了用户体验。</p>
-<p>Awesomewm能够在尽量满足1\2的同时，也提供了众多快捷键来增强用户对桌面显示内容的控制，这一点简直不能更好。</p>
-<h2 id="使用：“无他，唯手熟尔”"><a href="#使用：“无他，唯手熟尔”" class="headerlink" title="使用：“无他，唯手熟尔”"></a>使用：“无他，唯手熟尔”</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>参考：<a href="https://www.reddit.com/r/awesomewm/comments/66qiue/awesomewm_41_install_on_ubuntu_1704/" target="_blank" rel="external">AwesomeWM 4.1 install on Ubuntu 17.04</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># Get awesome</div><div class="line">wget https://github.com/awesomeWM/awesome-releases/raw/master/awesome-4.1.tar.bz2</div><div class="line"></div><div class="line"># Extract Awesome</div><div class="line">tar xvjf awesome-4.1.tar.bz2</div><div class="line">cd awesome-4.1</div><div class="line"></div><div class="line"># Install Dependencies</div><div class="line">sudo apt install cmake libgdk-pixbuf2.0-dev libcairo2-dev libxcb-cursor-dev libxcb-randr0-dev libxcb-xtest0-dev libxcb-xinerama0-dev libxcb-shape0-dev libxcb-util-dev libxcb-keysyms1-dev libxcb-icccm4-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libstartup-notification0-dev libxdg-basedir-dev libxcb-xrm-dev lua5.2 liblua5.2-dev lua-lgi-dev</div><div class="line"></div><div class="line"># Make awesome</div><div class="line">make</div><div class="line"></div><div class="line"># Install awesome</div><div class="line">sudo make install</div></pre></td></tr></table></figure></p>
-<p>在安装依赖的过程中，可能会遇到一个包<code>libxcb-xrm-dev</code>找不到的情况，导致安装的Awesome不可用。</p>
-<p>这里使用<a href="https://unix.stackexchange.com/questions/338628/no-package-xcb-xrm-found" target="_blank" rel="external">No package ‘xcb-xrm’ found</a>的解决方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:aguignard/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install xcb-util-xrm</div></pre></td></tr></table></figure></p>
-<p>就可以正确安装依赖。</p>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>AwesomeWM的配置文件位于<code>~/.config/awesome/rc.lua</code>，这个文件可以在<code>/etc/xdg/awesome/</code>下找到，如果没有，那么可以自己新建一个，按照官方文档进行配置。</p>
-<p>但是从头开始配置一个完整的<code>rc.lua</code>实在太耗时，本着快速上手越快越好的原则，我使用了<a href="https://github.com/copycat-killer/awesome-copycats" target="_blank" rel="external">awesome-copycats</a>提供的配置文件和主题。</p>
-<p>下面是一些我根据自己的情况修改的配置项，有些通用的选项还是比较有必要的：<br>以主题<code>multicolor</code>为例：</p>
-<ol>
-<li>设置常用项：  <figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">local</span> editor       = <span class="string">"vim"</span></div><div class="line"><span class="keyword">local</span> browser      = <span class="string">"google-chrome"</span></div><div class="line"><span class="keyword">local</span> terminal     = <span class="string">"gnome-terminal"</span></div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>由于我的系统原来使用的是Gnome，所以比较习惯原来的terminal，当然你也可以换成其他的xterm之类的。</p>
-<ol>
-<li><p>布局(layouts)：<br>这里建议只保留<code>tile</code>类别下的各个布局。毕竟我们安装这个东西就是为了平铺布局。<br>我的设置是：</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">awful.layout.layouts = &#123;</div><div class="line">    awful.layout.suit.tile,</div><div class="line">    awful.layout.suit.tile,</div><div class="line">    awful.layout.suit.tile.left,</div><div class="line">    awful.layout.suit.tile.bottom,</div><div class="line">    awful.layout.suit.tile.top,</div><div class="line">    awful.layout.suit.corner.nw,</div><div class="line">    awful.layout.suit.corner.ne,</div><div class="line">    awful.layout.suit.corner.sw,</div><div class="line">    awful.layout.suit.corner.se,</div><div class="line">    lain.layout.cascade,</div><div class="line">    lain.layout.cascade.tile,</div><div class="line">    lain.layout.centerwork,</div><div class="line">    lain.layout.centerwork.horizontal,</div><div class="line">    lain.layout.termfair,</div><div class="line">    lain.layout.termfair.center,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-<li><p>图标大小<br>以我的屏幕分辨率(2560x1440)感觉，12还算可以。可以在文件中搜索数字，来选择替换。</p>
-</li>
-<li><p>菜单</p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">local</span> myawesomemenu = &#123;</div><div class="line">    &#123; <span class="string">"&gt;&gt;___Reboot___&lt;&lt;"</span>, <span class="string">"reboot"</span>&#125;,</div><div class="line">    &#123; <span class="string">"&gt;&gt;__ Shutdown__&lt;&lt;"</span>, <span class="string">"shutdown -h now"</span>&#125;,</div><div class="line">    &#123; <span class="string">"Hotkeys"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> <span class="keyword">return</span> <span class="keyword">false</span>, hotkeys_popup.show_help <span class="keyword">end</span> &#125;,</div><div class="line">    &#123; <span class="string">"Manual"</span>, terminal .. <span class="string">" -e man awesome"</span> &#125;,</div><div class="line">    &#123; <span class="string">"Config"</span>, <span class="built_in">string</span>.format(<span class="string">"%s -e %s %s"</span>, terminal, editor, awesome.conffile) &#125;,</div><div class="line">    &#123; <span class="string">"Restart"</span>, awesome.restart &#125;,</div><div class="line">    &#123; <span class="string">"Quit"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> awesome.quit() <span class="keyword">end</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">local</span> appmenu = freedesktop.menu.build(&#123;</div><div class="line">    icon_size = beautiful.menu_height <span class="keyword">or</span> <span class="number">12</span>,</div><div class="line">&#125;)</div><div class="line"></div><div class="line">awful.util.mymainmenu = freedesktop.menu.build(&#123;</div><div class="line">    icon_size = beautiful.menu_height <span class="keyword">or</span> <span class="number">12</span>,</div><div class="line">    before = &#123;</div><div class="line">        &#123; <span class="string">"VSCode"</span>, <span class="string">"code"</span> &#125;,</div><div class="line">        &#123; <span class="string">"Awesome"</span>, myawesomemenu, beautiful.awesome_icon &#125;,</div><div class="line">    &#125;,</div><div class="line">    after = &#123;</div><div class="line">        &#123; <span class="string">"Lock"</span>, <span class="string">"gnome-screensaver-command -l"</span> &#125;,</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>这里我在一级菜单(<code>mymainmenu</code>)下添加了编辑器、awesome菜单和锁屏选项；在awesome这个一级菜单项下添加了重启和关机这两个二级菜单选项。</p>
-<ol>
-<li>规则(Rules)<br>这里主要是控制窗口行为的一些规则。<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">awful.rules.rules = &#123;</div><div class="line">    <span class="comment">-- All clients will match this rule.</span></div><div class="line">    &#123; rule = &#123; &#125;,</div><div class="line">      properties = &#123; border_width = beautiful.border_width,</div><div class="line">                     border_color = beautiful.border_normal,</div><div class="line">                     focus = awful.client.focus.filter,</div><div class="line">                     raise = <span class="keyword">true</span>,</div><div class="line">                     keys = clientkeys,</div><div class="line">                     buttons = clientbuttons,</div><div class="line">                     screen = awful.screen.preferred,</div><div class="line">                     placement = awful.placement.no_overlap+awful.placement.no_offscreen,</div><div class="line">                     size_hints_honor = <span class="keyword">false</span></div><div class="line">     &#125;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="comment">-- Titlebars</span></div><div class="line">    &#123; rule_any = &#123; <span class="built_in">type</span> = &#123; <span class="string">"dialog"</span>, <span class="string">"normal"</span> &#125; &#125;,</div><div class="line">      properties = &#123; titlebars_enabled = <span class="keyword">true</span> &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"shadowsocks-qt5"</span> &#125;,</div><div class="line">      properties = &#123; screen = <span class="number">1</span>, tag = screen[<span class="number">1</span>].tags[<span class="number">5</span>] &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"Gimp"</span>, role = <span class="string">"gimp-image-window"</span> &#125;,</div><div class="line">      properties = &#123; maximized = <span class="keyword">true</span> &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"Google-chrome"</span> &#125;,</div><div class="line">      properties = &#123; floating = <span class="keyword">false</span>,</div><div class="line">                     maximized = <span class="keyword">false</span>,</div><div class="line">                     maximized_vertical = <span class="keyword">false</span>,</div><div class="line">                     maximized_horizontal = <span class="keyword">false</span>, &#125; &#125;,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>这些选项的主要目的是：</p>
-<ol>
-<li>新建窗口时，新窗口的默认样式和行为</li>
-<li>按照程序(窗口类别)设置新窗口样式和行为</li>
-</ol>
-<p>比如这里我设置ss-qt5客户端自启动后显示在屏幕1的标签5中。<br>另一个必要的设置是：</p>
-<blockquote>
-<p>让Chrome新窗口默认不处于最大化状态，禁用浮动。这个设置可以在Chrome窗口存在的情况下，和其他窗口平铺。否则新建一个窗口，如终端窗口，会盖在Chrome上方，Chrome会自动被设置为浮动窗口，而不能正常平铺。</p>
-</blockquote>
-<ol>
-<li>声音调整<br>使用下列设置可以将<code>alt + ↑</code>、<code>alt + ↓</code>和<code>alt + m</code>映射成音量加、音量减和切换静音。<br>注意：这些设置需要在<code>Key bindings</code>下修改，可以搜索”ALSA volume control”来修改原有的声音设置。<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"Up"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 5%+"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"Down"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 5%-"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"m"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 1+ toggle"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>使用AwesomeWM需要在<code>.xprofile</code>中进行相关设置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/sh</div><div class="line">xrandr --output HDMI-2 --above eDP-1</div><div class="line">#fcitx need</div><div class="line">export XMODIFIERS=@im=fcitx</div><div class="line">export QT_IM_MODULE=fcitx</div><div class="line">export GTK_IM_MODULE=fcitx</div><div class="line">fcitx-autostart</div><div class="line"></div><div class="line">gnome-settings-daemon &amp;</div><div class="line">gnome-power-manager &amp;</div><div class="line">gnome-screensaver &amp;</div><div class="line">xcompmgr -c &amp;</div><div class="line">nm-applet --sm-disable &amp;</div><div class="line">update-notifier &amp;</div><div class="line">sh /home/mingholy/Downloads/start.sh &amp;</div><div class="line">ss-qt5 &amp;</div><div class="line"></div><div class="line">exec awesome</div></pre></td></tr></table></figure></p>
-<p>所有的准备工作和自启动项都要放在<code>exec awesome</code>之前。<br>其中第一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xrandr --output HDMI-2 --above eDP-1</div></pre></td></tr></table></figure></p>
-<p>是上下双屏排布的命令，如果是左右排布的，可以<code>--left-of</code>或<code>--right-of</code>，外加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xrandr --output eDP-1 --pos [笔记本屏幕左上角的x轴坐标]x[y轴坐标]</div></pre></td></tr></table></figure></p>
-<p>来调整两个屏幕的相对位置。</p>
-<h2 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h2><p>通过<code>Mod4</code>键组合得到的各种切换窗口、切屏功能完全满足了我在浏览器、vim、vscode和终端之间切换的需求，切换窗口、工作上下文的成本得到了极大的降低，能够很好地提高工作效率。配合Chrome的插件<code>vimium</code>基本可以做到不用鼠标。</p>
-<blockquote>
-<p><code>vimium</code>可以将页面上的所有链接转化为快捷键，在页面上点击f键，可以看到每个可点击链接的快捷键，接下来输入快捷键会自动聚焦点击该链接或区域。</p>
-</blockquote>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/awesomewm/">awesomewm</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/08/09/平铺式桌面管理器awesome/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/08/09/平铺式桌面管理器awesome/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/08/09/Ubuntu适应计划-一些稀奇古怪的问题和解决办法收集/" title="Ubuntu适应计划-FAQ" itemprop="url">Ubuntu适应计划-FAQ</a>
   </h1>
   <p class="article-author">By
@@ -383,123 +367,6 @@
 	
 	  	<span></span>
 		<a href="/2017/08/09/Ubuntu适应计划-一些稀奇古怪的问题和解决办法收集/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/08/09/Ubuntu适应计划-一些稀奇古怪的问题和解决办法收集/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/04/12/Flex Layout Note/" title="" itemprop="url"></a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-04-12T00:56:43.290Z" itemprop="datePublished"> 发表于 2017-04-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <hr>
-<p>title: “Flex布局浅记”<br>date: 2017-04-10 18:00:00</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/04/12/Flex Layout Note/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/04/12/Flex Layout Note/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/25/loadEventRelated/" title="`load`与`DOMContentLoaded`事件" itemprop="url">`load`与`DOMContentLoaded`事件</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-25T02:41:00.000Z" itemprop="datePublished"> 发表于 2017-03-25</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="挖坑待填"><a href="#挖坑待填" class="headerlink" title="挖坑待填"></a>挖坑待填</h1><p>想总结一下<code>load</code>、<code>DOMContentLoaded</code>还有jQuery里的<code>$(document).ready()</code>这些方法的区别。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/DOM/">DOM</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/25/loadEventRelated/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/25/loadEventRelated/" data-count-type="comments">&nbsp;</a>
 	
 </div>
 
@@ -623,7 +490,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/跨域/">跨域</a><a href="/tags/异步编程/">异步编程</a><a href="/tags/ES6/">ES6</a>
+  <span></span> <a href="/tags/ES6/">ES6</a><a href="/tags/跨域/">跨域</a><a href="/tags/异步编程/">异步编程</a>
   </div>
 
 </div>
@@ -853,6 +720,152 @@
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/22/红宝书-chapter6/" title="JavaScript继承" itemprop="url">JavaScript继承</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-22T09:00:00.000Z" itemprop="datePublished"> 发表于 2017-03-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>关键知识点</p>
+<ul>
+<li>继承的各种方式</li>
+</ul>
+</blockquote>
+<p>关于面向对象，已经在<a href="http://ming-holy.space/2017/03/13/IFE2017-105/#数据持久化与面向对象">IFE2017-105的笔记</a>中总结了一些。这里总结一下关于继承的问题。</p>
+<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>书中第一段提到了，一般的OO语言支持两种继承方式，一种是接口继承，另一种是实现继承。</p>
+<ul>
+<li>接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。</li>
+<li>实现继承：父类中定义并实现好方法，然后子类在继承父类的同时也就继承了该方法的实现，可以直接拿来用。<br>JavaScript是没有函数签名的，像接口继承那种只继承方法特点，比如参数、名字等，就不能实现。只能通过原型链模式支持实现继承。
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/03/22/红宝书-chapter6/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/22/红宝书-chapter6/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/22/红宝书-chapter6/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/22/红宝书-chapter5/" title="JavaScript类型方法总结与函数实例方法" itemprop="url">JavaScript类型方法总结与函数实例方法</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-22T07:08:00.000Z" itemprop="datePublished"> 发表于 2017-03-22</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>关键知识点</p>
+<ul>
+<li>类型方法</li>
+<li><code>call</code>、<code>apply</code>和<code>bind</code></li>
+</ul>
+</blockquote>
+<h1 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h1><p>这一章有点像API手册了。</p>
+<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>JavaScript中的对象有点像Python中的<code>dict</code>。注意不能有尾逗号，IE7之前和Opera会报错。<br>注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/03/22/红宝书-chapter5/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/22/红宝书-chapter5/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/22/红宝书-chapter5/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -907,7 +920,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>19</sup></a></li>
 		  
 		
 		  
@@ -953,7 +966,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -963,7 +976,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>22</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>21</sup></a></li>
 			
 		
 			
@@ -1007,7 +1020,15 @@
 			
 		
 			
-				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
 			
 		
 			
@@ -1015,15 +1036,11 @@
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DOM/" title="DOM">DOM<sup>1</sup></a></li>
+				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
 			
 		
 			
@@ -1035,11 +1052,7 @@
 			
 		
 			
-				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+				<li><a href="/tags/React/" title="React">React<sup>1</sup></a></li>
 			
 		
 		</ul>
