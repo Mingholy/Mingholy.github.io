@@ -23,7 +23,7 @@
 
 无连接：每次连接只处理一个请求。服务器处理请求，得到客户端应答后，即断开连接，无需更多程序，可以节省时间。
 无状态：个人理解：没有上下文。有好处也有坏处，好处是各独立的请求应答速度快；坏处是对于存在上下文的请求，需要把上下文也传输过去，单次请求传输数据量大。">
-<meta property="og:updated_time" content="2017-04-10T08:06:26.335Z">
+<meta property="og:updated_time" content="2017-04-12T01:17:52.236Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP、TCP/UDP和IP">
 <meta name="twitter:description" content="HTTPHTTP协议是一种无连接、无状态的网络传输协议。
@@ -158,10 +158,12 @@
 <li><code>must-revalidate</code></li>
 <li><code>proxy-revalidate</code></li>
 <li><code>max-age</code></li>
-<li><code>s-maxage</code><br><code>Connection</code>:连接选项，保持连续或者通信完毕后关闭等<br><code>Date</code>:表示消息产生的日期和时间<br><code>Transfer-Encoding</code><br><code>Upgrade</code><br><code>Via</code><h2 id="请求报头"><a href="#请求报头" class="headerlink" title="请求报头"></a>请求报头</h2><code>Accept</code>:指明接受哪种类型的信息<br><code>Accept-Charset</code>:指明接受的字符集。未设置该域时，默认是所有字符集都接受<br><code>Accept-Encoding</code>:编码集，同上<br><code>Accept-Language</code>:自然语言，同上<br><code>Authorization</code>:权限验证报头，如果收到服务器响应401未授权，可以发送一个包含该报头域的请求要求验证。<br><code>Host</code>:指定被亲求资源的Internet主机和端口号。一般这一信息包含在了请求的URL里。<br><code>Connection</code><br><code>Cookie</code><br><code>Referer</code><br><code>User-Agent</code>:该报头域包含了用户浏览器信息。</li>
+<li><code>s-maxage</code></li>
 </ul>
 </li>
 </ul>
+<p><code>Connection</code>:连接选项，保持连续或者通信完毕后关闭等<br><code>Date</code>:表示消息产生的日期和时间<br><code>Transfer-Encoding</code><br><code>Upgrade</code><br><code>Via</code></p>
+<h2 id="请求报头"><a href="#请求报头" class="headerlink" title="请求报头"></a>请求报头</h2><p><code>Accept</code>:指明接受哪种类型的信息<br><code>Accept-Charset</code>:指明接受的字符集。未设置该域时，默认是所有字符集都接受<br><code>Accept-Encoding</code>:编码集，同上<br><code>Accept-Language</code>:自然语言，同上<br><code>Authorization</code>:权限验证报头，如果收到服务器响应401未授权，可以发送一个包含该报头域的请求要求验证。<br><code>Host</code>:指定被亲求资源的Internet主机和端口号。一般这一信息包含在了请求的URL里。<br><code>Connection</code><br><code>Cookie</code><br><code>Referer</code><br><code>User-Agent</code>:该报头域包含了用户浏览器信息。</p>
 <h2 id="响应报头"><a href="#响应报头" class="headerlink" title="响应报头"></a>响应报头</h2><p>响应报头中包含了一些请求报头中不能附加的信息，比如服务器的回应、对请求访问的资源下一步访问的信息。<br><code>Location</code>:用于重定向接受者到一个新的位置，比如更换域名时<br><code>Server</code>:包含服务器的一些信息，与<code>User-Agent</code>对应  </p>
 <h2 id="一次典型的HTTP通信"><a href="#一次典型的HTTP通信" class="headerlink" title="一次典型的HTTP通信"></a>一次典型的HTTP通信</h2><ol>
 <li>建立TCP连接</li>
@@ -260,11 +262,11 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
@@ -288,11 +290,11 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>19</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>8</sup></a></li>
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 		  
 		
 		  
@@ -334,7 +336,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -348,7 +350,7 @@
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>8</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
@@ -356,11 +358,11 @@
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>4</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
 			
 		
 			
@@ -388,15 +390,19 @@
 			
 		
 			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/异步编程/" title="异步编程">异步编程<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+				<li><a href="/tags/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
 			
 		
 			
@@ -412,15 +418,11 @@
 			
 		
 			
-				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
 			
 		
 		</ul>

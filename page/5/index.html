@@ -78,6 +78,282 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2016/03/15/编写可维护的JavaScript-第二部分-II/" title="编写可维护的JavaScript-第二部分-II" itemprop="url">编写可维护的JavaScript-第二部分-II</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-15T09:35:47.000Z" itemprop="datePublished"> 发表于 2016-03-15</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>这一部分的主题是编程实践。主要的内容包括：</p>
+<ul>
+<li>事件处理：同样是传递参数与应用逻辑的解耦</li>
+<li>避免“空比较”：即判定某一变量/对象是否是空，这里要分清各个对象的类型，不能混用</li>
+</ul>
+</blockquote>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/15/编写可维护的JavaScript-第二部分-II/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/15/编写可维护的JavaScript-第二部分-II/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/15/编写可维护的JavaScript-第二部分-II/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/07/编写可维护的JavaScript-第二部分-I/" title="编写可维护的JavaScript:第二部分-I" itemprop="url">编写可维护的JavaScript:第二部分-I</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-07T12:50:24.000Z" itemprop="datePublished"> 发表于 2016-03-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>这一部分的主题是编程实践。主要的内容包括：</p>
+<ul>
+<li>UI的松耦合：即JavaScript、CSS和HTML三者之间的解耦</li>
+<li>避免使用全局变量：创建全局变量可能引起的问题和避免方式</li>
+</ul>
+</blockquote>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/07/编写可维护的JavaScript-第二部分-I/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/07/编写可维护的JavaScript-第二部分-I/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/07/编写可维护的JavaScript-第二部分-I/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/07/SSH免密码部署-git-bash配置/" title="SSH免密码部署:git-bash配置" itemprop="url">SSH免密码部署:git-bash配置</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-07T11:10:29.000Z" itemprop="datePublished"> 发表于 2016-03-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>在使用<code>hexo d</code>部署这个博客的时候，经常会遇到拒绝public key的问题，要求确认访问repository的权限或者确定repository存在。<br>而实际上按照github的说明我已经生成并添加了ssh key，并且使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -T git@github.com</div></pre></td></tr></table></figure></p>
+<p>测试成功。<br>但是由于ssh-agent是一个临时进程，它存储公钥的方式也是写入一个临时的session，因此每次重启git-bash都会重置连接，于是每次都需要<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">eval &quot;$(ssh-agent -s)&quot;</div><div class="line">ssh-add ~/.ssh/id_rsa</div><div class="line">ssh-add -l</div></pre></td></tr></table></figure></p>
+<p>走一遍才能正确部署。<br>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/07/SSH免密码部署-git-bash配置/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/SSH/">SSH</a>►<a class="article-category-link" href="/categories/SSH/Git/">Git</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/git/">git</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/07/SSH免密码部署-git-bash配置/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/07/SSH免密码部署-git-bash配置/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/03/07/编写可维护的JavaScript-第一部分/" title="编写可维护的JavaScript:第一部分" itemprop="url">编写可维护的JavaScript:第一部分</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2016-03-07T11:03:54.000Z" itemprop="datePublished"> 发表于 2016-03-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="基本格式化"><a href="#基本格式化" class="headerlink" title="基本格式化"></a>基本格式化</h2><h3 id="缩进"><a href="#缩进" class="headerlink" title="缩进"></a>缩进</h3><p>4空格为一个缩进单位。</p>
+<h3 id="语句结尾"><a href="#语句结尾" class="headerlink" title="语句结尾"></a>语句结尾</h3><p>自动分号插入机制 ASI 会在大多数应该加分号的地方加分号但是这种自动机制可能会引起某些意外的错误。因此还是<strong>手动加分号</strong>，也不要省略分号。</p>
+<h3 id="行的长度"><a href="#行的长度" class="headerlink" title="行的长度"></a>行的长度</h3><p>一般是80个字符的限制。  </p>
+<h3 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h3><p>需要拆行的时候，在运算符后拆行，并且在拆行之后设置两个缩进。<br>如果是if语句这种，比如在判断条件语句拆行，它之后的执行主体只设置一个缩进。  </p>
+<blockquote>
+<p>例外:变量赋值时，第二行的位置应该和赋值运算符的位置保持对齐。  </p>
+</blockquote>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2016/03/07/编写可维护的JavaScript-第一部分/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2016/03/07/编写可维护的JavaScript-第一部分/#comments" class="ds-thread-count comments-count-link" data-thread-key="2016/03/07/编写可维护的JavaScript-第一部分/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2016/01/15/证明-sqrt-2-是无理数/" title="证明根号2是无理数" itemprop="url">证明根号2是无理数</a>
   </h1>
   <p class="article-author">By
@@ -546,532 +822,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/09/Linux Kernel-11-09/" title="Linux内核 11-09" itemprop="url">Linux内核 11-09</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-09T09:00:00.000Z" itemprop="datePublished"> 发表于 2015-11-09</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="缓冲区-续"><a href="#缓冲区-续" class="headerlink" title="缓冲区(续)"></a>缓冲区(续)</h2><p>find_buffer通过设备号和块号在哈希表中寻找缓冲块。</p>
-<p>缓冲区通过哈希表来管理，实际上是用哈希表来组织buffer_head。</p>
-<p>这样做是为了追求更高的速度。</p>
-<p>进程分页：4k<br>缓冲区块：1k<br>硬盘块设备：1k，两个扇区</p>
-<p>块的概念是相对于操作系统而言的，对于硬盘它只有扇区柱面磁道。</p>
-<p>重要的两点：4k打散，对齐排列</p>
-<p>为了逻辑上形成一条从进程分页通过buffer_head到缓冲区再通过reqeust到文件系统的通路，bh应该与request标齐，设备号应该一致。</p>
-<p>那么为何不可以直接读盘，而加了一道请求项这一工序？</p>
-<blockquote>
-<p>直接下读盘命令，下命令之后程序就不能接着向下执行了，要等，这一等就慢了，因为跟内存比硬盘速度太慢。<br>会不会等司机？不会，这是可以避免的。但是现代操作系统的设计思路是应对<strong>实时多任务</strong>操作，无请求项直接读，cpu挂起，其他进程抢占，怕就怕这个进程也来读盘，于是又是等待。实际上即使执行大量代码的时间也不及读盘等待的时间。这段时间就可能产生了许多变化，而缺乏管理机制肯定会出错，这就需要一个管理机制来防止出错。就是request。</p>
-</blockquote>
-<p>在ll_rw_block中make_requst<br>接下来是bh request 块设备扇区的各种挂接过程<br>发出读盘命令就要等待，在sleep_on中调用调度函数。<br>在调用调度函数之前，将当前进程状态设置为不可中断，挂起。<br>接着开始调度，此时一共就两个进程，一个处于可中断等待，一个处于不可中断等待。</p>
-<p>回到调度。<br>开始应该搜索就绪态的，<strong>并且</strong>时间片最多的进程。<br>虽然此时进程0还不是就绪，仍然可以ljmp过去。<br>ljmp相当于改变了当前进程的tss，跳转时，cou处于怠速因为没有running的进程也没有就绪的。是内核到内核的跳转。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/操作系统/">操作系统</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/11/09/Linux Kernel-11-09/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/09/Linux Kernel-11-09/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/04/Linux Kernel-11-04/" title="Linux内核 11-04" itemprop="url">Linux内核 11-04</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-04T10:00:00.000Z" itemprop="datePublished"> 发表于 2015-11-04</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="缓冲区-buffer"><a href="#缓冲区-buffer" class="headerlink" title="缓冲区 buffer"></a>缓冲区 buffer</h2><ul>
-<li>本质：一块内存</li>
-<li>目的：快</li>
-<li>限制：内存是有限的，不能无限制地划分缓冲区。</li>
-</ul>
-<p>为了获得最高的效率，已经进入缓冲区的数据在缓冲区保留的时间应该尽可能滴长。</p>
-<h3 id="buffer-head"><a href="#buffer-head" class="headerlink" title="buffer_head"></a>buffer_head</h3><p>通过buffer_head的数据结构定义知道，它采用了链式结构。</p>
-<ul>
-<li>指针b_data指向数据块。</li>
-<li>设备号b_blocknr和块号b_dev经常连用。一个块只有一个管理信息，存入的数据归属具有唯一性。</li>
-<li>整个硬盘空间，每个块都是独立并且唯一存在的，通过设备号和块号两个参数唯一确定。</li>
-<li>计数器b_count计数此时正在操作缓冲块的进程的个数。</li>
-<li>b_dirt脏位，表示块已经被写过。</li>
-<li>b_lock表示当前块正在被操作，读或者写。</li>
-<li>b_uptodate表示更新位。</li>
-</ul>
-<blockquote>
-<ul>
-<li>调度切换以机器指令为单位，不对操作进行原子化限制，可能出现数据错误。于是产生加锁的解决方法。然而加锁的方式会引发很多问题，一种是在加锁的瞬间进程被切换，另一种的一个典型就是死锁。</li>
-<li>两个以上的进程同时访问同一个共享数据区，只要至少一方发生写操作，它就叫临界区。出现三类问题：生产者消费者问题，理发师问题，哲学家就餐问题。</li>
-</ul>
-</blockquote>
-<p>这里的解决方式是加锁的同时关闭中断，此时中断还会发生但是不会引起进程切换。但是这样做也会关闭时钟中断，会使得进程切换点不够整齐。当前的切换方式只以时间为标准，不关心代码内容。所以才会发生一个操作没有做完就切换进程。另外一个影响是，关闭中断还会关闭外设中断。否则，当进程等待外设io操作的时候切换进程，中断操作会立即执行，而如果新进程所要操作的数据恰好是之前进程的数据，就引发了错误。(这里没太听清，也不太懂)</p>
-<p>隐含的问题：</p>
-<blockquote>
-<p>这样的机制建立了资源操作的独占性，使得程序的并行执行模式由于资源有限强行变为串行模式，而资源永远是有限的，这有悖于操作系统的设计思路，使得程序执行效率降低。而要想获得高效率必须尽可能使程序并发执行。这是一个旷日持久的矛盾。</p>
-</blockquote>
-<p>由进程到缓冲区/缓冲块之间的关系，由buffer_head管理，由缓冲区到外设io的关系，由request项管理，有单独的一段程序实现。</p>
-<p>进程首先查询数据是否在缓冲区中存在。如果有就直接读。如果没有，看是否有空缓冲区，如果有建立缓冲块并与请求项建立关系。</p>
-<p>分开管理有利于获得高效率。</p>
-<p>前面已经提到，数据应该在缓冲区中存留得尽可能久。那么buffer_head中哪些东西和存留时间有关？<br><strong>设备号和块号</strong><br>一个缓冲块建立起来，就确定了设备号和块号。一定有一个进程，要么读要么写，建立了这个缓冲块。当这个进程结束操作之后，乃至它退出不再存在，b_count为0，缓冲块仍然存在而不撤销吗？<br><strong>不撤销。缓冲块只建立不撤销。以防还有后续进程前来读取。</strong></p>
-<blockquote>
-<p>即使后续进程与建立缓冲块的进程没有任何关系，它仍然能够读取以前建立的缓冲块。<br>所以不论进程如何变化，在数据存在的期间保持不变的只有设备号和块号。</p>
-</blockquote>
-<p><strong>那么缓冲区岂不是要被塞满？</strong></p>
-<p>这取决于引用计数b_count。由于缓冲区没有撤销废除机制，所以只能说b_count=0的缓冲块，可以被替换，但并不是必须且立即的。</p>
-<blockquote>
-<p>当一个进程需要新建缓冲块，且此时没有空缓冲区，这就需要查看哪些b_count=0，按照先后顺序将它分配给新的进程，更换设备号块号，变成一个新的缓冲块。<br>建立块的hash_table对快速找到所需要的块非常有帮助。</p>
-</blockquote>
-<p>在之后对缓冲区的操作都是使用设备号和块号作为参数。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/操作系统/">操作系统</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/11/04/Linux Kernel-11-04/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/04/Linux Kernel-11-04/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/02/Linux Kernel-11-02/" title="Linux内核 11-02" itemprop="url">Linux内核 11-02</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-02T12:30:00.000Z" itemprop="datePublished"> 发表于 2015-11-02</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h3 id="2015-11-2"><a href="#2015-11-2" class="headerlink" title="2015-11-2"></a>2015-11-2</h3><p>當前進程</p>
-<blockquote>
-<p>編程手冊:任務切換</p>
-</blockquote>
-<p>現場保護 保存段面</p>
-<p>進程0創建進程一 tss ljmp 實際含義 硬件操作 彈出進程一的tss1給cpu 其中重要的是eip</p>
-<p><strong>這個時候也需要保存現場，當前還是進程0，還需要恢復進程0的現場。執行跳轉的哪一個段面需要送到tss0</strong>，期間執行了多次壓棧。</p>
-<blockquote>
-<p>這與一般程序的壓棧過程不同。這裏是結構體，一般程序是棧。棧的規則是後進先出，而結構體應該有選擇哪個數據彈出的功能。整個保存西現場，恢復現場的工作都由一行代碼ljmp完成，其他工作由硬件電路完成。</p>
-</blockquote>
-<p>這一行執行完畢，將gdt中tss0彈出。此時ljmp是0特權級的代碼，操作的是內核資源。跳轉之後是3特權級代碼。<br>這一代碼並沒有寫出明確的特權級跳轉操作，然而實際上的確進行了跳轉。這就引出了<strong>門</strong>的概念，任務門，中斷門等等。</p>
-<p>首先為什麼要設定特權級？</p>
-<blockquote>
-<ul>
-<li>保護內核代碼，防止低特權級代碼篡改繫統關鍵信息</li>
-<li>創造特權壁壘，不論3特權級代碼如何設計，都不會進入繫統內核</li>
-<li>同時保證正常程序能夠進行繫統調用，使用內核代碼</li>
-</ul>
-</blockquote>
-<h4 id="門"><a href="#門" class="headerlink" title="門"></a>門</h4><p>禁止的是跳轉的任意性/主動性，允許的是繫統指定的地方，跳轉到指定的目的，一切都是有既定規則/計劃的/被動的。</p>
-<p>中斷並不是一個任意的行為。是在繫統監督下，使用固定的繫統資源int80 idt system_call進行的繫統操作。</p>
-<blockquote>
-<p>也就是說，特權級壁壘實際上是為了保護使用跳轉機制對繫統資源使用的正確性，使idt真實有效地管理繫統資源。跳轉機制是為了維護特權級壁壘的堅固，保證idt不被隨意篡改。</p>
-</blockquote>
-<p>然而這一行代碼是怎麼實現特權級切換的？</p>
-<blockquote>
-<p>tss存儲了一大堆寄存器信息，而特權級實際上是一種存儲的訪問控制機制，通過硬件的設置，來控制存儲的訪問權限。從tss一變，那麽寄存器中各種指針也相應地發生了變化，這樣段地址，指令地址都變了。而特權級是作用於段上的，段變了，特權級也就相應地變了。</p>
-</blockquote>
-<p>硬件的設置，保證了一個跳轉，必須有當前段，即起跳段，和目標段。而這兩個段的地址CPU都已經知道了，並且允許這個跳轉/尋址執行，同時執行一個中斷。</p>
-<blockquote>
-<p>CPU對特權級的執行，體現在它對尋址過程的放行與否。它將通常的尋址禁止，而放行從特殊位置來的尋址請求。</p>
-</blockquote>
-<p><strong>《Intel繫統編程手冊》</strong></p>
-<p>這一行執行之後，進入繫統中斷int80 system_call，就跳轉到地方執行了。那麽往下的半個函數的程序，什麼時候執行？</p>
-<blockquote>
-<p>當前是0進程，中斷先保護0的現場，彈出1的地址，本來函數中下一行代碼地址在eip中，由於中斷保護現場，它被存到了進程0的tss中，因此當進程0的現場恢復的時候，恢復了tss0，就會執行下一行。</p>
-</blockquote>
-<p>所以在下次schedule.switch_to時，就會恢復tss，於是接下來執行後半個函數。</p>
-<h3 id="ljmp后緩衝區的創建"><a href="#ljmp后緩衝區的創建" class="headerlink" title="ljmp后緩衝區的創建"></a>ljmp后緩衝區的創建</h3><h4 id="sys-setup函數與緩衝區"><a href="#sys-setup函數與緩衝區" class="headerlink" title="sys_setup函數與緩衝區"></a>sys_setup函數與緩衝區</h4><p>開始一大堆都是根文件繫統的初始化。</p>
-<p><strong>緩衝區</strong></p>
-<blockquote>
-<p>操作繫統對硬盤的操作，都是經過緩衝區（內存）的中轉。目的∶快。關鍵∶<strong>複用</strong>。並不是每個讀寫操作，都使用硬盤。而是將重複的內容寫入內存，需要的時候提供內存中的這個副本。內存的讀寫速度可比硬盤快太多了。緩衝區就相當於一塊高速虛擬盤。它以塊為單位。</p>
-</blockquote>
-<p>複用策略</p>
-<p>主動邀請，被動等待</p>
-<p>等待的代價是佔用內存。存的時間長，其他進程效率就低，短複用就少。需要平衡二者的矛盾。</p>
-<p>讀使用上述策略是可行的。那麽寫呢？</p>
-<p>考慮到寫的內容有可能多次更改，以及其他用戶併發地訪問，這樣就又涉及到非常多的讀操作。於是由讀操作的優勢，寫操作同樣也需要緩衝區。</p>
-<p>而什麼時候將緩衝區內容dump到硬盤呢？這由操作繫統的策略決定。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/操作系统/">操作系统</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/11/02/Linux Kernel-11-02/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/02/Linux Kernel-11-02/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/11/02/Linux Kernel-problems/" title="Linux内核 思考题" itemprop="url">Linux内核 思考题</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2015-11-02T12:30:00.000Z" itemprop="datePublished"> 发表于 2015-11-02</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h1 id="1"><a href="#1" class="headerlink" title="1"></a>1</h1><blockquote>
-<p><strong>为什么计算机启动最开始的时候执行的是BIOS代码而不是操作系统自身的代码？</strong></p>
-</blockquote>
-<p>因为开机加电的一瞬间，内存中没有程序。而CPU中的逻辑电路被设计成运行内存中的程序，没有能力直接从软盘中运行操作系统。要想运行操作系统，必须通过BIOS将操作系统程序加载到内存中。因此需要首先执行BIOS代码。</p>
-<h1 id="2"><a href="#2" class="headerlink" title="2"></a>2</h1><blockquote>
-<p><strong>为什么BIOS只加载了一个扇区，后续扇区却是由bootsect代码加载？为什么BIOS没有把所有需要加载的扇区都加载？</strong></p>
-</blockquote>
-<p>因为不同的计算机可能具有不同的BIOS，而一台计算机也可能安装不同的操作系统。为了使BIOS与操作系统能够协同工作，现行的解决方法是“两头约定”和“定位识别”。“约定”操作系统的设计者必须把最开始执行的程序固定在启动扇区，即软盘0盘面0磁道1扇区。“定位识别”是指BIOS一旦接到启动操作系统的命令，就只从上述规定的启动扇区加载代码到0x07c00位置。之后的代码由于不同操作系统设计的内容不同，加载它们的时间、内容也不同，BIOS不能也没有必要来承担后续代码加载的工作，而是交由操作系统代码本身来执行，这就确保了同一台计算机能够正确运行不同的操作系统。</p>
-<h1 id="3"><a href="#3" class="headerlink" title="3"></a>3</h1><blockquote>
-<p><strong>为什么BIOS把bootsect加载到0x07c00，而不是0x00000？加载后又马上挪到0x90000处，是何道理？为什么不一次加载到位？</strong></p>
-</blockquote>
-<p>0x00000之后的1KB用来存放中断向量表，再之后的256B构建了BIOS数据区。<br>0x07c00是由BIOS根据“两头约定”和“定位识别”原则确定的。加载后复制自身到0x90000是操作系统本身代码的执行，是操作系统的行为，代表着操作系统开始按照自己的意图规划内存。加载操作系统代码需要遵守“两头约定”和“定位识别”原则，由BIOS来执行。不能在操作系统还未加载的时候就先行决定。</p>
-<h1 id="4"><a href="#4" class="headerlink" title="4"></a>4</h1><blockquote>
-<p><strong>bootsect、setup、head程序之间是怎么衔接的？给出代码证据。</strong></p>
-</blockquote>
-<p>首先BIOS加载bootsect。bootsect通过load_setup中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mov dx, #0x0000</div><div class="line">mov cx, #0x0002</div><div class="line">mov bx, #0x0200</div><div class="line">mov ax, #0x0200 + SETUPLEN ;SETUPLEN 为4</div><div class="line">int 0x13</div></pre></td></tr></table></figure><br>读入setup程序的4个扇区。接着继续加载以<code>head.s</code>开头的system模块。加载完毕后通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jmpi 0, SETUPSEG</div></pre></td></tr></table></figure><br>执行setup代码。在setup程序进行了一系列实模式-保护模式过渡准备工作之后，通过GDT来确定<code>head.s</code>的位置并执行它<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jmpi 0, 8</div></pre></td></tr></table></figure><br>这里将<code>8</code>看成<code>1000</code></p>
-<blockquote>
-<p>int 0x19中断指向的中断服务程序是由BIOS设计好的，用来加载bootsect。<code>bootsect.s</code>中load_setup用来加载setup<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">load_setup:</div><div class="line">mov dx, #0x0000</div><div class="line">mov cx, #0x0002</div><div class="line">mov bx, #0x0200</div><div class="line">mov ax, #0x0200 + SETUPLEN ;SETUPLEN 为4</div><div class="line">int 0x13</div><div class="line">jnc ok_load_setup</div><div class="line">mov dx, #0x0000</div><div class="line">mov ax, #0x0000</div><div class="line">int 0x13</div><div class="line">j load_setup</div></pre></td></tr></table></figure><br>指定了系统要读盘的位置和扇区数之后，转入int 0x13将setup的4个扇区代码读入。<br>在bootsect接着加载system模块进内存之后，通过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jmpi 0, SETUPSEG</div></pre></td></tr></table></figure><br>开始继续执行setup程序代码。setup关闭中断，移动内核程序到内存起始位置覆盖BIOS，设置中断描述符表（IDT）和全局描述符表（GDT），将中断向量表的形式转化为中断描述符。接着打开A20，得到32位线性地址空间。重编程8259A可编程中断控制器，重新映射中断号，解决了原中断号与Intel内部中断冲突的问题。接下来将CR0寄存器第0位置1,<strong>开启保护模式</strong>。进入保护模式后，就需要根据GDT来确定后续执行程序的位置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">jmpi 0, 8</div></pre></td></tr></table></figure><br>将8看成1000，表示0特权级下，0表（0位GDT，1位LDT）标号为1的项，即第二项。得到段基址为0x00000000,偏移为0。即system模块中的<code>head.s</code>。</p>
-</blockquote>
-<h1 id="5"><a href="#5" class="headerlink" title="5"></a>5</h1><blockquote>
-<p><strong>setup程序里的cli是为了什么？</strong></p>
-</blockquote>
-<p>关闭中断，避免中断在复制内核程序、由实模式中断向量表过渡到保护模式中断描述符表时介入。这是为了在实模式中断机制失效而保护模式中断机制尚未建立时，防止进入中断造成系统崩溃。</p>
-<h1 id="6"><a href="#6" class="headerlink" title="6"></a>6</h1><blockquote>
-<p><strong>setup程序的最后是jmpi 0,8 为什么这个8不能简单的当作阿拉伯数字8看待？</strong></p>
-</blockquote>
-<p>“8”是保护模式下的段选择符，用于选择描述符表和描述符表项以及所要求的特权级。实际上此处的8应理解为0x00008。16位段描述符中高13位为索引，低3位为属性。即“8”代表1000,1为表中项序号，即表中第二项。之后的1位0代表所选择的表，0即GDT；末两位00代表段特权级，即0特权级。</p>
-<h1 id="7"><a href="#7" class="headerlink" title="7"></a>7</h1><blockquote>
-<p><strong>打开A20和打开pe究竟是什么关系，保护模式不就是32位的吗？为什么还要打开A20？有必要吗？</strong></p>
-</blockquote>
-<p>打开A20实际上是扩展了CPU的寻址空间，由实模式的16位扩大到保护模式的32位。但是此时仍然是保护模式，直至<code>setup.s</code>将CR0寄存器第0位置1。之后才是真正的32位保护模式。</p>
-<h1 id="8"><a href="#8" class="headerlink" title="8"></a>8</h1><blockquote>
-<p><strong>Linux是用C语言写的，为什么没有从main函数开始，而是先运行3个汇编程序，道理何在？</strong></p>
-</blockquote>
-<p>从main函数开始执行是一般应用程序的惯例，其实现需要编译器和操作系统为其完成一系列的支撑工作；而Linux是操作系统程序，是最底层的管理和支撑程序，没有其他程序为其执行做支撑，上电时只能在实模式下通过执行3个汇编程序完成向32位模式的转变，之后才可能执行main函数。40页</p>
-<h1 id="9"><a href="#9" class="headerlink" title="9"></a>9</h1><blockquote>
-<p><strong>为什么不用call，而是用ret“调用”main函数？画出调用路线图，给出代码证据。</strong></p>
-</blockquote>
-<p>因为在由head程序向main函数跳转时，是不需要main函数返回的；这是由于main函数已经是最底层的函数了，没有更底层的支撑函数支持其返回。所以Linux采用ret指令，模拟函数返回，跳转到main函数去执行。  38页</p>
-<h1 id="10"><a href="#10" class="headerlink" title="10"></a>10</h1><blockquote>
-<p><strong>保护模式的“保护”体现在哪里？</strong></p>
-</blockquote>
-<ul>
-<li>保护模式下，对寄存器和内存空间的访问有等级限制，这样防止了用户程序任意串改系统代码。例如，只有在0特权级下才能对控制寄存器进行读写，而在其他特权级下，这种操作是不允许的</li>
-<li>采用分页机制，用户进程对内存的读写使用的是线性地址，即基址+偏移<br>402页</li>
-</ul>
-<h1 id="11"><a href="#11" class="headerlink" title="11"></a>11</h1><blockquote>
-<p><strong>特权级的目的和意义是什么？为什么特权级是基于段的？</strong></p>
-</blockquote>
-<p>特权级是操作系统为了更好的管理内存空间而设的，提高了系统的安全性。通过段，系统划分了内核代码段、内核数据段、用户代码段和用户数据段等不同的数据段，有些段是系统专享的，有些是和用户程序共享的，因此就有特权级的概念。 398~405页</p>
-<h1 id="12"><a href="#12" class="headerlink" title="12"></a>12</h1><blockquote>
-<p><strong>在setup程序里曾经设置过一次gdt，为什么在head程序中将其废弃，又重新设置了一个？为什么折腾两次，而不是一次搞好？</strong></p>
-</blockquote>
-<p>30页</p>
-<h1 id="13"><a href="#13" class="headerlink" title="13"></a>13</h1><blockquote>
-<p><strong>在head程序执行结束的时候，在idt的前面有184个字节的head程序的剩余代码，剩余了什么？为什么要剩余？</strong></p>
-</blockquote>
-<p>通过运行Linux-0.11代码，可以看到剩余的代码是标号after_page_tables之后head程序中的代码。因为head程序共占用25KB+184B的内存空间，系统在建立好分页机制和GDT、IDT之后，在内存空间0x05400-0x54b8处留有184B的空间未使用，因此产生了剩余。</p>
-<h1 id="14"><a href="#14" class="headerlink" title="14"></a>14</h1><blockquote>
-<p><strong>进程0的task_struct在哪？具体内容是什么？给出代码证据。</strong></p>
-</blockquote>
-<p>在内核数据段。进程0的管理结构task_struct的母本在代码设计阶段就视线设计好了，直接编译加载进内核数据段。内容有状态、信号、pid、alarm、ldt、tss等管理该进程所需的数据。代码证据：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Sched.c:</div><div class="line">  uniontask_union &#123;</div><div class="line">  structtask_struct task;</div><div class="line">  <span class="keyword">char</span> <span class="built_in">stack</span>[PAGE_SIZE];</div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">static</span> <span class="keyword">union</span> task_unioninit_task = &#123;INIT_TASK,&#125;;</div></pre></td></tr></table></figure><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">Sched.h:</div><div class="line">  <span class="meta">#<span class="meta-keyword">define</span> INIT_TASK \</span></div><div class="line">  <span class="comment">/* state etc */</span> &#123; 0,15,15, \</div><div class="line">  <span class="comment">/* signals */</span> 0,&#123; &#123;&#125;,&#125;,0, \</div><div class="line">  <span class="comment">/* ec,brk... */</span> 0,0,0,0,0,0, \</div><div class="line">  <span class="comment">/* pid etc.. */</span> 0,-1,0,0,0, \</div><div class="line">  <span class="comment">/* uidetc */</span> 0,0,0,0,0,0, \</div><div class="line">  <span class="comment">/* alarm */</span> 0,0,0,0,0,0, \</div><div class="line">  <span class="comment">/* math */</span> 0, \</div><div class="line">  <span class="comment">/* fs info */</span>  -1,0022,NULL,NULL,NULL,0, \</div><div class="line">  <span class="comment">/* filp */</span> &#123;NULL,&#125;\, \</div><div class="line">  &#123; \</div><div class="line">  &#123;0,0&#125;, \</div><div class="line">  <span class="comment">/* ldt */</span> &#123;0x9f,0xc0fa00&#125;, \</div><div class="line">  &#123;0x9f,0xc0f200&#125;, \</div><div class="line">  &#125;, \</div><div class="line">  <span class="comment">/*tss*/</span> \&#123;0,PAGE_SIZE+(long)&amp;init_task,0x10,0,0,0,0,(long)&amp;pg_dir,\</div><div class="line">  0,0,0,0,0,0,0,0, \</div><div class="line">  0,0,0x17,0x17,0x17,0x17,0x17,0x17, \</div><div class="line">  _LDT(0),0x80000000, \</div><div class="line">  &#123;&#125; \</div><div class="line">  &#125;, \</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
-<h1 id="15"><a href="#15" class="headerlink" title="15"></a>15</h1><blockquote>
-<p><strong>进程0创建进程1时，为进程1建立了自己的task_struct、内核栈，第一个页表，分别位于物理内存16MB的顶端倒数第一页、第二页。请问，这个了页究竟占用的是谁的线性地址空间，内核、进程0、进程1、还是没有占用任何线性地址空间（直接从物理地址分配）？说明理由并给出代码证据。</strong></p>
-</blockquote>
-<p>两次都是通过调用get_free_page()在物理内存里申请一个物理页，由于在head.s中决定内核的物理地址和线性地址是一一对应的。因此这两个页都在内核的线性地址空间内。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">setup_paging:</div><div class="line">movl $1024*5,%ecx</div><div class="line">/* 5 pages - pg_dir+4 page tables*/</div><div class="line">xorl %eax,%eax</div><div class="line">xorl %edi,%edi</div><div class="line">/* pg_dir is at 0x000*/</div><div class="line">cld;rep;stosl</div><div class="line">movl $pg0+7,_pg_dir</div><div class="line">/* set present bit/user r/w*/</div><div class="line">movl $pg1+7,_pg_dir+4</div><div class="line">/*  --------- &quot; &quot; ---------*/</div><div class="line">movl $pg2+7,_pg_dir+8</div><div class="line">/*  --------- &quot; &quot; ---------*/</div><div class="line">movl $pg3+7,_pg_dir+12</div><div class="line">/*  --------- &quot; &quot; ---------*/</div><div class="line">movl $pg3+4092,%edi</div><div class="line">movl $0xfff007,%eax</div><div class="line">/*  16Mb - 4096 + 7 (r/w user,p)*/</div><div class="line">std</div><div class="line">1: stosl</div><div class="line">/* fill pages backwards - more efficient :-)*/</div><div class="line">subl $0x1000,%eax  </div><div class="line">jge 1b</div></pre></td></tr></table></figure>  </p>
-<h1 id="16"><a href="#16" class="headerlink" title="16"></a>16</h1><blockquote>
-<p><strong>假设：经过一段时间的运行，操作系统中已经有5个进程在运行，且内核分别为进程4、进程5分别创建了第一个页表，这两个页表在谁的线性地址空间？用图表示这两个页表在线性地址空间和物理地址空间的映射关系。</strong></p>
-</blockquote>
-<p>两个页表均占用内核的线性地址空间</p>
-<h1 id="17"><a href="#17" class="headerlink" title="17"></a>17</h1><blockquote>
-<p><strong>进程0开始创建进程1，调用了fork()，跟踪代码时我们发现，fork代码执行了两次，第一次，跳过init()直接执行了for(;;) pause()，第二次执行fork代码后，执行了init()。奇怪的是，我们在代码中并没有看见向后的goto语句，也没有看到循环语句，是什么原因导致反复执行？请说明理由，并给出代码证据。</strong></p>
-</blockquote>
-<p>大致过程是：进程0在创建进程1时，判断条件中执行了第一次的<code>fork()</code>，这个时候没有写时复制，不能执行需要栈空间的函数。因此按照之前的定义<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">inline</span> _syscall0(<span class="keyword">int</span>, fork)</div></pre></td></tr></table></figure><br><code>fork()</code>应该执行<code>_syscall0</code>中的<code>fork(void)</code>。经过一系列汇编代码的嵌入，最终会有这样的函数形式：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">int fork(void)</div><div class="line">&#123;</div><div class="line">long __res;</div><div class="line">__asm__ volatile("int $0x80"</div><div class="line"></div><div class="line">    : "=a" (__res)</div><div class="line">    : "0" (__NR_ fork));    </div><div class="line">    </div><div class="line">    if (__res &gt;= 0)</div><div class="line">    return (int) __res;</div><div class="line">    errno= -__res;</div><div class="line">    return -1；</div><div class="line">&#125;</div></pre></td></tr></table></figure><br>可见函数中调用了 int 0x80，显然需要各种压栈（按照顺序是：CPU硬件自动压栈：ss,esp,eflags,cs,eip；_system_call压栈：ds,es,fs,edx,ecx,ebx;<code>_sys_call_table</code>自动压栈对应的参数：long none；<code>_sys_fork</code>压栈：gs,esi,edi,ebp,eax（对应nr））。其中重要的是将eip的值设置为了返回之后的下一行，即<br>    if (<strong>res &gt;= 0)<br>之后调用<code>copy_process()</code>所用的所有参数，就是上面压栈的那些。<code>copy_process()</code>将这些寄存器的内容复制给了进程1的tss，值得注意的一点是，并不是所有的都复制了，其中进程1的eax就手动赋了0，而进程0是1。经过一系列分页设置、共享文件、设置GDT、修改状态之后，中断恢复，回到eip所指向的那条指令。此时eax存储的是1，返回给if判断不通过，于是执行<code>for(;;) pause</code>。之后通过进程调度进程1开始运行时，同样到了<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(!fork())</div></pre></td></tr></table></figure><br>这里，执行了第二次<code>fork()</code>。由于进程1的tss中eax手动赋了0，于是在上面第二次int 0x80返回后，`</strong>res=0<code>,返回给if语句后判断通过，就执行了</code>init()`。</p>
-<h1 id="18"><a href="#18" class="headerlink" title="18"></a>18</h1><blockquote>
-<p><strong>copy_process函数的参数最后五项是：long eip,long cs,long eflags,long esp,long ss。查看栈结构确实有这五个参数，奇怪的是其他参数的压栈代码都能找得到，确找不到这五个参数的压栈代码，反汇编代码中也查不到，请解释原因。</strong></p>
-</blockquote>
-<p>是由int 0x80在中断时通过cpu硬件自动压栈的。并不会体现在代码上。见20题。</p>
-<h1 id="19"><a href="#19" class="headerlink" title="19"></a>19</h1><blockquote>
-<p><strong>为什么static inline _syscall0(type,name)中需要加上关键字inline？</strong></p>
-</blockquote>
-<p>从内核空间创建进程将导致没有写时复制，直到执行一个execve调用。这可能给堆栈带来问题。处理方法是在<code>fork()</code>调用之后，禁止<code>main()</code>使用任何堆栈。因此就不能进行函数调用，这样<code>fork()</code>就也只能使用inline代码。否则<code>main()</code>中的其他代码运行时有可能再开辟堆栈空间污染原有栈数据。</p>
-<h1 id="20"><a href="#20" class="headerlink" title="20"></a>20</h1><blockquote>
-<p><strong>根据代码详细说明copy_process函数的所有参数是如何形成的？</strong></p>
-</blockquote>
-<p><code>copy_process</code>的所有参数都是由之前的代码累积压栈得到的。<br>代码证据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">;代码路径：kernel/system_call.s:</div><div class="line">_system_call:</div><div class="line">    cmpl $nr_system_calls-1, %eax</div><div class="line">    ja bad_sys_call</div><div class="line">    push %ds</div><div class="line">    push %es</div><div class="line">    push %fs</div><div class="line">    pushl %edx</div><div class="line">    pushl %ecx</div><div class="line">    pushl %ebx</div><div class="line">    ...</div></pre></td></tr></table></figure><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">_sys_fork:</div><div class="line">    call _find_empty_process</div><div class="line">    testl %eax, %eax</div><div class="line">    js 1f</div><div class="line">    push %gs</div><div class="line">    pushl %esi</div><div class="line">    pushl %edi</div><div class="line">    pushl %ebp</div><div class="line">    pushl %eax</div><div class="line">    call _copy_process</div><div class="line">    ...</div></pre></td></tr></table></figure><br>其中最后压栈的eax是<code>find_empty_process()</code>返回的任务号，就是<code>copy_process()</code>函数的第一个参数int nr，以及int 0x80在中断时自动压栈的eip，cs，eflags，esp，ss，这些一起构成了<code>copy_process()</code>函数的第所有参数。</p>
-<h1 id="21"><a href="#21" class="headerlink" title="21"></a>21</h1><blockquote>
-<p><strong>根据代码详细分析，进程0如何根据调度第一次切换到进程1的。</strong></p>
-</blockquote>
-<p><code>fork()</code>-&gt;<code>_syscall0</code>-&gt;int 0x80-&gt;<code>_sys_call</code>-&gt;<code>sys_fork</code>-&gt;<code>copy_process</code>-&gt;<code>get_free_page</code>-&gt;<code>copy_mem</code>-&gt;<code>get_free_page</code>-&gt;进程0怠速：<code>pause()</code>-&gt;<code>schedule()</code>-&gt;判断<code>if(!fork())</code>到<code>init()</code>-&gt;设置硬盘信息、建立缓冲区，开始执行。82-110页</p>
-<h1 id="22"><a href="#22" class="headerlink" title="22"></a>22</h1><blockquote>
-<p><strong>内核的线性地址空间是如何分页的？画出从0x000000开始的7个页（包括页目录表、页表所在页）的挂接关系图，就是页目录表的前四个页目录项、第一个个页表的前7个页表项指向什么位置？给出代码证据。</strong></p>
-</blockquote>
-<p>首先是1个页的也目录表，然后是4个页的页表，然后是若干个页。<br>页目录表的第一项指向第一个页表，以此类推，第四项指向第四个页表。<br>页表的第一个页表项指向第1个页，即页0，也就是页目录表所在的页。第二项指向自己，第三项指向第二个页表，以此类推。之后的页表项指向之后的页。</p>
-<h1 id="23"><a href="#23" class="headerlink" title="23"></a>23</h1><blockquote>
-<p><strong>用文字和图说明中断描述符表是如何初始化的，可以举例说明（比如：set_trap_gate(0,&amp;divide_error)），并给出代码证据。</strong></p>
-</blockquote>
-<p>初始化中断描述符表即将中断服务程序与中断描述符表中的项一一对应。<br><code>set_trap_gate(0,&amp;divede_error)</code>对应宏函数<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">#define _set_gate(gate_addr,type,dp1,addr) \</div><div class="line">__asm__("movw %%dx, %%ax\n\t") \</div><div class="line">        "movw %0, %%dx\n\t" \</div><div class="line">        "movl %%eax, %1\n\t" \</div><div class="line">        "movl %%edx, %2" \</div><div class="line">        : \</div><div class="line">    : "i" ((short) (0x8000 + (dpl&lt;&lt;13) + (type&lt;&lt;8))), \</div><div class="line">        "o" (*((char *) (gate_addr))), \</div><div class="line">        "o" (*(4+(char *) (gate_addr))), \</div><div class="line">        "d" ((char *) (addr)), "a" (0x00080000)</div><div class="line">    ...</div></pre></td></tr></table></figure><br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> set_trap_gate(n,addr)</span></div><div class="line">    _set_gate(&amp;idt[n],<span class="number">15</span>,<span class="number">0</span>,addr)</div></pre></td></tr></table></figure><br>55页</p>
-<h1 id="24"><a href="#24" class="headerlink" title="24"></a>24</h1><blockquote>
-<p><strong>进程0 fork进程1之前，为什么先要调用move_to_user_mode()？用的是什么方法？解释其中的道理。</strong></p>
-</blockquote>
-<p>因为在Linux-0.11中，除进程0之外，所有进程都是由一个已有进程在用户态下完成创建的。但是此时进程0还处于内核态，因此要调用<code>move_to_user_mode()</code>函数，模仿中断返回的方式，实现进程0的特权级从内核态转化为用户态。又因为在Linux-0.11中，转换特权级时采用中断和中断返回的方式，调用系统中断实现从3到0的特权级转换，中断返回时转换为3特权级。因此，进程0从0特权级到3特权级转换时采用的是模仿中断返回。</p>
-<h1 id="25"><a href="#25" class="headerlink" title="25"></a>25</h1><blockquote>
-<p><strong>进程0创建进程1时调用copy_process函数，在其中直接、间接调用了两次get_free_page函数，在物理内存中获得了两个页，分别用作什么？是怎么设置的？给出代码证据。</strong></p>
-</blockquote>
-<p>第一次是创建进程1的tss和内核态栈：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">p = (<span class="keyword">struct</span> task_struct *) get_free_page();</div><div class="line">*p = *current</div><div class="line">p-&gt;tss.esp0 = PAGE_SIZE + (<span class="keyword">long</span>) p;</div></pre></td></tr></table></figure><br>第二次是位进程1创建第一个页表：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (!(to_page_table = (<span class="keyword">unsigned</span> <span class="keyword">long</span> *) get_free_page()))</div><div class="line">    <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">*to_dir = ((<span class="keyword">unsigned</span> <span class="keyword">long</span>) to_page_table) | <span class="number">7</span>;</div></pre></td></tr></table></figure></p>
-<h1 id="26"><a href="#26" class="headerlink" title="26"></a>26</h1><blockquote>
-<p><strong>在IA-32中，有大约20多个指令是只能在0特权级下使用，其他的指令，比如cli，并没有这个约定。奇怪的是，在Linux0.11中，在3特权级的进程代码并不能使用cli指令，会报特权级错误，这是为什么？请解释并给出代码证据。</strong></p>
-</blockquote>
-<ul>
-<li>cli指令用于复位IF标志位。在IA-32体系结构中规定，只有当CPL小于或等于IOPL时才可以执行该指令。如果在CPL大于IOPL的情况下执行，将会产生一个一般保护异常（#GP）。保护异常(#GP)是interrupt 0x13， 在<code>trap_init()</code>中设置<br>–set_trap_gate(13,&amp;general_protection);</li>
-<li>IA32硬件规定，在执行CLI指令的时候，当前代码的特权级数值上必须不高于当前EFLAGS寄存器中IOPL字段的值。进程0的EFLAGS值设置为0，后续进程如果没有改动也是0，IOPL=0。因此特权级3的代码不能用cli。</li>
-</ul>
-<h1 id="27"><a href="#27" class="headerlink" title="27"></a>27</h1><blockquote>
-<p><strong>根据代码详细分析操作系统是如何获得一个空闲页的。</strong></p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">unsigned long get_free_page(void)</div><div class="line">&#123;</div><div class="line">register unsigned long __res asm(&quot;ax&quot;);</div><div class="line"></div><div class="line">__asm__(&quot;std;repne;scasb\n\t&quot;)</div><div class="line"></div><div class="line">        &quot;jne 1f\n\t&quot;</div><div class="line">        &quot;movb $1, 1(%%edi)\n\t&quot;</div><div class="line">        </div><div class="line">        &quot;sall $12, %%ecx\n\t&quot;</div><div class="line">        &quot;addl %2,%%ecx\n\t&quot;</div><div class="line">        &quot;movl %%ecx,%%edx\n\t&quot;</div><div class="line">        &quot;movl $1024,%%ecx\n\t&quot;</div><div class="line">        &quot;leal 4092(%%eax),%%edi\n\t&quot;</div><div class="line">        </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>89页 注释：首先反向扫描串<code>mem map[]</code>，<code>al(0)</code>与di不等则重复寻找引用对数为0的项。若找不到空闲页，跳转到1。否则将1赋值给edi+1的位置，使，在<code>mem map[]</code>中，将找到0的项的引用计数置1。接着将ecx算数左移12位，即页的相对地址。LOW MEN + ecx作为页的物理地址。将edx + 4 KB的有效地址赋给edi。将eax（即<code>&quot;0&quot;(0)</code>），目的是页面清零。</p>
-<h1 id="28"><a href="#28" class="headerlink" title="28"></a>28</h1><blockquote>
-<p><strong>用户进程自己设计一套LDT表，并与GDT挂接，是否可行，为什么？</strong></p>
-</blockquote>
-<p>用户代码段的特权级都是3，内核特权级是0，跨特权长跳转是被禁止的，不管是0跳3还是3跳0。这一特权级壁垒，是由CPU硬件做到的。GDT，LDT这两个数据结构被设置在内核数据区，是0特权级，只有0特权级才能修改设置GDT，LDT。而用户进程自己设计的LDT不会被CPU承认，因为真正有效的GDT、LDT需要挂接在CPU的GDTR、LDTR上，CPU只承认它们指向的数据结构，并且设置GTDR、LDTR的操作也能且只能在0特权级下进行。<br>259页</p>
-<h1 id="29"><a href="#29" class="headerlink" title="29"></a>29</h1><blockquote>
-<p><strong>保护模式下，线性地址到物理地址的转化过程是什么？</strong></p>
-</blockquote>
-<p>保护模式：已经打开PE；<br>未打开PG：恒等映射，由于Linux 0.11的特性，只能在16MB空间内寻址；<br>打开PG：进行32位寻址，在IA-32体系下能够支持最多4GB物理内存。32位的线性地址需要通过MMU进行解析，以页目录表-页表-页面三级映射的形式进行线性地址-物理地址的转换。类似于GDT和GDTR，页目录表的基址在CPU中也有相应的空间存储，即CR3。MMU在解析线性地址时，首先查询CR3找到页目录表，根据前10位找到页目录项，该项内记载着页表的<strong>物理地址值</strong>，根据接下来的10位找到页表项，该项记载着页面的<strong>物理地址</strong>。接下来的12位表示页面内的偏移物理地址，这样就完成了线性地址到物理地址经过页目录表-页表-页面的三级映射。</p>
-<h1 id="30"><a href="#30" class="headerlink" title="30"></a>30</h1><blockquote>
-<p><strong>为什么get_free_page()将新分配的页面清0？</strong></p>
-</blockquote>
-<p>防止该位置之前已经存在的垃圾数据对新进程造成影响。</p>
-<h1 id="31"><a href="#31" class="headerlink" title="31"></a>31</h1><blockquote>
-<p><strong>内核和普通用户进程并不在一个线性地址空间内，为什么仍然能够访问普通用户进程的页面？</strong></p>
-</blockquote>
-<p>虽然它们的线性地址空间不同，但是它们映射的物理地址可能重合。或者通过页面共享，访问同样的内容。但是不论是哪种方式，都需要对页面的特权级和读写保护进行严格的控制。</p>
-<h1 id="32"><a href="#32" class="headerlink" title="32"></a>32</h1><blockquote>
-<p><strong>详细分析一个进程从创建、加载程序、执行、退出的全过程。</strong></p>
-</blockquote>
-<ul>
-<li><p>创建<br>首先，一个进程的创建必是由某个父进程来执行的。</p>
-<p>用户创建进程，一般是shell创建。假设硬盘上有一可执行文件p，用户输入shell指令后，系统响应该指令并开始创建进程，调用<code>fork</code>，进入int 0x80中断。首先在task[64]中申请进程槽（项），并获得一个进程号，如5。随后根据该项号确定在哪个线性地址空间以及LDT和TSS的对应关系。</p>
-<p>接下来创建进程skeleton。<code>copy_process()</code>调用<code>get_free_page</code>在内核线性地址空间中申请了task_struct和内核栈。接下来父进程shell将自己的task_stuct复制给p，因为这是一个不同的进程，还要进行个性化设置。之前要将其设置为不可中断等待状态。设置好包括进程号、父进程、TSS等内容之后，还要复制p本身的代码。这就要为进程分段，确定线性地址空间，即设置段基址和段限长。之前为了共享父进程的代码和数据，LDT都是继承父进程的，并且分页也是共享父进程的，只是创建了另一套页目录表项和页表项，指向父进程页面。文件同样继承父进程的。<br>接下来将TSS和LDT挂载在GDT指定位置处，建立段一级保护。最后设置其为就绪态。准备参加调度。</p>
-</li>
-<li>加载<br>首先检查页面空间、文件，确定其格式和规范合法正确。随后着手与父进程脱离关系，清空页目录表项和页表。重新设置LDT，调整task_struct。此时p没有页，执行将产生缺页中断。<code>trap_init</code>引导缺页中断，<code>_page_fault</code>中<code>_do_no_page</code>调用缺页处理函数,<code>_do_wp_page</code>调用写保护处理函数。首先确认缺页中断是加载进程引起的，接着确认是否可以通过共享获得页，<code>for</code>循环连读4个块。<code>block+1</code>让出文件头，<code>bread_page</code>是读一个页到缓冲区，占用4个块。读盘动作总要先申请缓冲区，一次从文件上读取一个页大小。缓冲区操作建立：<code>bh``request</code>。如果页不够用，就继续缺页中断，直至加载完毕。</li>
-<li>执行<br>开辟栈空间供其使用，运行结束清空栈空间</li>
-<li>退出<br>由进程自身发起。链接器在应用程序上加上<code>_exit</code>。直接贴机器码。走int 0x80 system_call那一套。<code>do_exit</code>执行各种内存释放操作。进程本身的退出还是要由父进程操作。此时只是发出请求并执行自身能够完成的任务：释放内存，清空进程槽，清空文件访问关系等。直至将进程状态改为<code>TASK_ZOMBIE</code>。最后不能使用<code>iret</code>而是调用<code>tell_father</code>。<br>通过进程通信机制向父进程发送退出信号，等待父进程调用int 0x80时接收信号。当父进程调度时，<code>do_signal</code>将处理信号，随后清栈。由于<code>do_signal</code>的作用（复制内核栈的内容到用户栈，修改内核栈使进程转向），父进程int 0x80返回后指向<code>wait</code>，引发<code>sys_waitpid</code>，开始清理，完成后根据用户栈的内容回到父进程用户态继续执行，至此子进程退出彻底完成。</li>
-</ul>
-<h1 id="33"><a href="#33" class="headerlink" title="33"></a>33</h1><blockquote>
-<p><strong>详细分析多个进程（无父子关系）共享一个可执行程序的完整过程。</strong></p>
-</blockquote>
-<p><code>share_page</code>与<code>try_to_share</code><br>首先调用<code>share_page</code>检查文件是否可执行、是否有其他进程打开过该文件。然后遍历task[]找到第一个打开该文件的进程，确认进程合法性之后调用<code>try_to_share</code>共享这个页。确认P位为1，D位为0，否则重新读盘；然后开启写保护读取该页。</p>
-<h1 id="34"><a href="#34" class="headerlink" title="34"></a>34</h1><blockquote>
-<p><strong>缺页中断是如何产生的，页写保护中断是如何产生的，操作系统是如何处理的？</strong></p>
-</blockquote>
-<p>P位为1引发<code>trap_init</code>中关于第14位的缺页中断。调用<code>_do_no_page</code>处理函数、<code>_do_wp_page</code>写保护函数。见doc</p>
-<h1 id="35"><a href="#35" class="headerlink" title="35"></a>35</h1><blockquote>
-<p><strong>为什么要设计缓冲区，有什么好处？</strong></p>
-</blockquote>
-<p>缓冲区的本质是一块内存，核心思想是资源的“复用”，目的是提高资源访问速度。因为内存访问速度比硬盘的访问速度快得多，如果同一个资源多次被读取，那么由硬盘一次性写入内存之后再多次从内存读出，将比每次都从硬盘读取快很多，使得系统执行效率得到很大的提升.</p>
-<h1 id="36"><a href="#36" class="headerlink" title="36"></a>36</h1><blockquote>
-<p><strong>操作系统如何利用buffer_head中的 b_data，b_blocknr，b_dev，b_uptodate，b_dirt，b_count，b_lock，b_wait管理缓冲块的？</strong></p>
-</blockquote>
-<ul>
-<li>指针b_data指向数据块。</li>
-<li>设备号b_blocknr和块号b_dev经常连用。一个块只有一个管理信息，存入的数据归属具有唯一性。</li>
-<li>整个硬盘空间，每个块都是独立并且唯一存在的，通过设备号和块号两个参数唯一确定。</li>
-<li>计数器b_count计数此时正在操作缓冲块的进程的个数。由于缓冲区没有撤销废除机制，所以只能说b_count=0的缓冲块，可以被替换，但并不是必须且立即的。</li>
-<li>b_dirt脏位，表示块已经被写过。</li>
-<li>b_lock表示当前块正在被操作，读或者写。</li>
-<li>b_uptodate表示更新位。</li>
-</ul>
-<p>由进程到缓冲区/缓冲块之间的关系，由buffer_head管理，由缓冲区到外设io的关系，由request项管理，有单独的一段程序实现。</p>
-<p>进程首先查询数据是否在缓冲区中存在。如果有就直接读。如果没有，看是否有空缓冲区，如果有建立缓冲块并与请求项建立关系。</p>
-<p>分开管理有利于获得高效率。</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/操作系统/">操作系统</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2015/11/02/Linux Kernel-problems/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/02/Linux Kernel-problems/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    <a class="extend prev" rel="prev" href="/page/4/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next<span></span></a>
   </nav>
 
 </div>
@@ -1095,11 +848,11 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
@@ -1123,11 +876,11 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>19</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>8</sup></a></li>
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 		  
 		
 		  
@@ -1169,7 +922,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -1183,7 +936,7 @@
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>8</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
@@ -1191,11 +944,11 @@
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>4</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
 			
 		
 			
@@ -1223,15 +976,19 @@
 			
 		
 			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/异步编程/" title="异步编程">异步编程<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+				<li><a href="/tags/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
 			
 		
 			
@@ -1247,15 +1004,11 @@
 			
 		
 			
-				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
 			
 		
 		</ul>

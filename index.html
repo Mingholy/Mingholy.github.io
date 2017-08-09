@@ -78,6 +78,364 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/08/09/定制化Popover的实现思路/" title="定制化Popover的实现思路" itemprop="url">定制化Popover的实现思路</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-08-09T09:19:58.356Z" itemprop="datePublished"> 发表于 2017-08-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="定制化Popover的实现思路"><a href="#定制化Popover的实现思路" class="headerlink" title="定制化Popover的实现思路"></a>定制化Popover的实现思路</h1><p>记得春招的时候，有同学分享过一个阿里的面试题：要在半个小时内实现一个Modal框还是弹出框来着。当时同学的看法是，如果事先没有做过类似的工作，从头开始想是很难在半个小时内完成的。</p>
+<p>现在项目中遇到了这个问题，把实现的过程记录下来。这个组件从代码量上看的确是不难，但是如果没有经验而自己去想，思考的过程还是很费时间的。</p>
+<h2 id="动手之前的思考"><a href="#动手之前的思考" class="headerlink" title="动手之前的思考"></a>动手之前的思考</h2><p>当时真的是花了比较长的时间想，从要做这个组件，到完成用了快两天。也是没有经验，想得太久。</p>
+<p>首先，我遇到的场景是，需要做一个弹出框，这个弹出框的接口需要有：</p>
+<ol>
+<li>位置：弹出框的位置是经过其他组件计算得出的，它并不像AntD那样由某个固定按钮触发弹出，它的确切位置也不能事先知道，全部取决于用户的操作。</li>
+<li>内容：弹出框的内容多变，少的情况只有两个svg icon按钮，多的时候可能有若干个选项卡tab这样子，也是不确定的</li>
+<li>显示控制：显隐需要由父容器组件控制</li>
+<li>挂载点：有些情况下，一个页面内需要显示Popover的地方不止一个，比如一个三栏布局，要求三个栏内可能同时显示三个Popover，这样就需要分别设定三个Popover组件各自的挂载点，使得它们不会重合在某一个容器内。</li>
+</ol>
+<p>第4点是在开始考虑的时候，参考了AntD，在看它里面Popover源码的时候发现，传入该组件的<code>props</code>里有一个获取挂载DOM元素的回调函数。开始并没有这个选项有什么作用，后来猜测有以下几个场景可能需要设置这个值：</p>
+<ol>
+<li>触发显示Popover的按钮或其他元素可能会在这个Popover之后被渲染，那么这个Popover至少应该有一个预先存在的挂载点。默认的是<code>body</code>，这一点可以理解。</li>
+<li>就像上面需求4所描述的，一个页面存在多个Popover的情况</li>
+<li>Popover弹出之后，需要根据页面中存在的某个元素确定位置，可以指定Popover就挂载在这个元素上</li>
+</ol>
+<p>除了这些数据接口，还需要的考虑的是交互样式：</p>
+<ol>
+<li>它应该位于某个确定的容器内</li>
+<li>具有气泡形状，最简单的就是圆角矩形加个小三角</li>
+<li>显示/消失过渡效果</li>
+</ol>
+<h2 id="Do-it！"><a href="#Do-it！" class="headerlink" title="Do it！"></a>Do it！</h2><p>想好这些要点之后，实现的时候还有一些坑。</p>
+<p>首先，写这个组件的显示逻辑和JSX没什么难度：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> React, &#123; Component &#125; <span class="keyword">from</span> <span class="string">'react'</span>;</div><div class="line"><span class="keyword">import</span> PropTypes <span class="keyword">from</span> <span class="string">'prop-types'</span>;</div><div class="line"><span class="keyword">import</span> classNames <span class="keyword">from</span> <span class="string">'classnames'</span>;</div><div class="line"><span class="keyword">import</span> style <span class="keyword">from</span> <span class="string">'./style.css'</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Popover</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</div><div class="line">  <span class="keyword">static</span> defaultProps = &#123;</div><div class="line">    <span class="attr">position</span>: &#123;</div><div class="line">      <span class="attr">left</span>: <span class="number">0</span>,</div><div class="line">      <span class="attr">top</span>: <span class="number">0</span>,</div><div class="line">    &#125;,</div><div class="line">    <span class="attr">visible</span>: <span class="string">'false'</span>,</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  clickInterceptor = <span class="function"><span class="params">ev</span> =&gt;</span> &#123;</div><div class="line">    ev.stopPropagation();</div><div class="line">    ev.preventDefault();</div><div class="line">  &#125;;</div><div class="line"></div><div class="line">  render() &#123;</div><div class="line">    <span class="keyword">const</span> &#123; content, position, visible &#125; = <span class="keyword">this</span>.props;</div><div class="line">    <span class="keyword">const</span> cls = classNames(&#123;</div><div class="line">      <span class="attr">popover</span>: <span class="literal">true</span>,</div><div class="line">      <span class="string">'popover-fadein'</span>: visible,</div><div class="line">      <span class="string">'popover-hidden'</span>: !visible,</div><div class="line">    &#125;);</div><div class="line">    <span class="keyword">return</span> (</div><div class="line">      &lt;div</div><div class="line">        className=&#123;cls&#125;</div><div class="line">        style=&#123;&#123;</div><div class="line">          left: position.left,</div><div class="line">          top: position.top,</div><div class="line">        &#125;&#125;</div><div class="line">        onMouseUp=&#123;ev =&gt; this.clickInterceptor(ev)&#125;</div><div class="line">        onMouseDown=&#123;ev =&gt; this.clickInterceptor(ev)&#125;</div><div class="line">        onClick=&#123;ev =&gt; this.clickInterceptor(ev)&#125;</div><div class="line">      &gt;</div><div class="line">        &#123;content&#125;</div><div class="line">        &lt;div</div><div class="line">          className=&#123;classNames(&#123;</div><div class="line">            'popover-triangle': true,</div><div class="line">            'popover-triangle-back': true,</div><div class="line">          &#125;)&#125;</div><div class="line">        /&gt;</div><div class="line">        &lt;div</div><div class="line">          className=&#123;classNames(&#123;</div><div class="line">            'popover-triangle': true,</div><div class="line">            'popover-triangle-front': true,</div><div class="line">          &#125;)&#125;</div><div class="line">        /&gt;</div><div class="line">      &lt;/div&gt;</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">Popover.propTypes = &#123;</div><div class="line">  content: PropTypes.instanceOf(Object).isRequired,</div><div class="line">  position: PropTypes.instanceOf(Object),</div><div class="line">  visible: PropTypes.bool,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">export default Popover;</div></pre></td></tr></table></figure></p>
+<p>其中类方法里有个点击拦截器(<code>clickInterceptor</code>)，这个东西是项目需求，不让点击在Popover里的操作扩散出去影响用户之前操作的结果。</p>
+<p>有点点坑的地方是样式。这个实例里面主要涉及到三个有意思的点：</p>
+<ol>
+<li>CSS画三角，简单有趣</li>
+<li>不同尺寸的内容，使得Popover形变时，要控制变形锚点</li>
+<li>显隐、位移时的过渡动画</li>
+</ol>
+<p>这三个点还是很有趣的，我一个一个记录。首先是<code>popover</code>本身：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.popover</span> &#123;</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0.5em</span>;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">8px</span>;</div><div class="line">  <span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#ccc</span>;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#fff</span>;</div><div class="line">  <span class="attribute">max-width</span>: <span class="number">300px</span>;</div><div class="line">  <span class="attribute">opacity</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">transform-origin</span>: <span class="number">50%</span> <span class="number">100%</span>;</div><div class="line">  <span class="attribute">transform</span>: <span class="built_in">translate</span>(-50%, -100%);</div><div class="line">  <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">1px</span> <span class="number">6px</span> <span class="built_in">rgba</span>(0, 0, 0, 0.2);</div><div class="line">  <span class="attribute">z-index</span>: <span class="number">1000</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>首先我这里实现的弹出框组件，只用在一个固定的父容器组件中，所以这里没有设计挂载点接口，同时它的位置也是<code>absolute</code>。<br>默认情况下它的透明度是0，也就是隐藏在页面上的。这主要是为了淡入过渡效果而设定的。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">transform-origin</span>: 50% 100%;</div><div class="line"><span class="selector-tag">transform</span>: <span class="selector-tag">translate</span>(<span class="selector-tag">-50</span>%, <span class="selector-tag">-100</span>%);</div></pre></td></tr></table></figure></p>
+<p>这两行就是为了满足上面说的第二点而设置的。<code>transform-origin</code>的作用是：</p>
+<blockquote>
+<p>transform-origin CSS属性让你更改一个元素变形的原点。</p>
+</blockquote>
+<p>需要注意的是它作为Working Draft阶段的CSS特性，还没有一个通用的使用方式。<br>Chrome | Firefox | IE | Opera | Safari<br>——-|———|—-|——-|——-<br><code>-webkit</code>|<code>-moz</code>|<code>-ms</code>|<code>-o</code>|<code>-webkit</code></p>
+<p>其中三值语法Opera还没有实现。参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-origin" target="_blank" rel="external">MDN <code>transform-origin</code></a></p>
+<p>设置了这两个属性之后，当Popover里的内容变高变宽的时候，它的形变中心将是下边缘中点，形变方向则是左右平均延伸，向上延伸。如果不设置，则会得到一个锚点为左上角顶点，向右向下延伸的弹出框。当然，这可能根据需求变化而变化。</p>
+<p>有了这个基础元素之后，我们要为它添加气泡的小尖角：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.popover-triangle</span> &#123;</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">left</span>: <span class="number">50%</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.popover-triangle-front</span> &#123;</div><div class="line">  <span class="attribute">border-top</span>: <span class="number">8px</span> solid <span class="number">#fff</span>;</div><div class="line">  <span class="attribute">border-left</span>: <span class="number">8px</span> solid transparent;</div><div class="line">  <span class="attribute">border-right</span>: <span class="number">8px</span> solid transparent;</div><div class="line">  <span class="attribute">margin-left</span>: -<span class="number">8px</span>;</div><div class="line">  <span class="attribute">bottom</span>: -<span class="number">8px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.popover-triangle-back</span> &#123;</div><div class="line">  <span class="attribute">border-top</span>: <span class="number">10px</span> solid <span class="number">#ccc</span>;</div><div class="line">  <span class="attribute">border-left</span>: <span class="number">10px</span> solid transparent;</div><div class="line">  <span class="attribute">border-right</span>: <span class="number">10px</span> solid transparent;</div><div class="line">  <span class="attribute">margin-left</span>: -<span class="number">10px</span>;</div><div class="line">  <span class="attribute">bottom</span>: -<span class="number">10px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这三个元素样式原理就是使用<code>border</code>相关的属性画两个三角叠加起来，用父容器控制位置，其中一个三角是前景白色尖角，另一个稍大，作为阴影放在后面。</p>
+<p>这样一个Popover组件大致就完成了。但是还需要一些过渡效果。正如上面所说，Popover的位置是经常变化的，我不想让它每次都闪现，所以需要这样：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.popover-fadein</span> &#123;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">  <span class="attribute">opacity</span>: <span class="number">1</span>;</div><div class="line">  <span class="attribute">transition</span>: left <span class="number">200ms</span> ease, top <span class="number">200ms</span> ease, opacity <span class="number">300ms</span> ease-in-out;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.popover-hidden</span> &#123;</div><div class="line">  <span class="attribute">opacity</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">max-width</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">transition</span>: max-width <span class="number">100ms</span> ease <span class="number">300ms</span>, border-radius <span class="number">100ms</span> ease <span class="number">300ms</span>, padding <span class="number">100ms</span> ease <span class="number">300s</span>, opacity <span class="number">200ms</span> ease-in-out;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>添加这两个类的目的在于：</p>
+<ol>
+<li>赋予Popover淡入淡出的效果</li>
+<li>在Popover元素移动时，按照<code>ease</code>定义的贝塞尔函数设定其移动速度</li>
+</ol>
+<p>记录一下<code>transition</code>的语法<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">transition</span>: &lt;<span class="selector-tag">property</span>&gt; &lt;<span class="selector-tag">duration</span>&gt; &lt;<span class="selector-tag">timing-function</span>&gt; &lt;<span class="selector-tag">delay</span>&gt;;</div></pre></td></tr></table></figure></p>
+<p>到这里，一个基本满足需求的Popover就做完啦！还是收获颇丰的。</p>
+<p>关于这个组件，还有一些问题。可以看出Popover的最大宽度为300px，问题就在于当Popover出现在所在容器的最左端和最右端时，它可能显示不完整。这是需要改进的一个问题。思路就是当尖角左侧或右侧的宽度不足以显示Popover一半宽度内容的时候，将尖角和位移、形变中心移到Popover左下角，形成一个变形时向右上延伸的Popover。</p>
+<p>由于时间有限，没有添加这个特性。不过思路更加重要一点！:smile:</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/React/">React</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/08/09/定制化Popover的实现思路/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/08/09/定制化Popover的实现思路/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/08/09/平铺式桌面管理器awesome/" title="平铺式桌面管理器AwesomeWM" itemprop="url">平铺式桌面管理器AwesomeWM</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-08-09T09:19:58.355Z" itemprop="datePublished"> 发表于 2017-08-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="平铺式桌面管理器awesomewm"><a href="#平铺式桌面管理器awesomewm" class="headerlink" title="平铺式桌面管理器awesomewm"></a>平铺式桌面管理器awesomewm</h1><p>第一篇就来写一写我很早就想记录下来的一些东西，一个目前我很喜欢的window manager：awesome。</p>
+<h2 id="目的：“纯粹”"><a href="#目的：“纯粹”" class="headerlink" title="目的：“纯粹”"></a>目的：“纯粹”</h2><p>把博客从Hexo迁移回github的一个原因就是“纯粹”，换句话说就是简单易用，满足所有需求的最轻量选择。</p>
+<p>我从刚一开始Ubuntu的Unity折腾到Gnome，又从Gnome折腾到awesomewm，倒是没有使用过几个不同的桌面环境，但是到了awesome这里我在“酷炫桌面”这个主题上的折腾之心就收敛了，因为到了这里我对“好用又好看的桌面”的要求被很好地满足了。</p>
+<h2 id="特性：“高效”"><a href="#特性：“高效”" class="headerlink" title="特性：“高效”"></a>特性：“高效”</h2><p>起初是看到隔壁的前辈在用这个wm，毕竟人家一手HHKB，总要物尽其用：所有的桌面切换操作都使用键盘来完成——我自己就是一个键盘党，恨不得抛弃鼠标，包括在浏览网页时（这个的确可以实现，最后会提及）。</p>
+<p>Awesomewm能够将所有切换桌面、控制窗口（client）的操作映射为指定的快捷键，并且具有高度的可配置性。</p>
+<p>我个人的需求非常简单：</p>
+<ol>
+<li>同屏可显示的信息尽可能多，屏幕空间应尽可能显示信息而非无用内容</li>
+<li>单一屏幕空间足够大，多窗口不至于过于凌乱</li>
+<li>可以方便地控制显示位置、工作区和屏幕</li>
+</ol>
+<p>其中需求1和2实际上是存在冲突的，显示的信息越多，意味着窗口或者tab就越多，相应地就存在越大可能使整个屏幕看起来非常混乱，窗口到处都是又彼此重叠，切换还要记忆顺序按好几次快捷键（如果有快捷键的话，没错说的就是Windows)，这样极大地影响了用户体验。</p>
+<p>Awesomewm能够在尽量满足1\2的同时，也提供了众多快捷键来增强用户对桌面显示内容的控制，这一点简直不能更好。</p>
+<h2 id="使用：“无他，唯手熟尔”"><a href="#使用：“无他，唯手熟尔”" class="headerlink" title="使用：“无他，唯手熟尔”"></a>使用：“无他，唯手熟尔”</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>参考：<a href="https://www.reddit.com/r/awesomewm/comments/66qiue/awesomewm_41_install_on_ubuntu_1704/" target="_blank" rel="external">AwesomeWM 4.1 install on Ubuntu 17.04</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># Get awesome</div><div class="line">wget https://github.com/awesomeWM/awesome-releases/raw/master/awesome-4.1.tar.bz2</div><div class="line"></div><div class="line"># Extract Awesome</div><div class="line">tar xvjf awesome-4.1.tar.bz2</div><div class="line">cd awesome-4.1</div><div class="line"></div><div class="line"># Install Dependencies</div><div class="line">sudo apt install cmake libgdk-pixbuf2.0-dev libcairo2-dev libxcb-cursor-dev libxcb-randr0-dev libxcb-xtest0-dev libxcb-xinerama0-dev libxcb-shape0-dev libxcb-util-dev libxcb-keysyms1-dev libxcb-icccm4-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libstartup-notification0-dev libxdg-basedir-dev libxcb-xrm-dev lua5.2 liblua5.2-dev lua-lgi-dev</div><div class="line"></div><div class="line"># Make awesome</div><div class="line">make</div><div class="line"></div><div class="line"># Install awesome</div><div class="line">sudo make install</div></pre></td></tr></table></figure></p>
+<p>在安装依赖的过程中，可能会遇到一个包<code>libxcb-xrm-dev</code>找不到的情况，导致安装的Awesome不可用。</p>
+<p>这里使用<a href="https://unix.stackexchange.com/questions/338628/no-package-xcb-xrm-found" target="_blank" rel="external">No package ‘xcb-xrm’ found</a>的解决方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:aguignard/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install xcb-util-xrm</div></pre></td></tr></table></figure></p>
+<p>就可以正确安装依赖。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>AwesomeWM的配置文件位于<code>~/.config/awesome/rc.lua</code>，这个文件可以在<code>/etc/xdg/awesome/</code>下找到，如果没有，那么可以自己新建一个，按照官方文档进行配置。</p>
+<p>但是从头开始配置一个完整的<code>rc.lua</code>实在太耗时，本着快速上手越快越好的原则，我使用了<a href="https://github.com/copycat-killer/awesome-copycats" target="_blank" rel="external">awesome-copycats</a>提供的配置文件和主题。</p>
+<p>下面是一些我根据自己的情况修改的配置项，有些通用的选项还是比较有必要的：<br>以主题<code>multicolor</code>为例：</p>
+<ol>
+<li>设置常用项：  <figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">local</span> editor       = <span class="string">"vim"</span></div><div class="line"><span class="keyword">local</span> browser      = <span class="string">"google-chrome"</span></div><div class="line"><span class="keyword">local</span> terminal     = <span class="string">"gnome-terminal"</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>由于我的系统原来使用的是Gnome，所以比较习惯原来的terminal，当然你也可以换成其他的xterm之类的。</p>
+<ol>
+<li><p>布局(layouts)：<br>这里建议只保留<code>tile</code>类别下的各个布局。毕竟我们安装这个东西就是为了平铺布局。<br>我的设置是：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">awful.layout.layouts = &#123;</div><div class="line">    awful.layout.suit.tile,</div><div class="line">    awful.layout.suit.tile,</div><div class="line">    awful.layout.suit.tile.left,</div><div class="line">    awful.layout.suit.tile.bottom,</div><div class="line">    awful.layout.suit.tile.top,</div><div class="line">    awful.layout.suit.corner.nw,</div><div class="line">    awful.layout.suit.corner.ne,</div><div class="line">    awful.layout.suit.corner.sw,</div><div class="line">    awful.layout.suit.corner.se,</div><div class="line">    lain.layout.cascade,</div><div class="line">    lain.layout.cascade.tile,</div><div class="line">    lain.layout.centerwork,</div><div class="line">    lain.layout.centerwork.horizontal,</div><div class="line">    lain.layout.termfair,</div><div class="line">    lain.layout.termfair.center,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>图标大小<br>以我的屏幕分辨率(2560x1440)感觉，12还算可以。可以在文件中搜索数字，来选择替换。</p>
+</li>
+<li><p>菜单</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">local</span> myawesomemenu = &#123;</div><div class="line">    &#123; <span class="string">"&gt;&gt;___Reboot___&lt;&lt;"</span>, <span class="string">"reboot"</span>&#125;,</div><div class="line">    &#123; <span class="string">"&gt;&gt;__ Shutdown__&lt;&lt;"</span>, <span class="string">"shutdown -h now"</span>&#125;,</div><div class="line">    &#123; <span class="string">"Hotkeys"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> <span class="keyword">return</span> <span class="keyword">false</span>, hotkeys_popup.show_help <span class="keyword">end</span> &#125;,</div><div class="line">    &#123; <span class="string">"Manual"</span>, terminal .. <span class="string">" -e man awesome"</span> &#125;,</div><div class="line">    &#123; <span class="string">"Config"</span>, <span class="built_in">string</span>.format(<span class="string">"%s -e %s %s"</span>, terminal, editor, awesome.conffile) &#125;,</div><div class="line">    &#123; <span class="string">"Restart"</span>, awesome.restart &#125;,</div><div class="line">    &#123; <span class="string">"Quit"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> awesome.quit() <span class="keyword">end</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">local</span> appmenu = freedesktop.menu.build(&#123;</div><div class="line">    icon_size = beautiful.menu_height <span class="keyword">or</span> <span class="number">12</span>,</div><div class="line">&#125;)</div><div class="line"></div><div class="line">awful.util.mymainmenu = freedesktop.menu.build(&#123;</div><div class="line">    icon_size = beautiful.menu_height <span class="keyword">or</span> <span class="number">12</span>,</div><div class="line">    before = &#123;</div><div class="line">        &#123; <span class="string">"VSCode"</span>, <span class="string">"code"</span> &#125;,</div><div class="line">        &#123; <span class="string">"Awesome"</span>, myawesomemenu, beautiful.awesome_icon &#125;,</div><div class="line">    &#125;,</div><div class="line">    after = &#123;</div><div class="line">        &#123; <span class="string">"Lock"</span>, <span class="string">"gnome-screensaver-command -l"</span> &#125;,</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这里我在一级菜单(<code>mymainmenu</code>)下添加了编辑器、awesome菜单和锁屏选项；在awesome这个一级菜单项下添加了重启和关机这两个二级菜单选项。</p>
+<ol>
+<li>规则(Rules)<br>这里主要是控制窗口行为的一些规则。<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">awful.rules.rules = &#123;</div><div class="line">    <span class="comment">-- All clients will match this rule.</span></div><div class="line">    &#123; rule = &#123; &#125;,</div><div class="line">      properties = &#123; border_width = beautiful.border_width,</div><div class="line">                     border_color = beautiful.border_normal,</div><div class="line">                     focus = awful.client.focus.filter,</div><div class="line">                     raise = <span class="keyword">true</span>,</div><div class="line">                     keys = clientkeys,</div><div class="line">                     buttons = clientbuttons,</div><div class="line">                     screen = awful.screen.preferred,</div><div class="line">                     placement = awful.placement.no_overlap+awful.placement.no_offscreen,</div><div class="line">                     size_hints_honor = <span class="keyword">false</span></div><div class="line">     &#125;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="comment">-- Titlebars</span></div><div class="line">    &#123; rule_any = &#123; <span class="built_in">type</span> = &#123; <span class="string">"dialog"</span>, <span class="string">"normal"</span> &#125; &#125;,</div><div class="line">      properties = &#123; titlebars_enabled = <span class="keyword">true</span> &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"shadowsocks-qt5"</span> &#125;,</div><div class="line">      properties = &#123; screen = <span class="number">1</span>, tag = screen[<span class="number">1</span>].tags[<span class="number">5</span>] &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"Gimp"</span>, role = <span class="string">"gimp-image-window"</span> &#125;,</div><div class="line">      properties = &#123; maximized = <span class="keyword">true</span> &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"Google-chrome"</span> &#125;,</div><div class="line">      properties = &#123; floating = <span class="keyword">false</span>,</div><div class="line">                     maximized = <span class="keyword">false</span>,</div><div class="line">                     maximized_vertical = <span class="keyword">false</span>,</div><div class="line">                     maximized_horizontal = <span class="keyword">false</span>, &#125; &#125;,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这些选项的主要目的是：</p>
+<ol>
+<li>新建窗口时，新窗口的默认样式和行为</li>
+<li>按照程序(窗口类别)设置新窗口样式和行为</li>
+</ol>
+<p>比如这里我设置ss-qt5客户端自启动后显示在屏幕1的标签5中。<br>另一个必要的设置是：</p>
+<blockquote>
+<p>让Chrome新窗口默认不处于最大化状态，禁用浮动。这个设置可以在Chrome窗口存在的情况下，和其他窗口平铺。否则新建一个窗口，如终端窗口，会盖在Chrome上方，Chrome会自动被设置为浮动窗口，而不能正常平铺。</p>
+</blockquote>
+<ol>
+<li>声音调整<br>使用下列设置可以将<code>alt + ↑</code>、<code>alt + ↓</code>和<code>alt + m</code>映射成音量加、音量减和切换静音。<br>注意：这些设置需要在<code>Key bindings</code>下修改，可以搜索”ALSA volume control”来修改原有的声音设置。<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"Up"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 5%+"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"Down"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 5%-"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"m"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 1+ toggle"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>使用AwesomeWM需要在<code>.xprofile</code>中进行相关设置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/sh</div><div class="line">xrandr --output HDMI-2 --above eDP-1</div><div class="line">#fcitx need</div><div class="line">export XMODIFIERS=@im=fcitx</div><div class="line">export QT_IM_MODULE=fcitx</div><div class="line">export GTK_IM_MODULE=fcitx</div><div class="line">fcitx-autostart</div><div class="line"></div><div class="line">gnome-settings-daemon &amp;</div><div class="line">gnome-power-manager &amp;</div><div class="line">gnome-screensaver &amp;</div><div class="line">xcompmgr -c &amp;</div><div class="line">nm-applet --sm-disable &amp;</div><div class="line">update-notifier &amp;</div><div class="line">sh /home/mingholy/Downloads/start.sh &amp;</div><div class="line">ss-qt5 &amp;</div><div class="line"></div><div class="line">exec awesome</div></pre></td></tr></table></figure></p>
+<p>所有的准备工作和自启动项都要放在<code>exec awesome</code>之前。<br>其中第一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xrandr --output HDMI-2 --above eDP-1</div></pre></td></tr></table></figure></p>
+<p>是上下双屏排布的命令，如果是左右排布的，可以<code>--left-of</code>或<code>--right-of</code>，外加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xrandr --output eDP-1 --pos [笔记本屏幕左上角的x轴坐标]x[y轴坐标]</div></pre></td></tr></table></figure></p>
+<p>来调整两个屏幕的相对位置。</p>
+<h2 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h2><p>通过<code>Mod4</code>键组合得到的各种切换窗口、切屏功能完全满足了我在浏览器、vim、vscode和终端之间切换的需求，切换窗口、工作上下文的成本得到了极大的降低，能够很好地提高工作效率。配合Chrome的插件<code>vimium</code>基本可以做到不用鼠标。</p>
+<blockquote>
+<p><code>vimium</code>可以将页面上的所有链接转化为快捷键，在页面上点击f键，可以看到每个可点击链接的快捷键，接下来输入快捷键会自动聚焦点击该链接或区域。</p>
+</blockquote>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/awesomewm/">awesomewm</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/08/09/平铺式桌面管理器awesome/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/08/09/平铺式桌面管理器awesome/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/08/09/Ubuntu适应计划-一些稀奇古怪的问题和解决办法收集/" title="Ubuntu适应计划-FAQ" itemprop="url">Ubuntu适应计划-FAQ</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-08-09T09:19:58.354Z" itemprop="datePublished"> 发表于 2017-08-09</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h1 id="Ubuntu适应计划"><a href="#Ubuntu适应计划" class="headerlink" title="Ubuntu适应计划"></a>Ubuntu适应计划</h1><h2 id="终端无法输入中文"><a href="#终端无法输入中文" class="headerlink" title="终端无法输入中文"></a>终端无法输入中文</h2><p>终端和在终端里打开的编辑器无法输入中文的问题：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gsettings set org.gnome.settings-daemon.plugins.xsettings overrides &quot;&#123;&apos;Gtk/IMModule&apos;:&lt;&apos;fcitx&apos;&gt;&#125;&quot;</div></pre></td></tr></table></figure></p>
+<h2 id="npm-i-g权限问题"><a href="#npm-i-g权限问题" class="headerlink" title="npm i -g权限问题"></a><code>npm i -g</code>权限问题</h2><p>刚刚遇到的问题。在Ubuntu下使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i -g &lt;packagename&gt;</div></pre></td></tr></table></figure></p>
+<p>或<code>yarn</code>的类似命令时，总会遇到权限不够的情况，这是因为全局安装的package都在<code>/usr/lib/node_modules</code>里面，普通用户没有写权限。这时可以：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo chown -R me /usr/lib/node_modules</div></pre></td></tr></table></figure></p>
+<p>来临时更改全局包文件夹的权限，然后再<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm i -g &lt;packagename&gt;</div></pre></td></tr></table></figure></p>
+<p>即可，之后再把权限改回root。之前使用<code>sudo npm i -g &lt;packagename&gt;</code>也会出现这种问题，是因为一些包比如<code>hexo-cli</code>等都是有postinstall脚本的，之后运行的这些脚本也需要root权限，就会报错。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/08/09/Ubuntu适应计划-一些稀奇古怪的问题和解决办法收集/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/08/09/Ubuntu适应计划-一些稀奇古怪的问题和解决办法收集/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/04/12/Flex Layout Note/" title="" itemprop="url"></a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-04-12T00:56:43.290Z" itemprop="datePublished"> 发表于 2017-04-12</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <hr>
+<p>title: “Flex布局浅记”<br>date: 2017-04-10 18:00:00</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/04/12/Flex Layout Note/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/04/12/Flex Layout Note/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/03/25/loadEventRelated/" title="`load`与`DOMContentLoaded`事件" itemprop="url">`load`与`DOMContentLoaded`事件</a>
   </h1>
   <p class="article-author">By
@@ -475,298 +833,9 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/22/红宝书-chapter6/" title="JavaScript继承" itemprop="url">JavaScript继承</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-22T09:00:00.000Z" itemprop="datePublished"> 发表于 2017-03-22</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>关键知识点</p>
-<ul>
-<li>继承的各种方式</li>
-</ul>
-</blockquote>
-<p>关于面向对象，已经在<a href="http://ming-holy.space/2017/03/13/IFE2017-105/#数据持久化与面向对象">IFE2017-105的笔记</a>中总结了一些。这里总结一下关于继承的问题。</p>
-<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>书中第一段提到了，一般的OO语言支持两种继承方式，一种是接口继承，另一种是实现继承。</p>
-<ul>
-<li>接口继承：Java中的接口继承就是只声明方法，但不实现，由实现接口的类来进行具体实现。这样实现类就继承了接口类，同一个接口可以在不同的地方存在不同的实现，这也就实现了多态。</li>
-<li>实现继承：父类中定义并实现好方法，然后子类在继承父类的同时也就继承了该方法的实现，可以直接拿来用。<br>JavaScript是没有函数签名的，像接口继承那种只继承方法特点，比如参数、名字等，就不能实现。只能通过原型链模式支持实现继承。
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/03/22/红宝书-chapter6/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/22/红宝书-chapter6/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/22/红宝书-chapter6/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/22/红宝书-chapter5/" title="JavaScript类型方法总结与函数实例方法" itemprop="url">JavaScript类型方法总结与函数实例方法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-22T07:08:00.000Z" itemprop="datePublished"> 发表于 2017-03-22</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>关键知识点</p>
-<ul>
-<li>类型方法</li>
-<li><code>call</code>、<code>apply</code>和<code>bind</code></li>
-</ul>
-</blockquote>
-<h1 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h1><p>这一章有点像API手册了。</p>
-<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>JavaScript中的对象有点像Python中的<code>dict</code>。注意不能有尾逗号，IE7之前和Opera会报错。<br>注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/03/22/红宝书-chapter5/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/22/红宝书-chapter5/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/22/红宝书-chapter5/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/20/红宝书-chapter4/" title="JavaScript数据类型与变量作用域" itemprop="url">JavaScript数据类型与变量作用域</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-20T14:16:00.000Z" itemprop="datePublished"> 发表于 2017-03-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>关键知识点：</p>
-<ul>
-<li>数据类型</li>
-<li>作用域</li>
-<li>变量提升</li>
-<li>垃圾回收机制</li>
-</ul>
-</blockquote>
-<h1 id="第四章：变量、作用域和内存问题"><a href="#第四章：变量、作用域和内存问题" class="headerlink" title="第四章：变量、作用域和内存问题"></a>第四章：变量、作用域和内存问题</h1><p>好，我们一进入第四章接触到的第一个问题就是传说中的深浅复制的问题。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/03/20/红宝书-chapter4/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/20/红宝书-chapter4/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/20/红宝书-chapter4/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/20/红宝书-chapter2&3/" title="JavaScript基础" itemprop="url">JavaScript基础</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-20T09:10:00.000Z" itemprop="datePublished"> 发表于 2017-03-20</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>这个系列旨在夯实自己JS基础。很多听过见过存疑的记不住的记住且重要的点都要找到答案，因为JS的点还是很多的，并不是写过就能够学好，反过来很多东西书上也没有，结合经验会记得更牢。每一章把这些点总结出来，备忘当做提升。关键知识点：</p>
-<ul>
-<li>操作符</li>
-<li>函数对象的<code>arguments</code>属性</li>
-</ul>
-</blockquote>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/03/20/红宝书-chapter2&3/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/20/红宝书-chapter2&3/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/20/红宝书-chapter2&3/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
   </nav>
 
 </div>
@@ -790,11 +859,11 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
@@ -818,11 +887,11 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>19</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/Linux/" title="Linux">Linux<sup>8</sup></a></li>
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 		  
 		
 		  
@@ -864,7 +933,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -878,7 +947,7 @@
 			
 		
 			
-				<li><a href="/tags/Linux/" title="Linux">Linux<sup>8</sup></a></li>
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
 			
 		
 			
@@ -886,11 +955,11 @@
 			
 		
 			
-				<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>5</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>4</sup></a></li>
+				<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
 			
 		
 			
@@ -918,15 +987,19 @@
 			
 		
 			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/异步编程/" title="异步编程">异步编程<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+				<li><a href="/tags/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
 			
 		
 			
@@ -942,15 +1015,11 @@
 			
 		
 			
-				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
 			
 		
 		</ul>

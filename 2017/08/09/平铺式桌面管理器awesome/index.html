@@ -1,0 +1,699 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>平铺式桌面管理器AwesomeWM | A Cup of Coffee</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Mingholy">
+    
+
+    
+    <meta name="description" content="平铺式桌面管理器awesomewm第一篇就来写一写我很早就想记录下来的一些东西，一个目前我很喜欢的window manager：awesome。
+目的：“纯粹”把博客从Hexo迁移回github的一个原因就是“纯粹”，换句话说就是简单易用，满足所有需求的最轻量选择。
+我从刚一开始Ubuntu的Unity折腾到Gnome，又从Gnome折腾到awesomewm，倒是没有使用过几个不同的桌面环境，但是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="平铺式桌面管理器AwesomeWM">
+<meta property="og:url" content="http://ming-holy.space/2017/08/09/平铺式桌面管理器awesome/index.html">
+<meta property="og:site_name" content="A Cup of Coffee">
+<meta property="og:description" content="平铺式桌面管理器awesomewm第一篇就来写一写我很早就想记录下来的一些东西，一个目前我很喜欢的window manager：awesome。
+目的：“纯粹”把博客从Hexo迁移回github的一个原因就是“纯粹”，换句话说就是简单易用，满足所有需求的最轻量选择。
+我从刚一开始Ubuntu的Unity折腾到Gnome，又从Gnome折腾到awesomewm，倒是没有使用过几个不同的桌面环境，但是">
+<meta property="og:updated_time" content="2017-08-09T09:19:58.355Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="平铺式桌面管理器AwesomeWM">
+<meta name="twitter:description" content="平铺式桌面管理器awesomewm第一篇就来写一写我很早就想记录下来的一些东西，一个目前我很喜欢的window manager：awesome。
+目的：“纯粹”把博客从Hexo迁移回github的一个原因就是“纯粹”，换句话说就是简单易用，满足所有需求的最轻量选择。
+我从刚一开始Ubuntu的Unity折腾到Gnome，又从Gnome折腾到awesomewm，倒是没有使用过几个不同的桌面环境，但是">
+
+    
+    <link rel="alternative" href="/atom.xml" title="A Cup of Coffee" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="A Cup of Coffee" title="A Cup of Coffee"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="A Cup of Coffee">A Cup of Coffee</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:ming-holy.space">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/08/09/平铺式桌面管理器awesome/" title="平铺式桌面管理器AwesomeWM" itemprop="url">平铺式桌面管理器AwesomeWM</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-08-09T09:19:58.355Z" itemprop="datePublished"> 发表于 2017-08-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#平铺式桌面管理器awesomewm"><span class="toc-number">1.</span> <span class="toc-text">平铺式桌面管理器awesomewm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#目的：“纯粹”"><span class="toc-number">1.1.</span> <span class="toc-text">目的：“纯粹”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特性：“高效”"><span class="toc-number">1.2.</span> <span class="toc-text">特性：“高效”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用：“无他，唯手熟尔”"><span class="toc-number">1.3.</span> <span class="toc-text">使用：“无他，唯手熟尔”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.3.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置"><span class="toc-number">1.3.2.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动"><span class="toc-number">1.3.3.</span> <span class="toc-text">启动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#感受"><span class="toc-number">1.4.</span> <span class="toc-text">感受</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="平铺式桌面管理器awesomewm"><a href="#平铺式桌面管理器awesomewm" class="headerlink" title="平铺式桌面管理器awesomewm"></a>平铺式桌面管理器awesomewm</h1><p>第一篇就来写一写我很早就想记录下来的一些东西，一个目前我很喜欢的window manager：awesome。</p>
+<h2 id="目的：“纯粹”"><a href="#目的：“纯粹”" class="headerlink" title="目的：“纯粹”"></a>目的：“纯粹”</h2><p>把博客从Hexo迁移回github的一个原因就是“纯粹”，换句话说就是简单易用，满足所有需求的最轻量选择。</p>
+<p>我从刚一开始Ubuntu的Unity折腾到Gnome，又从Gnome折腾到awesomewm，倒是没有使用过几个不同的桌面环境，但是到了awesome这里我在“酷炫桌面”这个主题上的折腾之心就收敛了，因为到了这里我对“好用又好看的桌面”的要求被很好地满足了。</p>
+<h2 id="特性：“高效”"><a href="#特性：“高效”" class="headerlink" title="特性：“高效”"></a>特性：“高效”</h2><p>起初是看到隔壁的前辈在用这个wm，毕竟人家一手HHKB，总要物尽其用：所有的桌面切换操作都使用键盘来完成——我自己就是一个键盘党，恨不得抛弃鼠标，包括在浏览网页时（这个的确可以实现，最后会提及）。</p>
+<p>Awesomewm能够将所有切换桌面、控制窗口（client）的操作映射为指定的快捷键，并且具有高度的可配置性。</p>
+<p>我个人的需求非常简单：</p>
+<ol>
+<li>同屏可显示的信息尽可能多，屏幕空间应尽可能显示信息而非无用内容</li>
+<li>单一屏幕空间足够大，多窗口不至于过于凌乱</li>
+<li>可以方便地控制显示位置、工作区和屏幕</li>
+</ol>
+<p>其中需求1和2实际上是存在冲突的，显示的信息越多，意味着窗口或者tab就越多，相应地就存在越大可能使整个屏幕看起来非常混乱，窗口到处都是又彼此重叠，切换还要记忆顺序按好几次快捷键（如果有快捷键的话，没错说的就是Windows)，这样极大地影响了用户体验。</p>
+<p>Awesomewm能够在尽量满足1\2的同时，也提供了众多快捷键来增强用户对桌面显示内容的控制，这一点简直不能更好。</p>
+<h2 id="使用：“无他，唯手熟尔”"><a href="#使用：“无他，唯手熟尔”" class="headerlink" title="使用：“无他，唯手熟尔”"></a>使用：“无他，唯手熟尔”</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>参考：<a href="https://www.reddit.com/r/awesomewm/comments/66qiue/awesomewm_41_install_on_ubuntu_1704/" target="_blank" rel="external">AwesomeWM 4.1 install on Ubuntu 17.04</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"># Get awesome</div><div class="line">wget https://github.com/awesomeWM/awesome-releases/raw/master/awesome-4.1.tar.bz2</div><div class="line"></div><div class="line"># Extract Awesome</div><div class="line">tar xvjf awesome-4.1.tar.bz2</div><div class="line">cd awesome-4.1</div><div class="line"></div><div class="line"># Install Dependencies</div><div class="line">sudo apt install cmake libgdk-pixbuf2.0-dev libcairo2-dev libxcb-cursor-dev libxcb-randr0-dev libxcb-xtest0-dev libxcb-xinerama0-dev libxcb-shape0-dev libxcb-util-dev libxcb-keysyms1-dev libxcb-icccm4-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libstartup-notification0-dev libxdg-basedir-dev libxcb-xrm-dev lua5.2 liblua5.2-dev lua-lgi-dev</div><div class="line"></div><div class="line"># Make awesome</div><div class="line">make</div><div class="line"></div><div class="line"># Install awesome</div><div class="line">sudo make install</div></pre></td></tr></table></figure></p>
+<p>在安装依赖的过程中，可能会遇到一个包<code>libxcb-xrm-dev</code>找不到的情况，导致安装的Awesome不可用。</p>
+<p>这里使用<a href="https://unix.stackexchange.com/questions/338628/no-package-xcb-xrm-found" target="_blank" rel="external">No package ‘xcb-xrm’ found</a>的解决方法:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:aguignard/ppa</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install xcb-util-xrm</div></pre></td></tr></table></figure></p>
+<p>就可以正确安装依赖。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>AwesomeWM的配置文件位于<code>~/.config/awesome/rc.lua</code>，这个文件可以在<code>/etc/xdg/awesome/</code>下找到，如果没有，那么可以自己新建一个，按照官方文档进行配置。</p>
+<p>但是从头开始配置一个完整的<code>rc.lua</code>实在太耗时，本着快速上手越快越好的原则，我使用了<a href="https://github.com/copycat-killer/awesome-copycats" target="_blank" rel="external">awesome-copycats</a>提供的配置文件和主题。</p>
+<p>下面是一些我根据自己的情况修改的配置项，有些通用的选项还是比较有必要的：<br>以主题<code>multicolor</code>为例：</p>
+<ol>
+<li>设置常用项：  <figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">local</span> editor       = <span class="string">"vim"</span></div><div class="line"><span class="keyword">local</span> browser      = <span class="string">"google-chrome"</span></div><div class="line"><span class="keyword">local</span> terminal     = <span class="string">"gnome-terminal"</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>由于我的系统原来使用的是Gnome，所以比较习惯原来的terminal，当然你也可以换成其他的xterm之类的。</p>
+<ol>
+<li><p>布局(layouts)：<br>这里建议只保留<code>tile</code>类别下的各个布局。毕竟我们安装这个东西就是为了平铺布局。<br>我的设置是：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">awful.layout.layouts = &#123;</div><div class="line">    awful.layout.suit.tile,</div><div class="line">    awful.layout.suit.tile,</div><div class="line">    awful.layout.suit.tile.left,</div><div class="line">    awful.layout.suit.tile.bottom,</div><div class="line">    awful.layout.suit.tile.top,</div><div class="line">    awful.layout.suit.corner.nw,</div><div class="line">    awful.layout.suit.corner.ne,</div><div class="line">    awful.layout.suit.corner.sw,</div><div class="line">    awful.layout.suit.corner.se,</div><div class="line">    lain.layout.cascade,</div><div class="line">    lain.layout.cascade.tile,</div><div class="line">    lain.layout.centerwork,</div><div class="line">    lain.layout.centerwork.horizontal,</div><div class="line">    lain.layout.termfair,</div><div class="line">    lain.layout.termfair.center,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>图标大小<br>以我的屏幕分辨率(2560x1440)感觉，12还算可以。可以在文件中搜索数字，来选择替换。</p>
+</li>
+<li><p>菜单</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">local</span> myawesomemenu = &#123;</div><div class="line">    &#123; <span class="string">"&gt;&gt;___Reboot___&lt;&lt;"</span>, <span class="string">"reboot"</span>&#125;,</div><div class="line">    &#123; <span class="string">"&gt;&gt;__ Shutdown__&lt;&lt;"</span>, <span class="string">"shutdown -h now"</span>&#125;,</div><div class="line">    &#123; <span class="string">"Hotkeys"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> <span class="keyword">return</span> <span class="keyword">false</span>, hotkeys_popup.show_help <span class="keyword">end</span> &#125;,</div><div class="line">    &#123; <span class="string">"Manual"</span>, terminal .. <span class="string">" -e man awesome"</span> &#125;,</div><div class="line">    &#123; <span class="string">"Config"</span>, <span class="built_in">string</span>.format(<span class="string">"%s -e %s %s"</span>, terminal, editor, awesome.conffile) &#125;,</div><div class="line">    &#123; <span class="string">"Restart"</span>, awesome.restart &#125;,</div><div class="line">    &#123; <span class="string">"Quit"</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span> awesome.quit() <span class="keyword">end</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">local</span> appmenu = freedesktop.menu.build(&#123;</div><div class="line">    icon_size = beautiful.menu_height <span class="keyword">or</span> <span class="number">12</span>,</div><div class="line">&#125;)</div><div class="line"></div><div class="line">awful.util.mymainmenu = freedesktop.menu.build(&#123;</div><div class="line">    icon_size = beautiful.menu_height <span class="keyword">or</span> <span class="number">12</span>,</div><div class="line">    before = &#123;</div><div class="line">        &#123; <span class="string">"VSCode"</span>, <span class="string">"code"</span> &#125;,</div><div class="line">        &#123; <span class="string">"Awesome"</span>, myawesomemenu, beautiful.awesome_icon &#125;,</div><div class="line">    &#125;,</div><div class="line">    after = &#123;</div><div class="line">        &#123; <span class="string">"Lock"</span>, <span class="string">"gnome-screensaver-command -l"</span> &#125;,</div><div class="line">    &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这里我在一级菜单(<code>mymainmenu</code>)下添加了编辑器、awesome菜单和锁屏选项；在awesome这个一级菜单项下添加了重启和关机这两个二级菜单选项。</p>
+<ol>
+<li>规则(Rules)<br>这里主要是控制窗口行为的一些规则。<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">awful.rules.rules = &#123;</div><div class="line">    <span class="comment">-- All clients will match this rule.</span></div><div class="line">    &#123; rule = &#123; &#125;,</div><div class="line">      properties = &#123; border_width = beautiful.border_width,</div><div class="line">                     border_color = beautiful.border_normal,</div><div class="line">                     focus = awful.client.focus.filter,</div><div class="line">                     raise = <span class="keyword">true</span>,</div><div class="line">                     keys = clientkeys,</div><div class="line">                     buttons = clientbuttons,</div><div class="line">                     screen = awful.screen.preferred,</div><div class="line">                     placement = awful.placement.no_overlap+awful.placement.no_offscreen,</div><div class="line">                     size_hints_honor = <span class="keyword">false</span></div><div class="line">     &#125;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="comment">-- Titlebars</span></div><div class="line">    &#123; rule_any = &#123; <span class="built_in">type</span> = &#123; <span class="string">"dialog"</span>, <span class="string">"normal"</span> &#125; &#125;,</div><div class="line">      properties = &#123; titlebars_enabled = <span class="keyword">true</span> &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"shadowsocks-qt5"</span> &#125;,</div><div class="line">      properties = &#123; screen = <span class="number">1</span>, tag = screen[<span class="number">1</span>].tags[<span class="number">5</span>] &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"Gimp"</span>, role = <span class="string">"gimp-image-window"</span> &#125;,</div><div class="line">      properties = &#123; maximized = <span class="keyword">true</span> &#125; &#125;,</div><div class="line">    &#123; rule = &#123; class = <span class="string">"Google-chrome"</span> &#125;,</div><div class="line">      properties = &#123; floating = <span class="keyword">false</span>,</div><div class="line">                     maximized = <span class="keyword">false</span>,</div><div class="line">                     maximized_vertical = <span class="keyword">false</span>,</div><div class="line">                     maximized_horizontal = <span class="keyword">false</span>, &#125; &#125;,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这些选项的主要目的是：</p>
+<ol>
+<li>新建窗口时，新窗口的默认样式和行为</li>
+<li>按照程序(窗口类别)设置新窗口样式和行为</li>
+</ol>
+<p>比如这里我设置ss-qt5客户端自启动后显示在屏幕1的标签5中。<br>另一个必要的设置是：</p>
+<blockquote>
+<p>让Chrome新窗口默认不处于最大化状态，禁用浮动。这个设置可以在Chrome窗口存在的情况下，和其他窗口平铺。否则新建一个窗口，如终端窗口，会盖在Chrome上方，Chrome会自动被设置为浮动窗口，而不能正常平铺。</p>
+</blockquote>
+<ol>
+<li>声音调整<br>使用下列设置可以将<code>alt + ↑</code>、<code>alt + ↓</code>和<code>alt + m</code>映射成音量加、音量减和切换静音。<br>注意：这些设置需要在<code>Key bindings</code>下修改，可以搜索”ALSA volume control”来修改原有的声音设置。<figure class="highlight lua"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"Up"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 5%+"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"Down"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 5%-"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div><div class="line">awful.key(&#123; altkey &#125;, <span class="string">"m"</span>,</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="params">()</span></span></div><div class="line">        <span class="built_in">os</span>.execute(<span class="string">"amixer -D pulse sset Master 1+ toggle"</span>)</div><div class="line">        beautiful.volume.update()</div><div class="line">    <span class="keyword">end</span>),</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>使用AwesomeWM需要在<code>.xprofile</code>中进行相关设置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/sh</div><div class="line">xrandr --output HDMI-2 --above eDP-1</div><div class="line">#fcitx need</div><div class="line">export XMODIFIERS=@im=fcitx</div><div class="line">export QT_IM_MODULE=fcitx</div><div class="line">export GTK_IM_MODULE=fcitx</div><div class="line">fcitx-autostart</div><div class="line"></div><div class="line">gnome-settings-daemon &amp;</div><div class="line">gnome-power-manager &amp;</div><div class="line">gnome-screensaver &amp;</div><div class="line">xcompmgr -c &amp;</div><div class="line">nm-applet --sm-disable &amp;</div><div class="line">update-notifier &amp;</div><div class="line">sh /home/mingholy/Downloads/start.sh &amp;</div><div class="line">ss-qt5 &amp;</div><div class="line"></div><div class="line">exec awesome</div></pre></td></tr></table></figure></p>
+<p>所有的准备工作和自启动项都要放在<code>exec awesome</code>之前。<br>其中第一行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xrandr --output HDMI-2 --above eDP-1</div></pre></td></tr></table></figure></p>
+<p>是上下双屏排布的命令，如果是左右排布的，可以<code>--left-of</code>或<code>--right-of</code>，外加<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xrandr --output eDP-1 --pos [笔记本屏幕左上角的x轴坐标]x[y轴坐标]</div></pre></td></tr></table></figure></p>
+<p>来调整两个屏幕的相对位置。</p>
+<h2 id="感受"><a href="#感受" class="headerlink" title="感受"></a>感受</h2><p>通过<code>Mod4</code>键组合得到的各种切换窗口、切屏功能完全满足了我在浏览器、vim、vscode和终端之间切换的需求，切换窗口、工作上下文的成本得到了极大的降低，能够很好地提高工作效率。配合Chrome的插件<code>vimium</code>基本可以做到不用鼠标。</p>
+<blockquote>
+<p><code>vimium</code>可以将页面上的所有链接转化为快捷键，在页面上点击f键，可以看到每个可点击链接的快捷键，接下来输入快捷键会自动聚焦点击该链接或区域。</p>
+</blockquote>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/awesomewm/">awesomewm</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://ming-holy.space/2017/08/09/平铺式桌面管理器awesome/" data-title="平铺式桌面管理器AwesomeWM | A Cup of Coffee" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/08/09/定制化Popover的实现思路/" title="定制化Popover的实现思路">
+  <strong>上一篇：</strong><br/>
+  <span>
+  定制化Popover的实现思路</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/08/09/Ubuntu适应计划-一些稀奇古怪的问题和解决办法收集/"  title="Ubuntu适应计划-FAQ">
+ <strong>下一篇：</strong><br/> 
+ <span>Ubuntu适应计划-FAQ
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2017/08/09/平铺式桌面管理器awesome/" data-title="平铺式桌面管理器AwesomeWM" data-url="http://ming-holy.space/2017/08/09/平铺式桌面管理器awesome/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#平铺式桌面管理器awesomewm"><span class="toc-number">1.</span> <span class="toc-text">平铺式桌面管理器awesomewm</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#目的：“纯粹”"><span class="toc-number">1.1.</span> <span class="toc-text">目的：“纯粹”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特性：“高效”"><span class="toc-number">1.2.</span> <span class="toc-text">特性：“高效”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用：“无他，唯手熟尔”"><span class="toc-number">1.3.</span> <span class="toc-text">使用：“无他，唯手熟尔”</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装"><span class="toc-number">1.3.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置"><span class="toc-number">1.3.2.</span> <span class="toc-text">配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动"><span class="toc-number">1.3.3.</span> <span class="toc-text">启动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#感受"><span class="toc-number">1.4.</span> <span class="toc-text">感受</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/C/" title="C++">C++<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Dubtitler/" title="Dubtitler">Dubtitler<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/Git/" title="Git">Git<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/HBase/" title="HBase">HBase<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/IFE2017/" title="IFE2017">IFE2017<sup>5</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>10</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Notes/" title="Notes">Notes<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Python/" title="Python">Python<sup>4</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/SSH/" title="SSH">SSH<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/人民南路四段九号/" title="人民南路四段九号">人民南路四段九号<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/" title="数学">数学<sup>2</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数学/算法/" title="算法">算法<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/网络/" title="网络">网络<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+  </div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>22</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Linux/" title="Linux">Linux<sup>10</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/操作系统/" title="操作系统">操作系统<sup>7</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Python/" title="Python">Python<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTML/" title="HTML">HTML<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/ES6/" title="ES6">ES6<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/编辑器/" title="编辑器">编辑器<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/网络/" title="网络">网络<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/异步编程/" title="异步编程">异步编程<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DOM/" title="DOM">DOM<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/C/" title="C++">C++<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Be a live-wire artist, <br/>
+			Do something amazing.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/mingholy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:liminghao15@mails.ucas.ac.cn" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Mingholy">Mingholy</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"mingholy"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+
+
+<script src="https://s4.cnzz.com/z_stat.php?id=1261294969&web_id=1261294969" language="JavaScript"></script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
