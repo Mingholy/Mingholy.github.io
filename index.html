@@ -85,7 +85,7 @@
 		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
 		
   <p class="article-time">
-    <time datetime="2017-08-09T09:19:58.356Z" itemprop="datePublished"> 发表于 2017-08-09</time>
+    <time datetime="2017-08-09T09:29:14.336Z" itemprop="datePublished"> 发表于 2017-08-09</time>
     
   </p>
 </header>
@@ -128,7 +128,27 @@
 <blockquote>
 <p>transform-origin CSS属性让你更改一个元素变形的原点。</p>
 </blockquote>
-<p>需要注意的是它作为Working Draft阶段的CSS特性，还没有一个通用的使用方式。<br>Chrome | Firefox | IE | Opera | Safari<br>——-|———|—-|——-|——-<br><code>-webkit</code>|<code>-moz</code>|<code>-ms</code>|<code>-o</code>|<code>-webkit</code></p>
+<p>需要注意的是它作为Working Draft阶段的CSS特性，还没有一个通用的使用方式。  </p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Chrome</th>
+<th style="text-align:center">Firefox</th>
+<th style="text-align:center">IE</th>
+<th style="text-align:center">Opera</th>
+<th style="text-align:center">Safari</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>-webkit</code></td>
+<td style="text-align:center"><code>-moz</code></td>
+<td style="text-align:center"><code>-ms</code></td>
+<td style="text-align:center"><code>-o</code></td>
+<td style="text-align:center"><code>-webkit</code></td>
+</tr>
+</tbody>
+</table>
 <p>其中三值语法Opera还没有实现。参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform-origin" target="_blank" rel="external">MDN <code>transform-origin</code></a></p>
 <p>设置了这两个属性之后，当Popover里的内容变高变宽的时候，它的形变中心将是下边缘中点，形变方向则是左右平均延伸，向上延伸。如果不设置，则会得到一个锚点为左上角顶点，向右向下延伸的弹出框。当然，这可能根据需求变化而变化。</p>
 <p>有了这个基础元素之后，我们要为它添加气泡的小尖角：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.popover-triangle</span> &#123;</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">left</span>: <span class="number">50%</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.popover-triangle-front</span> &#123;</div><div class="line">  <span class="attribute">border-top</span>: <span class="number">8px</span> solid <span class="number">#fff</span>;</div><div class="line">  <span class="attribute">border-left</span>: <span class="number">8px</span> solid transparent;</div><div class="line">  <span class="attribute">border-right</span>: <span class="number">8px</span> solid transparent;</div><div class="line">  <span class="attribute">margin-left</span>: -<span class="number">8px</span>;</div><div class="line">  <span class="attribute">bottom</span>: -<span class="number">8px</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.popover-triangle-back</span> &#123;</div><div class="line">  <span class="attribute">border-top</span>: <span class="number">10px</span> solid <span class="number">#ccc</span>;</div><div class="line">  <span class="attribute">border-left</span>: <span class="number">10px</span> solid transparent;</div><div class="line">  <span class="attribute">border-right</span>: <span class="number">10px</span> solid transparent;</div><div class="line">  <span class="attribute">margin-left</span>: -<span class="number">10px</span>;</div><div class="line">  <span class="attribute">bottom</span>: -<span class="number">10px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
