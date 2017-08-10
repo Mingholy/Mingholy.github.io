@@ -78,6 +78,82 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2017/08/10/实现一个进度条样式的列表/" title="实现一个进度条样式的列表" itemprop="url">实现一个进度条样式的列表</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-08-09T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-08-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>有时我们可能会遇到这样的一个需求，直接看图：<br><img src="/images/progress-style-list.png" alt="进度条样式的列表"></p>
+<p>实现这样的一个小组件非常简单。它的数据接口只有：</p>
+<ol>
+<li>列表项名称</li>
+<li>列表项数值</li>
+<li>如果需要使列表项可点击跳转的话，还需要一个url</li>
+</ol>
+<p>这里的例子是，相似文档及其相似度的展示。<br>组件的结构：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">import React from 'react';</div><div class="line">import PropTypes from 'prop-types';</div><div class="line">import style from './style.css';</div><div class="line"></div><div class="line">const SimilarityList = props =&gt;</div><div class="line">  &lt;ul className="sl-list"&gt;</div><div class="line">    &#123;props.data.map(item =&gt;</div><div class="line">      &lt;li className="sl-item" key=&#123;item.docId&#125;&gt;</div><div class="line">        &lt;span className="sl-doc-title"&gt;</div><div class="line">          &#123;item.docTitle&#125;</div><div class="line">        &lt;/span&gt;</div><div class="line">        &lt;span className="sl-doc-similarity"&gt;</div><div class="line">          &#123;(item.docSimilarity * 100).toFixed(2)&#125;%</div><div class="line">        &lt;/span&gt;</div><div class="line">        &lt;div</div><div class="line">          className="sl-indicator"</div><div class="line">          style=&#123;&#123; width: item.docSimilarity * 300 &#125;&#125;</div><div class="line">        /&gt;</div><div class="line">      &lt;/li&gt;</div><div class="line">    )&#125;</div><div class="line">  &lt;/ul&gt;;</div><div class="line"></div><div class="line">SimilarityList.propTypes = &#123;</div><div class="line">  data: PropTypes.instanceOf(Array).isRequired,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">export default SimilarityList;</div></pre></td></tr></table></figure></p>
+<p>在样式中指定列表宽度等:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.sl-list</span> &#123;</div><div class="line">  <span class="attribute">list-style</span>: none;</div><div class="line">  <span class="attribute">font-size</span>: <span class="number">10px</span>;</div><div class="line">  <span class="attribute">line-height</span>: <span class="number">1em</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.sl-item</span> &#123;</div><div class="line">  <span class="attribute">position</span>: relative;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">  <span class="attribute">width</span>: <span class="number">300px</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">2em</span>;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">5px</span>;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#eee</span>;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">2px</span>;</div><div class="line">  <span class="attribute">z-index</span>: <span class="number">10</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.sl-doc-title</span> &#123;</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0.5em</span>;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#fff</span>;</div><div class="line">  <span class="attribute">z-index</span>: <span class="number">1</span>;</div><div class="line">  <span class="attribute">width</span>: <span class="number">60%</span>;</div><div class="line">  <span class="attribute">text-overflow</span>: ellipsis;</div><div class="line">  <span class="attribute">white-space</span>: nowrap;</div><div class="line">  <span class="attribute">overflow</span>: hidden;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.sl-doc-similarity</span> &#123;</div><div class="line">  <span class="attribute">float</span>: right;</div><div class="line">  <span class="attribute">margin</span>: <span class="number">0.5em</span> <span class="number">10px</span>;</div><div class="line">  <span class="attribute">font-weight</span>: bold;</div><div class="line">  <span class="attribute">color</span>: <span class="number">#888</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="selector-class">.sl-indicator</span> &#123;</div><div class="line">  <span class="attribute">position</span>: absolute;</div><div class="line">  <span class="attribute">display</span>: inline-block;</div><div class="line">  <span class="attribute">background</span>: <span class="number">#00bcd4</span>;</div><div class="line">  <span class="attribute">height</span>: <span class="number">2em</span>;</div><div class="line">  <span class="attribute">border-radius</span>: <span class="number">2px</span>;</div><div class="line">  <span class="attribute">z-index</span>: -<span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>需要注意的是：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">text-overflow</span>: <span class="selector-tag">ellipsis</span>;</div><div class="line"><span class="selector-tag">white-space</span>: <span class="selector-tag">nowarp</span>;</div><div class="line"><span class="selector-tag">overflow</span>: <span class="selector-tag">hidden</span>;</div></pre></td></tr></table></figure></p>
+<p>这三个属性可以得到省略号隐藏超出进度条长度的文字。<br>这三个属性也常与<code>word-break</code>和<code>word-wrap</code>一起出现。不过这两个属性用在英文单词上效果比较明显，因为中文没有明显的词边界。</p>
+<blockquote>
+<p>CSS3中<code>word-wrap</code>变为了<code>overflow-wrap</code>，其中<code>word-break</code>有属性值<code>break-all</code>，而<code>word-wrap</code>有属性值<code>break-word</code>。它们的区别就在于<code>break-all</code>是硬换行，不管这一行结尾文字是什么，都会强制换行；而<code>break-word</code>则是软换行，它只会在特定的词边界处换行，比如标点符号空格等。对于CJK字符，由于没有明显的词边界，所以粒度就是字。</p>
+</blockquote>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/CSS/">CSS</a><a href="/tags/React/">React</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/08/10/实现一个进度条样式的列表/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/08/10/实现一个进度条样式的列表/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2017/08/09/平铺式桌面管理器awesome/" title="平铺式桌面管理器AwesomeWM" itemprop="url">平铺式桌面管理器AwesomeWM</a>
   </h1>
   <p class="article-author">By
@@ -490,7 +566,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/ES6/">ES6</a><a href="/tags/跨域/">跨域</a><a href="/tags/异步编程/">异步编程</a>
+  <span></span> <a href="/tags/跨域/">跨域</a><a href="/tags/异步编程/">异步编程</a><a href="/tags/ES6/">ES6</a>
   </div>
 
 </div>
@@ -794,78 +870,6 @@
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2017/03/22/红宝书-chapter5/" title="JavaScript类型方法总结与函数实例方法" itemprop="url">JavaScript类型方法总结与函数实例方法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-03-22T07:08:00.000Z" itemprop="datePublished"> 发表于 2017-03-22</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <blockquote>
-<p>关键知识点</p>
-<ul>
-<li>类型方法</li>
-<li><code>call</code>、<code>apply</code>和<code>bind</code></li>
-</ul>
-</blockquote>
-<h1 id="引用类型"><a href="#引用类型" class="headerlink" title="引用类型"></a>引用类型</h1><p>这一章有点像API手册了。</p>
-<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><p>JavaScript中的对象有点像Python中的<code>dict</code>。注意不能有尾逗号，IE7之前和Opera会报错。<br>注意，如果给一个函数传递的参数包括若干必要参数和若干可选参数，可以结合使用传命名参数和封装参数的方法。即对于必要参数，传递命名参数；对于可选参数，封装成一个对象传递。<br>
-        
-        
-        <p class="article-more-link">
-          
-            <a href="/2017/03/22/红宝书-chapter5/#more">Read More</a>
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/03/22/红宝书-chapter5/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/22/红宝书-chapter5/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -892,11 +896,11 @@
 		  
 		
 		  
-			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
@@ -920,7 +924,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>19</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
 		  
 		
 		  
@@ -966,7 +970,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -988,7 +992,7 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>5</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>6</sup></a></li>
 			
 		
 			
@@ -1016,19 +1020,11 @@
 			
 		
 			
+				<li><a href="/tags/React/" title="React">React<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
 			
 		
 			
@@ -1036,7 +1032,19 @@
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
 			
 		
 			
@@ -1049,10 +1057,6 @@
 		
 			
 				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/React/" title="React">React<sup>1</sup></a></li>
 			
 		
 		</ul>

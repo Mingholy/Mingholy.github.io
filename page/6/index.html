@@ -78,6 +78,108 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/11/04/Linux Kernel-11-04/" title="Linux内核 11-04" itemprop="url">Linux内核 11-04</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-04T10:00:00.000Z" itemprop="datePublished"> 发表于 2015-11-04</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="缓冲区-buffer"><a href="#缓冲区-buffer" class="headerlink" title="缓冲区 buffer"></a>缓冲区 buffer</h2><ul>
+<li>本质：一块内存</li>
+<li>目的：快</li>
+<li>限制：内存是有限的，不能无限制地划分缓冲区。</li>
+</ul>
+<p>为了获得最高的效率，已经进入缓冲区的数据在缓冲区保留的时间应该尽可能滴长。</p>
+<h3 id="buffer-head"><a href="#buffer-head" class="headerlink" title="buffer_head"></a>buffer_head</h3><p>通过buffer_head的数据结构定义知道，它采用了链式结构。</p>
+<ul>
+<li>指针b_data指向数据块。</li>
+<li>设备号b_blocknr和块号b_dev经常连用。一个块只有一个管理信息，存入的数据归属具有唯一性。</li>
+<li>整个硬盘空间，每个块都是独立并且唯一存在的，通过设备号和块号两个参数唯一确定。</li>
+<li>计数器b_count计数此时正在操作缓冲块的进程的个数。</li>
+<li>b_dirt脏位，表示块已经被写过。</li>
+<li>b_lock表示当前块正在被操作，读或者写。</li>
+<li>b_uptodate表示更新位。</li>
+</ul>
+<blockquote>
+<ul>
+<li>调度切换以机器指令为单位，不对操作进行原子化限制，可能出现数据错误。于是产生加锁的解决方法。然而加锁的方式会引发很多问题，一种是在加锁的瞬间进程被切换，另一种的一个典型就是死锁。</li>
+<li>两个以上的进程同时访问同一个共享数据区，只要至少一方发生写操作，它就叫临界区。出现三类问题：生产者消费者问题，理发师问题，哲学家就餐问题。</li>
+</ul>
+</blockquote>
+<p>这里的解决方式是加锁的同时关闭中断，此时中断还会发生但是不会引起进程切换。但是这样做也会关闭时钟中断，会使得进程切换点不够整齐。当前的切换方式只以时间为标准，不关心代码内容。所以才会发生一个操作没有做完就切换进程。另外一个影响是，关闭中断还会关闭外设中断。否则，当进程等待外设io操作的时候切换进程，中断操作会立即执行，而如果新进程所要操作的数据恰好是之前进程的数据，就引发了错误。(这里没太听清，也不太懂)</p>
+<p>隐含的问题：</p>
+<blockquote>
+<p>这样的机制建立了资源操作的独占性，使得程序的并行执行模式由于资源有限强行变为串行模式，而资源永远是有限的，这有悖于操作系统的设计思路，使得程序执行效率降低。而要想获得高效率必须尽可能使程序并发执行。这是一个旷日持久的矛盾。</p>
+</blockquote>
+<p>由进程到缓冲区/缓冲块之间的关系，由buffer_head管理，由缓冲区到外设io的关系，由request项管理，有单独的一段程序实现。</p>
+<p>进程首先查询数据是否在缓冲区中存在。如果有就直接读。如果没有，看是否有空缓冲区，如果有建立缓冲块并与请求项建立关系。</p>
+<p>分开管理有利于获得高效率。</p>
+<p>前面已经提到，数据应该在缓冲区中存留得尽可能久。那么buffer_head中哪些东西和存留时间有关？<br><strong>设备号和块号</strong><br>一个缓冲块建立起来，就确定了设备号和块号。一定有一个进程，要么读要么写，建立了这个缓冲块。当这个进程结束操作之后，乃至它退出不再存在，b_count为0，缓冲块仍然存在而不撤销吗？<br><strong>不撤销。缓冲块只建立不撤销。以防还有后续进程前来读取。</strong></p>
+<blockquote>
+<p>即使后续进程与建立缓冲块的进程没有任何关系，它仍然能够读取以前建立的缓冲块。<br>所以不论进程如何变化，在数据存在的期间保持不变的只有设备号和块号。</p>
+</blockquote>
+<p><strong>那么缓冲区岂不是要被塞满？</strong></p>
+<p>这取决于引用计数b_count。由于缓冲区没有撤销废除机制，所以只能说b_count=0的缓冲块，可以被替换，但并不是必须且立即的。</p>
+<blockquote>
+<p>当一个进程需要新建缓冲块，且此时没有空缓冲区，这就需要查看哪些b_count=0，按照先后顺序将它分配给新的进程，更换设备号块号，变成一个新的缓冲块。<br>建立块的hash_table对快速找到所需要的块非常有帮助。</p>
+</blockquote>
+<p>在之后对缓冲区的操作都是使用设备号和块号作为参数。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/操作系统/">操作系统</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2015/11/04/Linux Kernel-11-04/#comments" class="ds-thread-count comments-count-link" data-thread-key="2015/11/04/Linux Kernel-11-04/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/02/Linux Kernel-problems/" title="Linux内核 思考题" itemprop="url">Linux内核 思考题</a>
   </h1>
   <p class="article-author">By
@@ -444,11 +546,11 @@
 		  
 		
 		  
-			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+			<li><a href="/categories/ES6/" title="ES6">ES6<sup>1</sup></a></li>
 		  
 		
 		  
@@ -472,7 +574,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>19</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
 		  
 		
 		  
@@ -518,7 +620,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -540,7 +642,7 @@
 			
 		
 			
-				<li><a href="/tags/CSS/" title="CSS">CSS<sup>5</sup></a></li>
+				<li><a href="/tags/CSS/" title="CSS">CSS<sup>6</sup></a></li>
 			
 		
 			
@@ -568,19 +670,11 @@
 			
 		
 			
+				<li><a href="/tags/React/" title="React">React<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
 			
 		
 			
@@ -588,7 +682,19 @@
 			
 		
 			
-				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
 			
 		
 			
@@ -601,10 +707,6 @@
 		
 			
 				<li><a href="/tags/Graph-Compute/" title="Graph Compute">Graph Compute<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/React/" title="React">React<sup>1</sup></a></li>
 			
 		
 		</ul>
