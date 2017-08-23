@@ -78,93 +78,6 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/08/17/关于防抖/" title="关于防抖" itemprop="url">关于防抖</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
-		
-  <p class="article-time">
-    <time datetime="2017-08-16T16:00:00.000Z" itemprop="datePublished"> 发表于 2017-08-17</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <p>一道面试题引出了下列众多的姿势：</p>
-<blockquote>
-<p>一个按钮，点击一下会发出一个Ajax请求，当有用户不小心连续点击时，它就发出多次请求。有没有办法避免这种情况发生？</p>
-</blockquote>
-<p>我的回答是：</p>
-<ol>
-<li>可以为这个操作设定一个间隔时限，比如300ms，如果300ms之内点击第二次则不会触发发送请求。</li>
-<li>设置一个状态机；对于每次点击操作，首先获取该状态机的状态，如果状态处于已发送未接收状态，则不会再发送；如果处于未发送或已接收状态，则可以发送。</li>
-</ol>
-<p>但显然面试官想问的是：</p>
-<blockquote>
-<p>如何做才能使请求在一个有效周期内只发送一次？(请求完成之前不再重复请求)</p>
-</blockquote>
-<p>虽然我的第二个方法可以满足条件，但并不是面试官想要的答案。后来问了一下前端群里的前辈们，得到了若干答复。</p>
-<p>首先来看JavaScript中常用的两个(“连续触发事件的稀释方法”)[<a href="http://blog.csdn.net/charlene0824/article/details/52080181" target="_blank" rel="external">http://blog.csdn.net/charlene0824/article/details/52080181</a>]:</p>
-<p>其实核心思想就是设置间隔。这个问题最开始出现在使用<code>onresize</code>事件的场景中，调整浏览器大小会触发该事件，如果在该实践的handler内进行DOM操作，由于拖动浏览器边框带来的尺寸变化非常频繁，也会导致频繁调用DOM操作，造成浏览器崩溃。</p>
-<p>于是一个解决思路就是防止频繁调用，又称<strong>“函数节流”</strong>。这个方法的中心思想就是</p>
-<blockquote>
-<p>延迟执行，如果在延迟的这段时间里又触发操作，计时器清零重新计时，直到满足了延时达到预定时限，再执行。</p>
-</blockquote>
-<p>下面两个例子的源代码来源于<code>underscore</code>；<br>一个简单的例子如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">method, context</span>) </span>&#123;</div><div class="line">    clearTimeout(method.tId);</div><div class="line">    method.tId = setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        method.call(context);</div><div class="line">    &#125;, <span class="number">200</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>其中,setTimeout返回的tId作为计时器的唯一标识，存储于method的一个属性中，当需要清除这个计时器时供下一次<code>throttle()</code>中的<code>clearTimeout</code>调用；context用来绑定作用域。</p>
-<p>它的原型来自<code>underscore</code>，返回的是一个经过包装的函数，在特定的时间窗口内最多只会执行一次想要执行的操作。在特定的时间窗口内无论调用多少次，都不会执行多于一次操作。并且它支持传入<code>leading: false</code>和<code>trailing: false</code>来取消前置或末尾的等待时间。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">_throttle = <span class="function"><span class="keyword">function</span>(<span class="params">func, wait, options</span>) </span>&#123;</div><div class="line">    <span class="comment">// 包装一个函数，返回一个新的函数对象，要执行的部分放在闭包里，计时器、上下文、参数等则作为闭包能访问到的这个包装函数作用域里的变量。</span></div><div class="line">    <span class="keyword">var</span> timeout, context, args, result;</div><div class="line">    <span class="keyword">var</span> previous = <span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span> (!options) options = &#123;&#125;;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> later = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        previous = options.leading === <span class="literal">false</span> ? <span class="number">0</span> : _.now();</div><div class="line">        <span class="comment">// 计时器的唯一标识符</span></div><div class="line">        timeout = <span class="literal">null</span>;</div><div class="line">        result = func.apply(context, args);</div><div class="line">        <span class="keyword">if</span> (!timeout) context = args = <span class="literal">null</span>;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> throttled = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> now = _.now();</div><div class="line">        <span class="keyword">if</span> (!previous &amp;&amp; options.leading === <span class="literal">false</span>) previous = now;</div><div class="line">        <span class="keyword">var</span> remaining = wait - (now - previous);</div><div class="line">        context = <span class="keyword">this</span>;</div><div class="line">        args = <span class="built_in">arguments</span>;</div><div class="line">        <span class="keyword">if</span> (remaining &lt;= <span class="number">0</span> || remaining &gt; wait) &#123;</div><div class="line">            <span class="keyword">if</span> (timeout) &#123;</div><div class="line">                <span class="comment">// 清空计时器，清除id</span></div><div class="line">                clearTimeout(timeout);</div><div class="line">                timeout = <span class="literal">null</span>;</div><div class="line">            &#125;</div><div class="line">            previous = now;</div><div class="line">            result = func.apply(context, args);</div><div class="line">            <span class="keyword">if</span> (!timeout) context = args = <span class="literal">null</span>;</div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (!timeout &amp;&amp; options.trailing !== <span class="literal">false</span>) &#123;</div><div class="line">            timeout = setTimeout(later, remaining);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    throttled.cancel = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        clearTimeout(timeout);</div><div class="line">        previous = <span class="number">0</span>;</div><div class="line">        timeout = context = args = <span class="literal">null</span>;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> throttled;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>还有一种操作是“函数防抖”<br>直接来看<code>underscore</code>的代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">_.debounce = <span class="function"><span class="keyword">function</span>(<span class="params">func, wait, immediate</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> timeout, result;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> later = <span class="function"><span class="keyword">function</span>(<span class="params">context, args</span>) </span>&#123;</div><div class="line">        timeout = <span class="literal">null</span>;</div><div class="line">        <span class="keyword">if</span> (args) result = func.apply(context, args);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">var</span> debounced = restArgs(<span class="function"><span class="keyword">function</span>(<span class="params">args</span>) </span>&#123;</div><div class="line">        <span class="keyword">if</span> (timeout) clearTimeout(timeout);</div><div class="line">        <span class="keyword">if</span> (immediate) &#123;</div><div class="line">            <span class="keyword">var</span> callNow = !timeout;</div><div class="line">            timeout = setTimeout(later, wait);</div><div class="line">            <span class="keyword">if</span> (callNow) result = func.apply(<span class="keyword">this</span>, args);</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            timeout = _.delay(later,wait, <span class="keyword">this</span>, args)</div><div class="line">        &#125;;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> result;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    debounced.cancel = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        clearTimeout(timeout);</div><div class="line">        timeout = <span class="literal">null</span>;</div><div class="line">    &#125;;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> debounced;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>其中<code>_.delay</code>函数的实现是：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">_.delay = restArgs(<span class="function"><span class="keyword">function</span>(<span class="params">func, wait, args</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> setTimeout(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        <span class="keyword">return</span> func.apply(<span class="literal">null</span>, args);</div><div class="line">    &#125;, wait);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-</div>
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/JavaScript/">JavaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-	  	<span></span>
-		<a href="/2017/08/17/关于防抖/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/08/17/关于防抖/" data-count-type="comments">&nbsp;</a>
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
       <a href="/2017/08/15/一道简单的闭包题引发的思考/" title="一道简单的闭包题引发的思考" itemprop="url">一道简单的闭包题引发的思考</a>
   </h1>
   <p class="article-author">By
@@ -885,6 +798,72 @@
 
 
 
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/03/24/XSS-CSRF/" title="XSS、CSRF与SQL注入" itemprop="url">XSS、CSRF与SQL注入</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Mingholy" target="_blank" itemprop="author">Mingholy</a>
+		
+  <p class="article-time">
+    <time datetime="2017-03-24T00:37:00.000Z" itemprop="datePublished"> 发表于 2017-03-24</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <blockquote>
+<p>关于Web安全的内容经常会被问到。前端主要关注的是XSS与CSRF，而以前曾经见过SQL注入，这里一并总结一下。仅为理解概念。</p>
+</blockquote>
+        
+        
+        <p class="article-more-link">
+          
+            <a href="/2017/03/24/XSS-CSRF/#more">Read More</a>
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/前端安全/">前端安全</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/JavaScript/">JavaScript</a><a href="/tags/前端安全/">前端安全</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+	  	<span></span>
+		<a href="/2017/03/24/XSS-CSRF/#comments" class="ds-thread-count comments-count-link" data-thread-key="2017/03/24/XSS-CSRF/" data-count-type="comments">&nbsp;</a>
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -939,7 +918,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>24</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>23</sup></a></li>
 		  
 		
 		  
@@ -985,7 +964,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -995,7 +974,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>22</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>21</sup></a></li>
 			
 		
 			
