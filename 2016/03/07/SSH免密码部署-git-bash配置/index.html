@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="A Cup of Coffee">
 <meta property="og:description" content="在使用hexo d部署这个博客的时候，经常会遇到拒绝public key的问题，要求确认访问repository的权限或者确定repository存在。而实际上按照github的说明我已经生成并添加了ssh key，并且使用1ssh -T git@github.com
 测试成功。但是由于ssh-agent是一个临时进程，它存储公钥的方式也是写入一个临时的session，因此每次重启git-bash">
-<meta property="og:updated_time" content="2017-02-13T15:32:03.207Z">
+<meta property="og:updated_time" content="2017-08-15T09:15:02.688Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSH免密码部署:git-bash配置">
 <meta name="twitter:description" content="在使用hexo d部署这个博客的时候，经常会遇到拒绝public key的问题，要求确认访问repository的权限或者确定repository存在。而实际上按照github的说明我已经生成并添加了ssh key，并且使用1ssh -T git@github.com
@@ -105,7 +105,8 @@
 		
 		<p>在使用<code>hexo d</code>部署这个博客的时候，经常会遇到拒绝public key的问题，要求确认访问repository的权限或者确定repository存在。<br>而实际上按照github的说明我已经生成并添加了ssh key，并且使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -T git@github.com</div></pre></td></tr></table></figure></p>
 <p>测试成功。<br>但是由于ssh-agent是一个临时进程，它存储公钥的方式也是写入一个临时的session，因此每次重启git-bash都会重置连接，于是每次都需要<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">eval &quot;$(ssh-agent -s)&quot;</div><div class="line">ssh-add ~/.ssh/id_rsa</div><div class="line">ssh-add -l</div></pre></td></tr></table></figure></p>
-<p>走一遍才能正确部署。<br><a id="more"></a><br>github提供了一个将开启ssh-agent、添加公钥与启动bash捆绑的脚本。这样在每次开启git-bash的时候，公钥就已经添加，因此可以直接部署，而不必重复添加操作。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># Note: ~/.ssh/environment should not be used, as it</span></div><div class="line"><span class="comment">#       already has a different purpose in SSH.</span></div><div class="line"></div><div class="line">env=~/.ssh/agent.env</div><div class="line"></div><div class="line"><span class="comment"># Note: Don't bother checking SSH_AGENT_PID. It's not used</span></div><div class="line"><span class="comment">#       by SSH itself, and it might even be incorrect</span></div><div class="line"><span class="comment">#       (for example, when using agent-forwarding over SSH).</span></div><div class="line"></div><div class="line"><span class="function"><span class="title">agent_is_running</span></span>() &#123;</div><div class="line">    <span class="keyword">if</span> [ <span class="string">"<span class="variable">$SSH_AUTH_SOCK</span>"</span> ]; <span class="keyword">then</span></div><div class="line">        <span class="comment"># ssh-add returns:</span></div><div class="line">        <span class="comment">#   0 = agent running, has keys</span></div><div class="line">        <span class="comment">#   1 = agent running, no keys</span></div><div class="line">        <span class="comment">#   2 = agent not running</span></div><div class="line">        ssh-add <span class="_">-l</span> &gt;/dev/null 2&gt;&amp;1 || [ $? <span class="_">-eq</span> 1 ]</div><div class="line">    <span class="keyword">else</span></div><div class="line">        <span class="literal">false</span></div><div class="line">    <span class="keyword">fi</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="title">agent_has_keys</span></span>() &#123;</div><div class="line">    ssh-add <span class="_">-l</span> &gt;/dev/null 2&gt;&amp;1</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="title">agent_load_env</span></span>() &#123;</div><div class="line">    . <span class="string">"<span class="variable">$env</span>"</span> &gt;/dev/null</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="title">agent_start</span></span>() &#123;</div><div class="line">    (<span class="built_in">umask</span> 077; ssh-agent &gt;<span class="string">"<span class="variable">$env</span>"</span>)</div><div class="line">    . <span class="string">"<span class="variable">$env</span>"</span> &gt;/dev/null</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">if</span> ! agent_is_running; <span class="keyword">then</span></div><div class="line">    agent_load_env</div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line"><span class="comment"># if your keys are not stored in ~/.ssh/id_rsa or ~/.ssh/id_dsa, you'll need</span></div><div class="line"><span class="comment"># to paste the proper path after ssh-add</span></div><div class="line"><span class="keyword">if</span> ! agent_is_running; <span class="keyword">then</span></div><div class="line">    ssh-add</div><div class="line">    agent_start</div><div class="line">    <span class="comment">#指定你的多个keys，每个一行。如：ssh-add ~/.ssh/id_rsa_git</span></div><div class="line"><span class="keyword">elif</span> ! agent_has_keys; <span class="keyword">then</span></div><div class="line">    ssh-add</div><div class="line">    <span class="comment">#指定你的多个keys，每个一行。如：ssh-add ~/.ssh/id_rsa_git</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line"><span class="built_in">unset</span> env</div></pre></td></tr></table></figure><br>将该脚本添加到<code>.profile</code>中即可。<br>参考：<a href="https://help.github.com/articles/working-with-ssh-key-passphrases/" target="_blank" rel="external">Working with SSH key passphrases</a></p>
+<p>走一遍才能正确部署。<br><a id="more"></a><br>github提供了一个将开启ssh-agent、添加公钥与启动bash捆绑的脚本。这样在每次开启git-bash的时候，公钥就已经添加，因此可以直接部署，而不必重复添加操作。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"># Note: ~/.ssh/environment should not be used, as it</div><div class="line">#       already has a different purpose in SSH.</div><div class="line"></div><div class="line">env=~/.ssh/agent.env</div><div class="line"></div><div class="line"># Note: Don&apos;t bother checking SSH_AGENT_PID. It&apos;s not used</div><div class="line">#       by SSH itself, and it might even be incorrect</div><div class="line">#       (for example, when using agent-forwarding over SSH).</div><div class="line"></div><div class="line">agent_is_running() &#123;</div><div class="line">    if [ &quot;$SSH_AUTH_SOCK&quot; ]; then</div><div class="line">        # ssh-add returns:</div><div class="line">        #   0 = agent running, has keys</div><div class="line">        #   1 = agent running, no keys</div><div class="line">        #   2 = agent not running</div><div class="line">        ssh-add -l &gt;/dev/null 2&gt;&amp;1 || [ $? -eq 1 ]</div><div class="line">    else</div><div class="line">        false</div><div class="line">    fi</div><div class="line">&#125;</div><div class="line"></div><div class="line">agent_has_keys() &#123;</div><div class="line">    ssh-add -l &gt;/dev/null 2&gt;&amp;1</div><div class="line">&#125;</div><div class="line"></div><div class="line">agent_load_env() &#123;</div><div class="line">    . &quot;$env&quot; &gt;/dev/null</div><div class="line">&#125;</div><div class="line"></div><div class="line">agent_start() &#123;</div><div class="line">    (umask 077; ssh-agent &gt;&quot;$env&quot;)</div><div class="line">    . &quot;$env&quot; &gt;/dev/null</div><div class="line">&#125;</div><div class="line"></div><div class="line">if ! agent_is_running; then</div><div class="line">    agent_load_env</div><div class="line">fi</div><div class="line"></div><div class="line"># if your keys are not stored in ~/.ssh/id_rsa or ~/.ssh/id_dsa, you&apos;ll need</div><div class="line"># to paste the proper path after ssh-add</div><div class="line">if ! agent_is_running; then</div><div class="line">    ssh-add</div><div class="line">    agent_start</div><div class="line">    #指定你的多个keys，每个一行。如：ssh-add ~/.ssh/id_rsa_git</div><div class="line">elif ! agent_has_keys; then</div><div class="line">    ssh-add</div><div class="line">    #指定你的多个keys，每个一行。如：ssh-add ~/.ssh/id_rsa_git</div><div class="line">fi</div><div class="line"></div><div class="line">unset env</div></pre></td></tr></table></figure></p>
+<p>将该脚本添加到<code>.profile</code>中即可。<br>参考：<a href="https://help.github.com/articles/working-with-ssh-key-passphrases/" target="_blank" rel="external">Working with SSH key passphrases</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -222,7 +223,7 @@
 		  
 		
 		  
-			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>20</sup></a></li>
+			<li><a href="/categories/JavaScript/" title="JavaScript">JavaScript<sup>24</sup></a></li>
 		  
 		
 		  
@@ -268,7 +269,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">16</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">一月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">7</span></li></ul>
   </div>
 
 
@@ -278,7 +279,7 @@
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>21</sup></a></li>
+				<li><a href="/tags/JavaScript/" title="JavaScript">JavaScript<sup>22</sup></a></li>
 			
 		
 			
@@ -306,6 +307,10 @@
 			
 		
 			
+				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
+			
+		
+			
 				<li><a href="/tags/编辑器/" title="编辑器">编辑器<sup>2</sup></a></li>
 			
 		
@@ -322,11 +327,7 @@
 			
 		
 			
-				<li><a href="/tags/上帝之语/" title="上帝之语">上帝之语<sup>2</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/异步编程/" title="异步编程">异步编程<sup>1</sup></a></li>
+				<li><a href="/tags/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
 			
 		
 			
@@ -334,15 +335,15 @@
 			
 		
 			
-				<li><a href="/tags/前端安全/" title="前端安全">前端安全<sup>1</sup></a></li>
-			
-		
-			
-				<li><a href="/tags/跨域/" title="跨域">跨域<sup>1</sup></a></li>
+				<li><a href="/tags/异步编程/" title="异步编程">异步编程<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/DubtitlerDev/" title="DubtitlerDev">DubtitlerDev<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTTP/" title="HTTP">HTTP<sup>1</sup></a></li>
 			
 		
 			
